@@ -1,0 +1,31 @@
+<header [class]="'header'">
+  <div [class]="'header__wrapper'">
+    <div [class]="'header__logo'">
+      <img
+        [routerLink]="['/']"
+        src="../../../assets/images/logo.svg"
+        alt="Logo"
+      />
+    </div>
+    <nav [class]="'header__nav'">
+      <ul [class]="'header__list-items'">
+        <li #movies [class]="'header__item'">Movies</li>
+        <li #tvShows [class]="'header__item'">TV Shows</li>
+        <li #people [class]="'header__item'">People</li>
+        <li #more [class]="'header__item'">More</li>
+      </ul>
+    </nav>
+  </div>
+
+  <div [class]="'header__actions'">
+    <button [class]="'btn-icon'">
+      <img src="../../../assets/icons/bell.svg" alt="bell" />
+    </button>
+    <button [class]="'btn-icon'">
+      <img src="../../../assets/icons/avatar.svg" alt="avatar" />
+    </button>
+    <button [class]="'btn-icon'">
+      <img src="../../../assets/icons/search.svg" alt="search" />
+    </button>
+  </div>
+</header>
