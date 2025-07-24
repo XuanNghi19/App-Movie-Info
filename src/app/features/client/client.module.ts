@@ -7,19 +7,16 @@ import { ClientLayoutComponent } from './client-layout/client-layout.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
-
+import { HeaderSearchComponent } from 'src/app/components/header-search/header-search.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     ClientLayoutComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    HeaderSearchComponent,
   ],
-  imports: [
-    CommonModule,
-    ClientRoutingModule,
-    SharedModule,
-  ]
+  imports: [CommonModule, ClientRoutingModule, SharedModule],
 })
-export class ClientModule { }
+export class ClientModule {}

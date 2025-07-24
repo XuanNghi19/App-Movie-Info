@@ -1,31 +1,50 @@
-<header [class]="'header'">
-  <div [class]="'header__wrapper'">
-    <div [class]="'header__logo'">
-      <img
-        [routerLink]="['/']"
-        src="../../../assets/images/logo.svg"
-        alt="Logo"
-      />
+<header>
+  <section class="header" [class.header--hidden]="isHeaderHidden">
+    <div [class]="'header__wrapper'">
+      <div [class]="'header__logo'">
+        <img
+          [routerLink]="['/']"
+          src="../../../assets/images/logo.svg"
+          alt="Logo"
+        />
+      </div>
+      <nav [class]="'header__nav'">
+        <ul [class]="'header__list-items'">
+          <li #movies [class]="'header__item'">Movies</li>
+          <li #tvShows [class]="'header__item'">TV Shows</li>
+          <li #people [class]="'header__item'">People</li>
+          <li #more [class]="'header__item'">More</li>
+        </ul>
+      </nav>
     </div>
-    <nav [class]="'header__nav'">
-      <ul [class]="'header__list-items'">
-        <li #movies [class]="'header__item'">Movies</li>
-        <li #tvShows [class]="'header__item'">TV Shows</li>
-        <li #people [class]="'header__item'">People</li>
-        <li #more [class]="'header__item'">More</li>
-      </ul>
-    </nav>
-  </div>
 
-  <div [class]="'header__actions'">
-    <button [class]="'btn-icon'">
-      <img src="../../../assets/icons/bell.svg" alt="bell" />
+    <div [class]="'header__actions'">
+      <button [class]="'btn-icon'">
+        <img src="../../../assets/icons/bell.svg" alt="bell" />
+      </button>
+      <button [class]="'btn-icon'">
+        <img src="../../../assets/icons/avatar.svg" alt="avatar" />
+      </button>
+      <button (click)="focusSearch()" [class]="'btn-icon'">
+        <img src="../../../assets/icons/search.svg" alt="search" />
+      </button>
+    </div>
+
+    <button
+      class="btn-icon header__menu"
+      (click)="toggleDropdown()"
+      [class.rotate]="isDropdownOpen"
+    >
+      <img src="../../../assets/icons/dropdown.svg" alt="menu" />
     </button>
-    <button [class]="'btn-icon'">
-      <img src="../../../assets/icons/avatar.svg" alt="avatar" />
-    </button>
-    <button [class]="'btn-icon'">
-      <img src="../../../assets/icons/search.svg" alt="search" />
-    </button>
-  </div>
+  </section>
+
+  <nav class="dropdown" [class.dropdown--open]="isDropdownOpen">
+    <ul class="dropdown__list">
+      <li class="dropdown__item" (click)="toggleDropdown()">Movies</li>
+      <li class="dropdown__item" (click)="toggleDropdown()">TV Shows</li>
+      <li class="dropdown__item" (click)="toggleDropdown()">People</li>
+      <li class="dropdown__item" (click)="toggleDropdown()">More</li>
+    </ul>
+  </nav>
 </header>

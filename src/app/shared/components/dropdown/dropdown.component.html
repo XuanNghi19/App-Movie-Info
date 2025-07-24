@@ -1,12 +1,12 @@
 <div
-  class="dropdown-box"
+  class="dropdown"
   *ngIf="visible"
   [ngStyle]="{
     top: position.top + 'px',
     left: position.left + 'px'
   }"
 >
-  <ul class="dropdown-list">
+  <ul class="dropdown__list">
     <li *ngFor="let item of items">
       <a [routerLink]="item.link">{{ item.label }}</a>
     </li>

@@ -1,9 +1,20 @@
-@use '../../../assets/styles/main.scss' as *;
+@use "../../../assets/styles/main.scss" as *;
 
 :host {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
   position: relative;
   margin: 0;
   padding: 0;
+}
+
+.btn-icon {
+  @include icon-button(60px);
+}
+
+.rotate img {
+  @include rotate(180deg);
 }
 
 .header {
@@ -11,16 +22,23 @@
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 64px;
+  height: 80px;
+  transition: transform 0.3s ease-in-out;
   position: sticky;
+  top: 0;
+  z-index: 100;
   background-color: #032541;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
 
   &__wrapper {
     width: max-content;
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 16px
+    gap: 16px;
   }
 
   &__logo {
@@ -48,7 +66,7 @@
     align-items: center;
     list-style: none;
     justify-content: space-evenly;
-    gap: 32px
+    gap: 32px;
   }
 
   &__item {
@@ -66,8 +84,81 @@
     align-items: center;
     gap: 8px;
   }
+
+  &__menu {
+    width: 80px;
+    height: 100%;
+    display: none;
+
+    img {
+      transform: transform 0.3s ease;
+    }
+  }
 }
 
-.btn-icon {
-  @include icon-button(60px);
+.dropdown {
+  display: none;
+}
+@media (max-width: 768px) {
+  .header {
+    height: 80px;
+    padding: 0 16px;
+
+    &__wrapper {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    &__nav {
+      display: none;
+    }
+
+    &__actions {
+      display: none;
+    }
+
+    &__menu {
+      display: block;
+      position: absolute;
+      right: 0px;
+    }
+  }
+
+  .dropdown {
+    display: block;
+    background-color: #032541;
+    z-index: 999;
+    max-height: 0;
+    overflow: hidden;
+    transform: max-height 0.3s ease;
+
+    &--open {
+      max-height: 300px;
+    }
+
+    &__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      row-gap: 8px;
+    }
+
+    &__item {
+      text-align: center;
+      padding: 16px 0;
+      width: 100%;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
 }

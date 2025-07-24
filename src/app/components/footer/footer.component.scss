@@ -1,0 +1,43 @@
+.footer {
+  background-color: #032541;
+  display: flex;
+  justify-content: center;
+  padding-top: 48px;
+  padding-bottom: 64px;
+  height: max-content;
+  column-gap: 32px;
+  row-gap: 32px;
+  flex-wrap: wrap;
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 120px;
+      height: 94px;
+    }
+  }
+
+  &__title {
+    margin-top: 0;
+    font: 2rem;
+    color: white;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
