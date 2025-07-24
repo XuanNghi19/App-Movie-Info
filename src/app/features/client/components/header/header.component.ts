@@ -5,7 +5,9 @@ import {
   Host,
   HostListener,
   OnInit,
+  Output,
   ViewChild,
+  EventEmitter,
 } from '@angular/core';
 
 @Component({
@@ -18,11 +20,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isHeaderHidden: boolean = false;
   private lastScrollTop = 0;
 
-  @ViewChild('headerSearch') headerSearch!: ElementRef;
   @ViewChild('movies') movies!: ElementRef;
   @ViewChild('tvShows') tvShows!: ElementRef;
   @ViewChild('people') people!: ElementRef;
   @ViewChild('more') more!: ElementRef;
+
+  @Output() focusSearchEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
   ngAfterViewInit(): void {}
@@ -34,7 +37,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   focusSearch(): void {
-    this.headerSearch.nativeElement.focus();
+    this.focusSearchEvent.emit();
   }
 
   @HostListener('window:scroll', [])

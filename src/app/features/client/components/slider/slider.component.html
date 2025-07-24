@@ -1,0 +1,37 @@
+<div class="slider__wrapper">
+  <div class="slider__header">
+    <h2>{{ title }}</h2>
+    <div class="slider__tabs">
+      <button
+        *ngFor="let tab of tabs"
+        [class.active]="tab === activeTab"
+        (click)="onTabChange(tab)"
+      >
+        {{ tab }}
+      </button>
+    </div>
+  </div>
+
+  <p-carousel
+    [value]="items"
+    [numVisible]="6"
+    [numScroll]="3"
+    [circular]="true"
+    [autoplayInterval]="30000"
+    [responsiveOptions]="[
+      { breakpoint: '1024px', numVisible: 4, numScroll: 2 },
+      { breakpoint: '768px', numVisible: 2, numScroll: 1 }
+    ]"
+  >
+    <ng-template pTemplate="item" let-movie>
+      <div class="slider__item">
+        <div class="slider__poster">
+          <img [src]="imgBaseUrl + movie.poster_path" [alt]="movie.title" />
+          <div class="slider__score">{{ movie.score | score }}</div>
+        </div>
+        <div class="title">{{ movie.title }}</div>
+        <div class="date">{{ movie.release_date | date : "MMM dd, yyyy" }}</div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

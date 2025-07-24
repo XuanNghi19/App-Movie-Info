@@ -1,0 +1,79 @@
+.banner {
+  background-image: url("../../../../../assets/images/main_banner.jpg");
+  height: 360px;
+  width: 100%;
+  background-size: cover;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 16px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); // chỉnh độ tối tại đây
+    z-index: 1;
+  }
+  // Nội dung trong banner phải nằm trên overlay
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__title {
+    max-width: 1280px;
+    width: 100%;
+    text-align: start;
+    color: white;
+    margin-bottom: 32px;
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    p {
+      font-size: 2rem;
+      margin-top: 8px;
+    }
+  }
+
+  &__search {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: none;
+      font-size: 1.25rem;
+      outline: none;
+      color: rgb(100, 100, 100);
+    }
+
+    button {
+      height: 40px;
+      background: linear-gradient(135deg, #1ce074, #0a1aac);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      right: 0;
+
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}

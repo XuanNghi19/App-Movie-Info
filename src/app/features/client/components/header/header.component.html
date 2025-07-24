@@ -4,7 +4,7 @@
       <div [class]="'header__logo'">
         <img
           [routerLink]="['/']"
-          src="../../../assets/images/logo.svg"
+          src="../../../../assets/images/logo.svg"
           alt="Logo"
         />
       </div>
@@ -20,13 +20,13 @@
 
     <div [class]="'header__actions'">
       <button [class]="'btn-icon'">
-        <img src="../../../assets/icons/bell.svg" alt="bell" />
+        <img src="../../../../assets/icons/bell.svg" alt="bell" />
       </button>
       <button [class]="'btn-icon'">
-        <img src="../../../assets/icons/avatar.svg" alt="avatar" />
+        <img src="../../../../assets/icons/avatar.svg" alt="avatar" />
       </button>
       <button (click)="focusSearch()" [class]="'btn-icon'">
-        <img src="../../../assets/icons/search.svg" alt="search" />
+        <img src="../../../../assets/icons/search.svg" alt="search" />
       </button>
     </div>
 
@@ -35,7 +35,7 @@
       (click)="toggleDropdown()"
       [class.rotate]="isDropdownOpen"
     >
-      <img src="../../../assets/icons/dropdown.svg" alt="menu" />
+      <img src="../../../../assets/icons/dropdown.svg" alt="menu" />
     </button>
   </section>
 

@@ -1,6 +1,6 @@
 <app-overlay-loading [loading]="loadingService.loading$ | async">
 </app-overlay-loading>
-<app-header></app-header>
-<app-header-search></app-header-search>
+<app-header (focusSearchEvent)="foucusSearch()"></app-header>
+<app-header-search #searchRef></app-header-search>
 <router-outlet></router-outlet>
 <app-footer></app-footer>

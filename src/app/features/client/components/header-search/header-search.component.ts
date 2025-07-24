@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header-search',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderSearchComponent implements OnInit {
 
+  @ViewChild('headerSearch') headerSearch!: ElementRef;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  foucusSearch(): void {
+    this.headerSearch.nativeElement.focus();
+  }
 }
