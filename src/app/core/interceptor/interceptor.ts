@@ -18,7 +18,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('Interceptor activated for:', req.url);
+    // console.log('Interceptor activated for:', req.url);
 
     const clonedRequest = req.clone({
       setHeaders: {

@@ -5,20 +5,26 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./features/features.module').then(m => m.FeaturesModule)
+    loadChildren: () =>
+      import('./features/features.module').then((m) => m.FeaturesModule),
   },
   {
     path: 'notfound',
-    component: NotFoundComponent
+    component: NotFoundComponent,
   },
   {
     path: '**',
-    redirectTo: '/notfound'
-  }
+    redirectTo: '/notfound',
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

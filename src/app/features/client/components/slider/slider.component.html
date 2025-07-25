@@ -1,37 +1,61 @@
-<div class="slider__wrapper">
+<div #slider class="slider">
   <div class="slider__header">
-    <h2>{{ title }}</h2>
+    <h2 [style.color]="color">{{ title }}</h2>
     <div class="slider__tabs">
       <button
         *ngFor="let tab of tabs"
         [class.active]="tab === activeTab"
         (click)="onTabChange(tab)"
       >
-        {{ tab }}
+        {{ tab | uppercase }}
       </button>
     </div>
   </div>
 
-  <p-carousel
-    [value]="items"
-    [numVisible]="6"
-    [numScroll]="3"
-    [circular]="true"
-    [autoplayInterval]="30000"
-    [responsiveOptions]="[
-      { breakpoint: '1024px', numVisible: 4, numScroll: 2 },
-      { breakpoint: '768px', numVisible: 2, numScroll: 1 }
-    ]"
-  >
-    <ng-template pTemplate="item" let-movie>
-      <div class="slider__item">
-        <div class="slider__poster">
-          <img [src]="imgBaseUrl + movie.poster_path" [alt]="movie.title" />
-          <div class="slider__score">{{ movie.score | score }}</div>
+  <div class="slider__scroll-container">
+    <div class="slider__scroll">
+      <div [style.max-width]="wImg" class="slider__item" *ngFor="let item of items">
+        <div class="slider__poster" (click)="onPosterClick(item.id)">
+          <img
+            [style]="{
+              width: wImg,
+              height: hImg
+            }"
+            [src]="getImageSrc(item)"
+            [alt]="getAltText(item)"
+          />
+          <div *ngIf="hasScore" class="slider__score">
+            {{ (item.vote_average === undefined ? item.popularity : item.vote_average) | score }}
+          </div>
+          <div *ngIf="hasPlay" class="slider__play">
+            <img
+              src="../../../../../assets/icons/play-solid-full.svg"
+              alt="play"
+            />
+          </div>
         </div>
-        <div class="title">{{ movie.title }}</div>
-        <div class="date">{{ movie.release_date | date : "MMM dd, yyyy" }}</div>
+        <div [style.color]="colorTitle" class="card__title">
+          {{ item.title === undefined ? item.name : item.title }}
+        </div>
+        <div [style.color]="colorDate" class="card__date">
+          {{ item.release_date | date : "MMM dd, yyyy" }}
+        </div>
       </div>
-    </ng-template>
-  </p-carousel>
+    </div>
+  </div>
+</div>
+
+<!-- Popup hiển thị trailer -->
+<div class="trailer-overlay" *ngIf="selectedTrailerKey" (click)="closeTrailer()">
+  <div class="trailer-container" (click)="$event.stopPropagation()">
+    <iframe
+      width="100%"
+      height="100%"
+      [src]="getSafeTrailerUrl()"
+      title="Trailer"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+    <button class="trailer-close" (click)="closeTrailer()">✖</button>
+  </div>
 </div>

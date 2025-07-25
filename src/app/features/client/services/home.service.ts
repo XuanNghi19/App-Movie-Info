@@ -9,6 +9,7 @@ import {
   UpcomingResponse,
   UpcomingMovie,
   TrendingPerson,
+  MovieVideosResponse,
 } from '../types/home';
 
 @Injectable({
@@ -33,6 +34,12 @@ export class HomeService {
   ): Observable<UpcomingResponse<UpcomingMovie>> {
     return this.http.get<UpcomingResponse<UpcomingMovie>>(
       `${this.baseurl}/movie/upcoming?language=${language}&page=1`
+    );
+  }
+
+  getMovieTrailerVideo(id: number): Observable<MovieVideosResponse> {
+    return this.http.get<MovieVideosResponse>(
+      `${this.baseurl}/movie/${id}/videos?language=en-US`
     );
   }
 

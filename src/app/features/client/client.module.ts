@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ClientRoutingModule } from './client-routing.module';
-import { HomeComponent } from './pages/home/home.component';
 import { ClientLayoutComponent } from './client-layout/client-layout.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { components } from './components';
 import { CarouselModule } from "primeng/carousel";
+import { pages } from './pages';
 
 @NgModule({
   declarations: [
-    HomeComponent,
     ClientLayoutComponent,
-    ...components
+    ...pages,
+    ...components,
   ],
   imports: [CommonModule, ClientRoutingModule, SharedModule, CarouselModule],
 })

@@ -70,6 +70,9 @@
   }
 
   &__item {
+    height: 100%;
+    display: flex;
+    align-items: center;
     color: white;
     font-size: 1.25rem;
     font-weight: 500;

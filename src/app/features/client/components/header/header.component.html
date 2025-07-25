@@ -1,12 +1,8 @@
 <header>
   <section class="header" [class.header--hidden]="isHeaderHidden">
     <div [class]="'header__wrapper'">
-      <div [class]="'header__logo'">
-        <img
-          [routerLink]="['/']"
-          src="../../../../assets/images/logo.svg"
-          alt="Logo"
-        />
+      <div [class]="'header__logo'" [routerLink]="['/']">
+        <img src="../../../../assets/images/logo.svg" alt="Logo" />
       </div>
       <nav [class]="'header__nav'">
         <ul [class]="'header__list-items'">

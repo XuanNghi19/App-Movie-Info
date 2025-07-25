@@ -1,0 +1,11 @@
+<section class="info">
+  <div class="info__poster">
+    <img [src]="urlPoster + movie.poster_path" [alt]="movie.title">
+  </div>
+  <div class="info__content">
+    <div class="info__title">
+      <h2> {{ movie.title }} </h2>
+      <span> {{ movie.release_date | date: 'yyyy'}} </span>
+    </div>
+  </div>
+</section>
