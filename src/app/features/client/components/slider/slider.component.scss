@@ -89,6 +89,14 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease;
     }
+    &::before {
+      border-radius: 8px;
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.062); // chỉnh độ tối tại đây
+      z-index: 1;
+    }
 
     &:hover img {
       transform: scale(1.05);
@@ -96,7 +104,7 @@
   }
 
   &__score {
-    z-index: 10;
+    z-index: 100;
     position: absolute;
     bottom: 16px;
     left: 16px;
@@ -114,6 +122,7 @@
   }
 
   &__play {
+    z-index: 100;
     position: absolute;
     top: 50%;
     left: 50%;

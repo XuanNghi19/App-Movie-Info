@@ -7,11 +7,12 @@
 </section>
 
 <app-slider
+  [type]="'movie'"
   [action]="'movie-details'"
   [hasScore]="true"
   [title]="'Trending'"
   [tabs]="['day', 'week']"
-  [activeTab]="selectedTab"
+  [activeTab]="trendingTab"
   [items]="movieList"
   [onTabChange]="onTrendingTabChange"
 ></app-slider>
@@ -32,6 +33,10 @@
 </section>
 
 <app-slider
+  [type]="'tv'"
+  [tabs]="['day', 'week']"
+  [activeTab]="tvTrendingTab"
+  [onTabChange]="onPopularTvShowList"
   [action]="'movie-details'"
   [title]="'Popular TvShow'"
   [items]="popularTvShowList"

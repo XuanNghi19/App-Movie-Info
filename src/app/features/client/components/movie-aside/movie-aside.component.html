@@ -1,1 +1,28 @@
-<p>movie-aside works!</p>
+<aside class="aside">
+  <div class="aside__social-link">
+    <a [href]="details.homepage" target="_blank">
+      <img src="/assets/icons/link.png" alt="" />
+    </a>
+  </div>
+  <div class="aside__info">
+    <h3>Original Title</h3>
+    <p>{{ originalTitle }}</p>
+    <h3>Status</h3>
+    <p>{{ status }}</p>
+    <h3 *ngIf="network">Network</h3>
+    <p>{{ network }}</p>
+    <h3 *ngIf="tvType">Type</h3>
+    <p>{{ tvType }}</p>
+    <h3 *ngIf="originalLanguage">Origin Language</h3>
+    <p>{{ originalLanguage }}</p>
+  </div>
+  <div class="aside__keywords">
+    <h3>Keywords</h3>
+
+    <div class="aside__keyword">
+      <div class="aside__key" *ngFor="let key of keywords">
+        {{ key.name }}
+      </div>
+    </div>
+  </div>
+</aside>

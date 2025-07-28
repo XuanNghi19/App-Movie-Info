@@ -1,5 +1,10 @@
-<app-movie-header-info [movie]="movieDetail"></app-movie-header-info>
-<div class="movie-body">
+<app-movie-header-info
+  *ngIf="details"
+  [details]="details"
+  [type]="type"
+  [movieCredits]="movieCredits"
+></app-movie-header-info>
+<div *ngIf="details" class="movie-body">
   <div class="col">
     <app-movie-cast></app-movie-cast>
     <app-movie-social></app-movie-social>
@@ -7,6 +12,6 @@
     <app-movie-recommendations></app-movie-recommendations>
   </div>
   <div class="col">
-    <app-movie-aside></app-movie-aside>
+    <app-movie-aside [details]="details" [keywords]="keywords"></app-movie-aside>
   </div>
 </div>

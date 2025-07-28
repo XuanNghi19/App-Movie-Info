@@ -44,11 +44,11 @@ export class HomeService {
   }
 
   getPopularTvShow(
-    page: number = 1,
+    timeWindow: string = 'day',
     language: string = 'en-US'
   ): Observable<Response<TVShow>> {
     return this.http.get<Response<TVShow>>(
-      `${this.baseurl}/discover/tv?include_adult=false&language=${language}&page=${page}&sort_by=popularity.desc`
+      `${this.baseurl}/trending/tv/${timeWindow}?language=${language}`
     );
   }
 

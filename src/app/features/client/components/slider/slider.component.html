@@ -14,8 +14,19 @@
 
   <div class="slider__scroll-container">
     <div class="slider__scroll">
-      <div [style.max-width]="wImg" class="slider__item" *ngFor="let item of items">
-        <div class="slider__poster" (click)="onPosterClick(item.id)">
+      <div
+        [style.max-width]="wImg"
+        class="slider__item"
+        *ngFor="let item of items"
+      >
+        <div
+          [style]="{
+            width: wImg,
+            height: hImg
+          }"
+          class="slider__poster"
+          (click)="onPosterClick(item.id)"
+        >
           <img
             [style]="{
               width: wImg,
@@ -25,7 +36,13 @@
             [alt]="getAltText(item)"
           />
           <div *ngIf="hasScore" class="slider__score">
-            {{ (item.vote_average === undefined ? item.popularity : item.vote_average) | score }}
+            {{
+              (item.vote_average === undefined
+                ? item.popularity
+                : item.vote_average
+              ) | score
+            }}
+            <span>%</span>
           </div>
           <div *ngIf="hasPlay" class="slider__play">
             <img
@@ -46,7 +63,11 @@
 </div>
 
 <!-- Popup hiển thị trailer -->
-<div class="trailer-overlay" *ngIf="selectedTrailerKey" (click)="closeTrailer()">
+<div
+  class="trailer-overlay"
+  *ngIf="selectedTrailerKey"
+  (click)="closeTrailer()"
+>
   <div class="trailer-container" (click)="$event.stopPropagation()">
     <iframe
       width="100%"

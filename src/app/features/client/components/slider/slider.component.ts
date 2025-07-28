@@ -22,6 +22,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
 
   @Input() imgBaseUrl = BASE_IMG_URL_220_330;
 
+  @Input() type: string = 'movie';
   @Input() hasScore: boolean = false;
   @Input() hasPlay: boolean = false;
   @Input() action: string = '';
@@ -85,7 +86,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
   }
 
   goToMovieDetails(id: number) {
-    this.router.navigate([`/client/movie-details/${id}`]);
+    this.router.navigate([`/client/movie-details/${this.type}/${id}`]);
   }
 
   goToPepleDetails(id: number) {}
@@ -116,7 +117,8 @@ export class SliderComponent implements OnInit, AfterViewInit {
   }
 
   getImageSrc(item: any): string {
-    const path = item?.poster_path || item?.profile_path;
+    let path = item?.poster_path || item?.profile_path;
+    if(this.hasPlay) path = item?.backdrop_path;
     return path ? this.imgBaseUrl + path : this.defaultImg;
   }
 

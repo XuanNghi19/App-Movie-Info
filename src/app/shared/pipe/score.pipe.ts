@@ -10,7 +10,7 @@ export class ScorePipe implements PipeTransform {
     
     // Chuyển thang 10 -> phần trăm & làm tròn
     const percent = Math.round(value * 10); // 7.271 -> 72.71 -> 73
-    return `${percent}%`;
+    return `${percent}`;
   }
 
 }

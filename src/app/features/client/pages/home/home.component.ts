@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { TrendingMovie, TrendingPerson, TVShow, UpcomingMovie } from '../../types/home';
 import { BASE_IMG_URL_335_200 } from 'src/app/core/utils/constants';
+import { timeoutWith } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ import { BASE_IMG_URL_335_200 } from 'src/app/core/utils/constants';
 export class HomeComponent implements OnInit {
   public readonly imgBaseUrl_355_200 = BASE_IMG_URL_335_200;
 
-  selectedTab = 'day';
+  trendingTab = 'day';
+  tvTrendingTab = 'day';
   movieList: TrendingMovie[] = [];
   trailerList: UpcomingMovie[] = [];
   popularTvShowList: TVShow[] = [];
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   onTrendingTabChange = (tab: string = 'day') => {
-    this.selectedTab = tab;
+    this.trendingTab = tab;
     this.homeService.getTrendingMovies(tab, 'vi').subscribe({
       next: (res) => {
         this.movieList = res.results;
@@ -43,8 +45,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onPopularTvShowList() {
-    this.homeService.getPopularTvShow().subscribe({
+  onPopularTvShowList = (tab: string = 'day') => {
+    this.tvTrendingTab = tab;
+    this.homeService.getPopularTvShow(this.tvTrendingTab).subscribe({
       next: (res) => {
         this.popularTvShowList = res.results;
       },
