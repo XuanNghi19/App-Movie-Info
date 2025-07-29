@@ -7,50 +7,77 @@
 </section>
 
 <app-slider
-  [type]="'movie'"
-  [action]="'movie-details'"
-  [hasScore]="true"
   [title]="'Trending'"
   [tabs]="['day', 'week']"
   [activeTab]="trendingTab"
   [items]="movieList"
   [onTabChange]="onTrendingTabChange"
-></app-slider>
+>
+  <ng-template #cardTemplate let-item>
+    <app-movie-card
+      [item]="item"
+      [type]="'movie'"
+      [hasScore]="true"
+      [action]="'movie-details'"
+    ></app-movie-card>
+  </ng-template>
+</app-slider>
 
 <section class="bg1">
   <app-slider
-    [imgBaseUrl]="imgBaseUrl_355_200"
-    [action]="'trailer'"
-    [hasPlay]="true"
-    [hImg]="'200px'"
-    [wImg]="'355px'"
-    [color]="'white'"
-    [colorDate]="'white'"
-    [colorTitle]="'white'"
     [title]="'Latest Trailers'"
     [items]="trailerList"
-  ></app-slider>
+    [color]="'white'"
+  >
+    <ng-template #cardTemplate let-item>
+      <app-movie-card
+        [action]="'trailer'"
+        [imgBaseUrl]="imgBaseUrl_355_200"
+        [item]="item"
+        [hImg]="'200px'"
+        [wImg]="'355px'"
+        [hasPlay]="true"
+        [colorDate]="'white'"
+        [colorTitle]="'white'"
+      ></app-movie-card>
+    </ng-template>
+  </app-slider>
 </section>
 
 <app-slider
-  [type]="'tv'"
   [tabs]="['day', 'week']"
   [activeTab]="tvTrendingTab"
   [onTabChange]="onPopularTvShowList"
-  [action]="'movie-details'"
   [title]="'Popular TvShow'"
   [items]="popularTvShowList"
-  [hasScore]="true"
-></app-slider>
+>
+  <ng-template #cardTemplate let-item>
+    <app-movie-card
+      [item]="item"
+      [type]="'tv'"
+      [action]="'movie-details'"
+      [hasScore]="true"
+    >
+    </app-movie-card>
+  </ng-template>
+</app-slider>
 
 <section class="bg1">
   <app-slider
     [color]="'white'"
-    [colorTitle]="'white'"
     [title]="'Popular People'"
     [items]="popularPepleList"
-    [hasScore]="true"
-  ></app-slider>
+  >
+    <ng-template #cardTemplate let-item>
+      <app-people-card
+        [hasPopularity]="true"
+        [item]="item"
+        [color]="'black'"
+        [action]="'people-detail'"
+        [imgFlex]="4"
+      ></app-people-card>
+    </ng-template>
+  </app-slider>
 </section>
 
 <app-leader-board></app-leader-board>

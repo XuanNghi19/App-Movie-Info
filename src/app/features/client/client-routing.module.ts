@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientLayoutComponent } from './client-layout/client-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
+import { MovieCreditsComponent } from './pages/movie-credits/movie-credits.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,14 @@ const routes: Routes = [
       {
         path: 'movie-details/:type/:id',
         component: MovieDetailsComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'movie-details/full-credits/:type/:id',
+        component: MovieCreditsComponent,
       },
     ],
   },

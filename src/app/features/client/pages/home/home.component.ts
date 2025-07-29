@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { TrendingMovie, TrendingPerson, TVShow, UpcomingMovie } from '../../types/home';
-import { BASE_IMG_URL_335_200 } from 'src/app/core/utils/constants';
+import { BASE_IMG_URL_138_175, BASE_IMG_URL_335_200 } from 'src/app/core/utils/constants';
 import { timeoutWith } from 'rxjs';
 
 @Component({

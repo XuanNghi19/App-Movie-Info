@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovieDetailsService } from '../../services/movie-details.service';
 import {
   Keyword,
-  MovieCredits,
+  Credits,
   MovieDetails,
   TvDetails,
 } from '../../types/movie-details';
@@ -19,10 +19,10 @@ import { finalize } from 'rxjs/operators';
 export class MovieDetailsComponent implements OnInit {
   details!: MovieDetails | TvDetails;
   type: string = 'movie';
-  movieCredits: MovieCredits = {
+  credits: Credits = {
     id: 0,
     crew: [],
-    cast: []
+    cast: [],
   };
   public keywords: Keyword[] = [];
 
@@ -43,14 +43,15 @@ export class MovieDetailsComponent implements OnInit {
       case 'tv':
         request$ = forkJoin({
           details: this.movieDetailsService.getTvDetails(id),
-          keywords: this.movieDetailsService.getKeywords(id, 'tv')
+          credits: this.movieDetailsService.getCredits(id, this.type),
+          keywords: this.movieDetailsService.getKeywords(id, 'tv'),
         });
         break;
       case 'movie':
         request$ = forkJoin({
           details: this.movieDetailsService.getMovieDetails(id),
-          credits: this.movieDetailsService.getMoiveCredits(id),
-          keywords: this.movieDetailsService.getKeywords(id, 'movie')
+          credits: this.movieDetailsService.getCredits(id, this.type),
+          keywords: this.movieDetailsService.getKeywords(id, 'movie'),
         });
         break;
       default:
@@ -60,8 +61,11 @@ export class MovieDetailsComponent implements OnInit {
       next: (res) => {
         this.details = res.details;
         this.keywords = res.keywords.keywords;
+        this.credits = res.credits;
         if (this.type === 'movie') {
-          this.movieCredits = res.credits;
+          this.keywords = res.keywords.keywords;
+        } else if (this.type === 'tv') {
+          this.keywords = res.keywords.results;
         }
       },
       error: (err) => {

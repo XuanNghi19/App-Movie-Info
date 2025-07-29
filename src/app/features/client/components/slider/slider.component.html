@@ -1,7 +1,7 @@
-<div #slider class="slider">
+<div #slider class="slider" [style.width]="maxWidth">
   <div class="slider__header">
     <h2 [style.color]="color">{{ title }}</h2>
-    <div class="slider__tabs">
+    <div class="slider__tabs" *ngIf="tabs.length > 0">
       <button
         *ngFor="let tab of tabs"
         [class.active]="tab === activeTab"
@@ -14,69 +14,11 @@
 
   <div class="slider__scroll-container">
     <div class="slider__scroll">
-      <div
-        [style.max-width]="wImg"
-        class="slider__item"
-        *ngFor="let item of items"
-      >
-        <div
-          [style]="{
-            width: wImg,
-            height: hImg
-          }"
-          class="slider__poster"
-          (click)="onPosterClick(item.id)"
-        >
-          <img
-            [style]="{
-              width: wImg,
-              height: hImg
-            }"
-            [src]="getImageSrc(item)"
-            [alt]="getAltText(item)"
-          />
-          <div *ngIf="hasScore" class="slider__score">
-            {{
-              (item.vote_average === undefined
-                ? item.popularity
-                : item.vote_average
-              ) | score
-            }}
-            <span>%</span>
-          </div>
-          <div *ngIf="hasPlay" class="slider__play">
-            <img
-              src="../../../../../assets/icons/play-solid-full.svg"
-              alt="play"
-            />
-          </div>
-        </div>
-        <div [style.color]="colorTitle" class="card__title">
-          {{ item.title === undefined ? item.name : item.title }}
-        </div>
-        <div [style.color]="colorDate" class="card__date">
-          {{ item.release_date | date : "MMM dd, yyyy" }}
-        </div>
-      </div>
+      <ng-container *ngFor="let item of items">
+        <ng-container
+          *ngTemplateOutlet="cardTemplate; context: { $implicit: item }"
+        ></ng-container>
+      </ng-container>
     </div>
-  </div>
-</div>
-
-<!-- Popup hiển thị trailer -->
-<div
-  class="trailer-overlay"
-  *ngIf="selectedTrailerKey"
-  (click)="closeTrailer()"
->
-  <div class="trailer-container" (click)="$event.stopPropagation()">
-    <iframe
-      width="100%"
-      height="100%"
-      [src]="getSafeTrailerUrl()"
-      title="Trailer"
-      frameborder="0"
-      allowfullscreen
-    ></iframe>
-    <button class="trailer-close" (click)="closeTrailer()">✖</button>
   </div>
 </div>

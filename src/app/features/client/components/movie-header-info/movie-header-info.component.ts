@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  MovieCredits,
+  Credits,
   MovieDetails,
   TvDetails,
 } from '../../types/movie-details';
@@ -26,7 +26,7 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
   @Input() details!: MovieDetails | TvDetails;
   @Input() type: string = 'movie';
 
-  @Input() movieCredits!: MovieCredits;
+  @Input() movieCredits!: Credits;
   @ViewChild('info', { static: true }) infoRef!: ElementRef<HTMLElement>;
   top6Crew!: any[];
 

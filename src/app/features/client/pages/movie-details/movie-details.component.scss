@@ -6,13 +6,17 @@
 }
 
 .movie-body {
+  position: relative;
   display: flex;
+  margin: 0 auto;
   gap: 30px;
   padding: 30px 40px;
+  padding-top: 0px;
   max-width: 1400px;
 }
 
 .col {
   display: flex;
+  position: relative;
   flex-direction: column;
 }

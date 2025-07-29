@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Keyword, KeywordResponse, MovieCredits, MovieDetails } from '../types/movie-details';
+import { Keyword, KeywordResponse, Credits, MovieDetails } from '../types/movie-details';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -24,9 +24,9 @@ export class MovieDetailsService {
     );
   }
 
-  getMoiveCredits(id: number): Observable<MovieCredits> {
-    return this.http.get<MovieCredits>(
-      `${this.baseurl}/movie/${id}/credits?language=en-US`
+  getCredits(id: number, type: string = 'movie'): Observable<Credits> {
+    return this.http.get<Credits>(
+      `${this.baseurl}/${type}/${id}/credits?language=en-US`
     );
   }
 

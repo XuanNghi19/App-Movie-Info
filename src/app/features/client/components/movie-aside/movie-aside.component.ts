@@ -12,7 +12,8 @@ export class MovieAsideComponent implements OnInit {
   @Input() keywords: Keyword[] = [];
   @Input() details!: MovieDetails | TvDetails;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   get originalTitle(): string {
     const originalTitle =

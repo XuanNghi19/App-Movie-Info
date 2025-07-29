@@ -1,1 +1,19 @@
-<p>movie-cast works!</p>
+<section class="cast">
+  <app-slider [maxWidth]="'1000px'" [title]="getTitle()" [items]="visibleCasts">
+    <ng-template #cardTemplate let-item>
+      <app-people-card
+        [item]="item"
+        [color]="'black'"
+        [hasCharater]="true"
+        [action]="'people-detail'"
+        [imgBaseUrl]="imgBaseUrl_138_175"
+        [wImg]="'138px'"
+        [hImg]="'175px'"
+        [fontSize]="'14.4px'"
+        [titleSize]="'16px'"
+      >
+      </app-people-card>
+    </ng-template>
+  </app-slider>
+  <h1 class="cast__nav"><a (click)="fullCredits()">Full Cast & Crew</a></h1>
+</section>

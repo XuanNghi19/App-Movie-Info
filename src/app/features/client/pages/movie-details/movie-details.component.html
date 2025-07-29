@@ -2,11 +2,12 @@
   *ngIf="details"
   [details]="details"
   [type]="type"
-  [movieCredits]="movieCredits"
+  [movieCredits]="credits"
 ></app-movie-header-info>
 <div *ngIf="details" class="movie-body">
   <div class="col">
-    <app-movie-cast></app-movie-cast>
+    <app-movie-cast [details]="details" [casts]="credits.cast" [type]="type"></app-movie-cast>
+    <app-crr-tv-season *ngIf="type === 'tv'"></app-crr-tv-season>
     <app-movie-social></app-movie-social>
     <app-movie-media></app-movie-media>
     <app-movie-recommendations></app-movie-recommendations>
