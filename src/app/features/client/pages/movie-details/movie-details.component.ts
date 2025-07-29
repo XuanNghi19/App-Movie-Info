@@ -5,6 +5,7 @@ import {
   Credits,
   MovieDetails,
   TvDetails,
+  Season,
 } from '../../types/movie-details';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/core/services/loading.service';
@@ -72,5 +73,10 @@ export class MovieDetailsComponent implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  get lastSeason(): Season {
+    const season = 'seasons' in this.details ? this.details.seasons : [];
+    return season[season.length - 1];
   }
 }

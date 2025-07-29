@@ -13,3 +13,5 @@ export const BASE_IMG_URL_66_66 =
 export const DEFAULT_IMG = '/assets/icons/unknow_img.svg';
 export const BASE_IMG_URL_58_87 =
   'https://media.themoviedb.org/t/p/w58_and_h87_face';
+export const BASE_IMG_URL_130_195 =
+  'https://media.themoviedb.org/t/p/w130_and_h195_bestv2';
