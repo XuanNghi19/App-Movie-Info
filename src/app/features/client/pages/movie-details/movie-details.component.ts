@@ -6,6 +6,10 @@ import {
   MovieDetails,
   TvDetails,
   Season,
+  NextEpisode,
+  ReviewsResponse,
+  VideoResponse,
+  MediaImagesResponse,
 } from '../../types/movie-details';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/core/services/loading.service';
@@ -26,6 +30,9 @@ export class MovieDetailsComponent implements OnInit {
     cast: [],
   };
   public keywords: Keyword[] = [];
+  public reviews!: ReviewsResponse;
+  public videos!: VideoResponse;
+  public images!: MediaImagesResponse;
 
   constructor(
     private movieDetailsService: MovieDetailsService,
@@ -46,6 +53,9 @@ export class MovieDetailsComponent implements OnInit {
           details: this.movieDetailsService.getTvDetails(id),
           credits: this.movieDetailsService.getCredits(id, this.type),
           keywords: this.movieDetailsService.getKeywords(id, 'tv'),
+          reviews: this.movieDetailsService.getReviews(id, 'tv'),
+          videos: this.movieDetailsService.getVideos(id, 'tv'),
+          images: this.movieDetailsService.getImages(id, 'tv'),
         });
         break;
       case 'movie':
@@ -53,6 +63,9 @@ export class MovieDetailsComponent implements OnInit {
           details: this.movieDetailsService.getMovieDetails(id),
           credits: this.movieDetailsService.getCredits(id, this.type),
           keywords: this.movieDetailsService.getKeywords(id, 'movie'),
+          reviews: this.movieDetailsService.getReviews(id, 'movie'),
+          videos: this.movieDetailsService.getVideos(id, 'movie'),
+          images: this.movieDetailsService.getImages(id, 'movie'),
         });
         break;
       default:
@@ -63,6 +76,9 @@ export class MovieDetailsComponent implements OnInit {
         this.details = res.details;
         this.keywords = res.keywords.keywords;
         this.credits = res.credits;
+        this.reviews = res.reviews;
+        this.videos = res.videos;
+        this.images = res.images;
         if (this.type === 'movie') {
           this.keywords = res.keywords.keywords;
         } else if (this.type === 'tv') {
@@ -78,5 +94,15 @@ export class MovieDetailsComponent implements OnInit {
   get lastSeason(): Season {
     const season = 'seasons' in this.details ? this.details.seasons : [];
     return season[season.length - 1];
+  }
+
+  get name(): string {
+    return 'name' in this.details ? this.details.name : this.details.title;
+  }
+
+  get nextEpisode(): NextEpisode | null {
+    return 'next_episode_to_air' in this.details
+      ? this.details.next_episode_to_air
+      : null;
   }
 }

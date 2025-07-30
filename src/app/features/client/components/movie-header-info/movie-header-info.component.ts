@@ -12,7 +12,7 @@ import {
   MovieDetails,
   TvDetails,
 } from '../../types/movie-details';
-import { BACK_DROP, BASE_IMG_URL_300_450 } from 'src/app/core/utils/constants';
+import { BACK_DROP, BASE_IMG_URL_300_450, DEFAULT_IMG } from 'src/app/core/utils/constants';
 
 @Component({
   selector: 'app-movie-header-info',
@@ -22,6 +22,7 @@ import { BACK_DROP, BASE_IMG_URL_300_450 } from 'src/app/core/utils/constants';
 export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
   public readonly urlPoster = BASE_IMG_URL_300_450;
   public readonly urlBackDrop = BACK_DROP;
+  public readonly defaultImg = DEFAULT_IMG;
 
   @Input() details!: MovieDetails | TvDetails;
   @Input() type: string = 'movie';
@@ -111,5 +112,10 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
         break;
     }
     return [];
+  }
+
+  get poster(): string {
+    if(this.details === null) return this.defaultImg;
+    return this.urlPoster + this.details.poster_path;
   }
 }

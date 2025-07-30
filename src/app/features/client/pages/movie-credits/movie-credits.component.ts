@@ -23,6 +23,7 @@ export class MovieCreditsComponent implements OnInit {
   title = 'This Movie';
   movieCredits!: Credits;
   id!: number;
+  type!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +35,7 @@ export class MovieCreditsComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.show();
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    const type = this.route.snapshot.paramMap.get('type') ?? undefined;
+    this.type = String(this.route.snapshot.paramMap.get('type'));
 
     this.route.queryParams.subscribe({
       next: (params) => {
@@ -45,7 +46,7 @@ export class MovieCreditsComponent implements OnInit {
     });
 
     this.movieDetailService
-      .getCredits(this.id, type)
+      .getCredits(this.id, this.type)
       .pipe(
         take(1),
         finalize(() => {
@@ -60,7 +61,7 @@ export class MovieCreditsComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate([`/client/movie-details/movie/${this.id}`]);
+    this.router.navigate([`/client/movie-details/${this.type}/${this.id}`]);
   }
 
   getImg(url: string | null) {

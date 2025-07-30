@@ -23,12 +23,15 @@ export class SliderComponent implements OnInit, AfterViewInit {
 
   @Input() bgImg: string = '';
   @Input() color: string = 'black';
-  @Input() title: string = 'Slider Title';
+  @Input() title: string = '';
   @Input() tabs: string[] = [];
   @Input() activeTab: string = '';
   @Input() items: any[] = [];
   @Input() onTabChange: (tab: string) => void = () => {};
-  @Input() maxWidth: string = '1310px';
+  @Input() maxWidth: string = '100%';
+  @Input() itemGap: string = '16px';
+  @Input() itemMgnBt: string = '16px';
+
 
   @ViewChild('slider') sliderRef!: ElementRef;
   @ContentChild('cardTemplate') cardTemplate!: TemplateRef<any>;

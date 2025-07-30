@@ -71,21 +71,7 @@ export interface TvDetails {
   last_air_date: string | null;
   last_episode_to_air: any | null; // chưa có dữ liệu, có thể khai cụ thể hơn nếu cần
   name: string;
-  next_episode_to_air: {
-    id: number;
-    name: string;
-    overview: string;
-    vote_average: number;
-    vote_count: number;
-    air_date: string;
-    episode_number: number;
-    episode_type: string;
-    production_code: string;
-    runtime: number;
-    season_number: number;
-    show_id: number;
-    still_path: string;
-  } | null;
+  next_episode_to_air: NextEpisode | null;
   networks: {
     id: number;
     logo_path: string;
@@ -175,3 +161,79 @@ export type KeywordResponse = {
   results: Keyword[];
 };
 export type Keyword = { name: string; id: number };
+
+export type NextEpisode = {
+  id: number;
+  name: string;
+  overview: string;
+  vote_average: number;
+  vote_count: number;
+  air_date: string;
+  episode_number: number;
+  episode_type: string;
+  production_code: string;
+  runtime: number;
+  season_number: number;
+  show_id: number;
+  still_path: string;
+};
+
+export interface ReviewAuthorDetails {
+  name: string;
+  username: string;
+  avatar_path: string | null;
+  rating: number | null;
+}
+
+export interface Review {
+  author: string;
+  author_details: ReviewAuthorDetails;
+  content: string;
+  created_at: string;   // ISO date string
+  id: string;
+  updated_at: string;   // ISO date string
+  url: string;
+}
+
+export interface ReviewsResponse {
+  id: number;
+  page: number;
+  results: Review[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface VideoResult {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string; // e.g., 'YouTube'
+  size: number; // e.g., 1080
+  type: string; // e.g., 'Trailer', 'Featurette', 'Clip'
+  official: boolean;
+  published_at: string; // ISO date string
+  id: string;
+}
+
+export interface VideoResponse {
+  id: number;
+  results: VideoResult[];
+}
+
+export interface MediaImage {
+  aspect_ratio: number;
+  height: number;
+  iso_639_1: string | null;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+
+export interface MediaImagesResponse {
+  id: number;
+  backdrops: MediaImage[];
+  logos: MediaImage[];
+  posters: MediaImage[];
+}

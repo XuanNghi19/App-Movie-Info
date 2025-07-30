@@ -1,5 +1,5 @@
 <section class="cast">
-  <app-slider [maxWidth]="'1000px'" [title]="getTitle()" [items]="visibleCasts">
+  <app-slider [title]="getTitle()" [items]="visibleCasts">
     <ng-template #cardTemplate let-item>
       <app-people-card
         [item]="item"

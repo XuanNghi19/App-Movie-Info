@@ -1,1 +1,36 @@
-<p>movie-social works!</p>
+<div class="social">
+  <div class="social__header">
+    <h1>Social</h1>
+    <div class="social__tabs">
+      <div class="social__tab">
+        Reviews <span>({{ reviews.results.length || 0 }})</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="social__reviews" *ngIf="reviews.results.length > 0; else noReviews">
+    <div class="social__review" *ngFor="let review of reviews.results">
+      <div class="social__author">
+        <img
+          [src]="getAvatarUrl(review.author_details.avatar_path)"
+          alt="avatar"
+          class="social__avatar"
+        />
+        <div>
+          <div class="social__username">{{ review.author }}</div>
+          <div class="social__rating" *ngIf="review.author_details.rating">
+            ★ {{ review.author_details.rating | number: '1.1-1'}}
+          </div>
+        </div>
+      </div>
+      <div class="social__content">
+        <p>{{ review.content }}</p>
+        <a [href]="review.url" target="_blank" rel="noopener noreferrer">Read full review</a>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noReviews>
+    <p class="social__empty">No reviews available.</p>
+  </ng-template>
+</div>

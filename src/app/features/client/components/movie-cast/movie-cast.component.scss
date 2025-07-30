@@ -1,11 +1,13 @@
+:host {
+  max-width: 1050px;
+}
+
 .cast {
   display: flex;
   flex-direction: column;
-  left: -16px;
-  position: relative;
   &__nav {
-    margin-left: 16px;
     cursor: pointer;
+    font-weight: 600;
     a {
       text-decoration: none;
       color: black;

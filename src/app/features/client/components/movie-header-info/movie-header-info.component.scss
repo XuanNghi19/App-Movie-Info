@@ -1,14 +1,16 @@
 :host {
   width: 100%;
   color: white;
+  background: linear-gradient(135deg, #90d3ae, #636dce);
+  display: flex;
+  justify-content: center;
 }
 
 .info {
   position: relative;
-  background: linear-gradient(135deg, #90d3ae, #636dce);
   display: flex;
-  justify-content: center;
-  width: 100%;
+  justify-content: start;
+  width: 1380px;
 
   // &__overlay {
   //   width: 100%;
@@ -21,9 +23,8 @@
 
   &__body {
     z-index: 2;
-    max-width: 1380px;
+    width: 100%;
     display: flex;
-    justify-content: center;
     padding: 30px 40px;
     gap: 40px;
   }

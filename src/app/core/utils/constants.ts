@@ -15,3 +15,4 @@ export const BASE_IMG_URL_58_87 =
   'https://media.themoviedb.org/t/p/w58_and_h87_face';
 export const BASE_IMG_URL_130_195 =
   'https://media.themoviedb.org/t/p/w130_and_h195_bestv2';
+export const BASE_AVATAR = 'https://secure.gravatar.com/avatar';

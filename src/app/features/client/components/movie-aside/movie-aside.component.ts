@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Keyword, MovieDetails, TvDetails } from '../../types/movie-details';
+import { getLanguageName } from 'src/assets/languages/main';
 
 @Component({
   selector: 'app-movie-aside',
@@ -27,6 +28,16 @@ export class MovieAsideComponent implements OnInit {
     return this.details.status ?? '--';
   }
 
+  get budget(): number | null {
+    const budget = 'budget' in this.details ? this.details.budget : null;
+    return budget;
+  }
+
+  get revenue(): number | null {
+    const revenue = 'revenue' in this.details ? this.details.revenue : null;
+    return revenue;
+  }
+
   get network(): string | null {
     const networks: {
       id: number;
@@ -43,6 +54,6 @@ export class MovieAsideComponent implements OnInit {
   }
 
   get originalLanguage(): string {
-    return this.details.original_language;
+    return getLanguageName(this.details.original_language);
   }
 }

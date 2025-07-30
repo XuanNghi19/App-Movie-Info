@@ -1,4 +1,5 @@
 import { LeaderboardUser } from "src/app/features/client/types/home";
+import { ReviewsResponse } from "src/app/features/client/types/movie-details";
 
 export const leaderboardUser: LeaderboardUser[] = [
   {
@@ -58,3 +59,54 @@ export const leaderboardUser: LeaderboardUser[] = [
     weeklyEdits: 4643,
   },
 ];
+
+export const mockReviewsResponse: ReviewsResponse = {
+  id: 123,
+  page: 1,
+  results: [
+    {
+      author: "john_doe",
+      author_details: {
+        name: "John Doe",
+        username: "johnny123",
+        avatar_path: "/assets/images/avt1.webp",
+        rating: 8.5,
+      },
+      content: "This movie was absolutely amazing! The story, the visuals, everything was on point.",
+      created_at: "2025-07-20T14:30:00Z",
+      updated_at: "2025-07-20T15:00:00Z",
+      id: "review1",
+      url: "https://www.themoviedb.org/review/review1",
+    },
+    {
+      author: "jane_smith",
+      author_details: {
+        name: "Jane Smith",
+        username: "jsmith",
+        avatar_path: null,
+        rating: 6,
+      },
+      content: "The film was okay, but I felt the pacing was a bit off in the middle.",
+      created_at: "2025-07-21T10:15:00Z",
+      updated_at: "2025-07-21T10:45:00Z",
+      id: "review2",
+      url: "https://www.themoviedb.org/review/review2",
+    },
+    {
+      author: "movie_buff",
+      author_details: {
+        name: "Movie Buff",
+        username: "bufffan",
+        avatar_path: "/assets/images/avt2.webp",
+        rating: null,
+      },
+      content: "Didn’t enjoy it much. Could have been better.",
+      created_at: "2025-07-19T08:00:00Z",
+      updated_at: "2025-07-19T09:00:00Z",
+      id: "review3",
+      url: "https://www.themoviedb.org/review/review3",
+    }
+  ],
+  total_pages: 1,
+  total_results: 3,
+};

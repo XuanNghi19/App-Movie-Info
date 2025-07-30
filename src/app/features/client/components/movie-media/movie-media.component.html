@@ -1,1 +1,80 @@
-<p>movie-media works!</p>
+<div class="media__header">
+  <h3>Media</h3>
+  <ul class="media__tabs">
+    <li
+      class="media__tab"
+      [style.border-bottom]="activeTab === 'videos' ? '2px solid black' : ''"
+      (click)="changeTab('videos')"
+    >
+      Videos <span>{{ videos.results.length }}</span>
+    </li>
+    <li
+      class="media__tab"
+      [style.border-bottom]="activeTab === 'backdrops' ? '2px solid black' : ''"
+      (click)="changeTab('backdrops')"
+    >
+      Backdrops <span>{{ images.backdrops.length }}</span>
+    </li>
+    <li
+      class="media__tab"
+      [style.border-bottom]="activeTab === 'posters' ? '2px solid black' : ''"
+      (click)="changeTab('posters')"
+    >
+      Posters <span>{{ images.posters.length }}</span>
+    </li>
+  </ul>
+</div>
+<div class="media__body">
+  <app-slider [items]="items" [itemGap]="'0px'" [itemMgnBt]="'0'">
+    <ng-template #cardTemplate let-item>
+      <ng-container [ngSwitch]="activeTab">
+        <div
+          (click)="playTrailer(item.key)"
+          class="video-item"
+          *ngSwitchCase="'videos'"
+        >
+          <img
+            *ngIf="item.site === 'YouTube'"
+            [src]="getVideoThumbnail(item)"
+            [alt]="item.name"
+          />
+          <div class="video-item__play">
+            <img src="/assets/icons/play-solid-full.svg" alt="play" />
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'backdrops'">
+          <img [src]="urlBacdrop + item.file_path" [alt]="item.name" />
+        </div>
+        <div *ngSwitchCase="'posters'">
+          <img [src]="urlPoster + item.file_path" [alt]="item.name" />
+        </div>
+      </ng-container>
+    </ng-template>
+    <a [href]="viewMore()" target="_blank">
+      <div class="see-all">
+        <h1>View More</h1>
+        <img src="/assets/icons/back.png" alt="back" />
+      </div>
+    </a>
+  </app-slider>
+</div>
+
+<!-- Popup hiển thị trailer -->
+<div
+  class="trailer-overlay"
+  *ngIf="selectedTrailerKey"
+  (click)="closeTrailer()"
+>
+  <div class="trailer-container" (click)="$event.stopPropagation()">
+    <iframe
+      width="100%"
+      height="100%"
+      [src]="getSafeTrailerUrl()"
+      title="Trailer"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+    <button class="trailer-close" (click)="closeTrailer()">✖</button>
+  </div>
+</div>

@@ -1,7 +1,36 @@
 <h1>Current Season</h1>
 <div class="card">
-  <div class="card__img"><img [src]="imgUrl + season.poster_path" [alt]="season.name"></div>
+  <div class="card__img"><img [src]="poster" [alt]="season.name" /></div>
   <div class="card__content">
-    <h1 class="card__title"><a [routerLink]="['/']">{{ season.name }}</a></h1>
+    <h1 class="card__title">
+      <a [routerLink]="['/']">{{ season.name }}</a>
+    </h1>
+    <div class="card__info">
+      <span class="card__score"
+        ><img src="/assets/icons/star.png" alt="star" />
+        {{ season.vote_average | score }}%</span
+      >
+      <span class="card__year">{{ season.air_date | date : "yyyy" }}</span>
+      &bull;<span class="card__episodes"
+        >{{ season.episode_count }} Episodes</span
+      >
+    </div>
+    <div *ngIf="!season.overview" class="card__overview">
+      {{ season.name }} of {{ nameShow }} on
+      {{ season.air_date | date : "MMMM d, y" }}.
+    </div>
+    <div *ngIf="season.overview" class="card__overview">
+      {{ season.overview }}
+    </div>
+    <div class="card__info">
+      <img src="/assets/icons/calendar.png" alt="star" />
+      <span *ngIf="!nextEpisodeToAir" class="card__calendar"> Episodes {{ season.episode_count }}</span>
+      <span *ngIf="nextEpisodeToAir" class="card__calendar"> {{ nextEpisodeToAir.name }} </span>
+      <span *ngIf="!nextEpisodeToAir" class="card__calendar" class="card__final"> Season Final</span>
+      <span *ngIf="nextEpisodeToAir" class="card__date"> ( {{ nextEpisodeToAir.air_date | date: 'MMMM d, y'}} )</span>
+      <span *ngIf="nextEpisodeToAir" class="card__final"> Lastest Episode</span>
+    </div>
   </div>
 </div>
+
+<h1 class="view-all">View All Season</h1>
