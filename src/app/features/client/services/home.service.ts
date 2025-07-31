@@ -51,13 +51,4 @@ export class HomeService {
       `${this.baseurl}/trending/tv/${timeWindow}?language=${language}`
     );
   }
-
-  getPopularPerson(
-    page: number = 1,
-    language: string = 'en-US'
-  ): Observable<Response<TrendingPerson>> {
-    return this.http.get<Response<TrendingPerson>>(
-      `${this.baseurl}/person/popular?language=${language}&page=${page}`
-    );
-  }
 }

@@ -237,3 +237,31 @@ export interface MediaImagesResponse {
   logos: MediaImage[];
   posters: MediaImage[];
 }
+
+export interface RecommendationResponse {
+  page: number;
+  results: Recommendation[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface Recommendation {
+  adult: boolean;
+  backdrop_path: string | null;
+  id: number;
+  title?: string; // Movie
+  name?: string; // TV show
+  original_title?: string;
+  original_name?: string;
+  overview: string;
+  poster_path: string | null;
+  media_type: 'movie' | 'tv';
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date?: string; // Movie
+  first_air_date?: string; // TV show
+  video?: boolean;
+  vote_average: number;
+  vote_count: number;
+}

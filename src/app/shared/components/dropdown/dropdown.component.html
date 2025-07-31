@@ -1,14 +1,13 @@
-<div
+<ul
   class="dropdown"
-  *ngIf="visible"
+  *ngIf="(state$ | async) as state"
   [ngStyle]="{
-    top: position.top + 'px',
-    left: position.left + 'px'
+    top: state.position.top - 15 + 'px',
+    left: state.position.left + 'px',
+    display: state.visible ? 'block' : 'none'
   }"
 >
-  <ul class="dropdown__list">
-    <li *ngFor="let item of items">
-      <a [routerLink]="item.link">{{ item.label }}</a>
-    </li>
-  </ul>
-</div>
+  <li *ngFor="let item of state.items" (click)="onItemClick(item)">
+    {{ item.label }}
+  </li>
+</ul>

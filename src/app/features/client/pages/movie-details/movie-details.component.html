@@ -10,7 +10,7 @@
     <app-crr-tv-season [nextEpisodeToAir]="nextEpisode" [nameShow]="name" [season]="lastSeason" *ngIf="type === 'tv'"></app-crr-tv-season>
     <app-movie-social [reviews]="reviews"></app-movie-social>
     <app-movie-media [id]="details.id" [type]="type" [videos]="videos" [images]="images"></app-movie-media>
-    <app-movie-recommendations></app-movie-recommendations>
+    <app-movie-recommendations [recomendations]="recommendations" (go)="load($event)"></app-movie-recommendations>
   </div>
   <div class="col">
     <app-movie-aside [details]="details" [keywords]="keywords"></app-movie-aside>

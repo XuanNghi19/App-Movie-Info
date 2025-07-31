@@ -1,0 +1,33 @@
+<div class="details" *ngIf="details">
+  <div class="col details__info">
+    <img [src]="img" alt="" />
+    <div class="details__infos">
+      <h1>Personal Info</h1>
+
+      <h3>Known For</h3>
+      <p>{{ details.known_for_department }}</p>
+
+      <h3>Known Credits</h3>
+      <p>{{ knowCredits }}</p>
+
+      <h3>Gender</h3>
+      <p>{{ details.gender | gendar }}</p>
+
+      <h3>Birthday</h3>
+      <p>
+        {{ details.birthday | date : "MMMM d, y" }} ({{
+          details.birthday | age
+        }} years old)
+      </p>
+
+      <h3>Place of Birth</h3>
+      <p>{{ details.place_of_birth }}</p>
+
+      <h3>Also Known As</h3>
+      <p *ngFor="let knowAs of details.also_known_as">{{ knowAs }}</p>
+    </div>
+  </div>
+  <div class="col details__media">
+    <h1>{{ details.name }}</h1>
+  </div>
+</div>

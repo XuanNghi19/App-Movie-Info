@@ -4,6 +4,8 @@ import { ClientLayoutComponent } from './client-layout/client-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 import { MovieCreditsComponent } from './pages/movie-credits/movie-credits.component';
+import { PopularPeopleComponent } from './pages/popular-people/popular-people.component';
+import { PeopleDetailsComponent } from './pages/people-details/people-details.component';
 
 const routes: Routes = [
   {
@@ -19,12 +21,16 @@ const routes: Routes = [
         component: MovieDetailsComponent,
       },
       {
-        path: 'home',
-        component: HomeComponent,
-      },
-      {
         path: 'movie-details/full-credits/:type/:id',
         component: MovieCreditsComponent,
+      },
+      {
+        path: 'people/popular-people',
+        component: PopularPeopleComponent,
+      },
+      {
+        path: 'people/details/:id',
+        component: PeopleDetailsComponent,
       },
     ],
   },

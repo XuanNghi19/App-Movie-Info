@@ -1,8 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
-import { TrendingMovie, TrendingPerson, TVShow, UpcomingMovie } from '../../types/home';
-import { BASE_IMG_URL_138_175, BASE_IMG_URL_335_200 } from 'src/app/core/utils/constants';
-import { timeoutWith } from 'rxjs';
+import {
+  TrendingMovie,
+  TrendingPerson,
+  TVShow,
+  UpcomingMovie,
+} from '../../types/home';
+import {
+  BASE_IMG_URL_138_175,
+  BASE_IMG_URL_335_200,
+} from 'src/app/core/utils/constants';
+import { finalize, forkJoin, timeoutWith } from 'rxjs';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { PeopleService } from '../../services/people.service';
 
 @Component({
   selector: 'app-home',
@@ -19,13 +29,10 @@ export class HomeComponent implements OnInit {
   popularTvShowList: TVShow[] = [];
   popularPepleList: TrendingPerson[] = [];
 
-  constructor(private homeService: HomeService) {}
+  constructor(private homeService: HomeService, private loadingService: LoadingService, private peopleServie: PeopleService) {}
 
   ngOnInit(): void {
-    this.onTrendingTabChange();
-    this.onLastestTrailers();
-    this.onPopularTvShowList();
-    this.onPopularPeople();
+    this.loadAllHomeData();
   }
 
   onTrendingTabChange = (tab: string = 'day') => {
@@ -52,12 +59,37 @@ export class HomeComponent implements OnInit {
         this.popularTvShowList = res.results;
       },
     });
-  }
+  };
 
   onPopularPeople() {
-    this.homeService.getPopularPerson().subscribe({
+    this.peopleServie.getPopularPerson().subscribe({
       next: (res) => {
         this.popularPepleList = res.results;
+      },
+    });
+  }
+
+  loadAllHomeData() {
+    this.loadingService.show();
+    forkJoin({
+      trendingMovies: this.homeService.getTrendingMovies(
+        this.trendingTab || 'day',
+        'vi'
+      ),
+      latestTrailers: this.homeService.getLatestTrailer(),
+      popularTvShows: this.homeService.getPopularTvShow(
+        this.tvTrendingTab || 'day'
+      ),
+      popularPeople: this.peopleServie.getPopularPerson(),
+    }).pipe(finalize(() => this.loadingService.hide())).subscribe({
+      next: (res) => {
+        this.movieList = res.trendingMovies.results;
+        this.trailerList = res.latestTrailers.results;
+        this.popularTvShowList = res.popularTvShows.results;
+        this.popularPepleList = res.popularPeople.results;
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra khi load dữ liệu:', err);
       },
     });
   }

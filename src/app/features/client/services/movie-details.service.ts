@@ -10,6 +10,8 @@ import {
   ReviewsResponse,
   VideoResponse,
   MediaImagesResponse,
+  Recommendation,
+  RecommendationResponse,
 } from '../types/movie-details';
 import { Observable, ObservableLike } from 'rxjs';
 
@@ -21,14 +23,8 @@ export class MovieDetailsService {
 
   constructor(private http: HttpClient) {}
 
-  getMovieDetails(id: number): Observable<MovieDetails> {
-    return this.http.get<MovieDetails>(
-      `${this.baseurl}/movie/${id}?language=en-US`
-    );
-  }
-
-  getTvDetails(id: number): Observable<TvDetails> {
-    return this.http.get<TvDetails>(`${this.baseurl}/tv/${id}?language=en-US`);
+  getTvDetails(id: number, type: string = 'movie'): Observable<TvDetails | MovieDetails> {
+    return this.http.get<TvDetails | MovieDetails>(`${this.baseurl}/${type}/${id}?language=en-US`);
   }
 
   getCredits(id: number, type: string = 'movie'): Observable<Credits> {
@@ -55,13 +51,18 @@ export class MovieDetailsService {
     );
   }
 
-  getImages(id: number, type: string = 'movie'): Observable<MediaImagesResponse> {
+  getImages(
+    id: number,
+    type: string = 'movie'
+  ): Observable<MediaImagesResponse> {
     return this.http.get<MediaImagesResponse>(
       `${this.baseurl}/${type}/${id}/images`
     );
   }
 
-  getRecommendations(id: number, type: string = 'movie') {
-    
+  getRecommendations(id: number, type: string = 'movie', language: string = 'vi-VN'): Observable<RecommendationResponse>  {
+    return this.http.get<RecommendationResponse>(
+      `${this.baseurl}/${type}/${id}/recommendations?language=${language}&page=1`
+    );
   }
 }

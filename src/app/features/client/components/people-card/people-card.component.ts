@@ -9,12 +9,14 @@ import { BASE_IMG_URL_220_330 } from 'src/app/core/utils/constants';
   styleUrls: ['./people-card.component.scss'],
 })
 export class PeopleCardComponent implements OnInit {
-  public readonly defaultImg = '../../../../../assets/icons/unknow_img.svg';
+  public readonly defaultImg = '/assets/icons/unknow_img.svg';
 
   @Input() item!: any;
   @Input() imgBaseUrl = BASE_IMG_URL_220_330;
   @Input() hasPopularity: boolean = false;
   @Input() hasCharater: boolean = false;
+  @Input() hasKnow: boolean = false;
+  @Input() knowFor: string = '';
   @Input() action!: string;
   @Input() wImg: string = '220px';
   @Input() hImg: string = '330px';
@@ -23,9 +25,7 @@ export class PeopleCardComponent implements OnInit {
   @Input() fontSize: string = '16px';
   @Input() imgFlex: number = 1;
 
-  selectedTrailerKey: string | null = null;
-
-  constructor(private homeService: HomeService, private router: Router) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -42,7 +42,7 @@ export class PeopleCardComponent implements OnInit {
   }
 
   goToPepleDetails(id: number): void {
-    this.router.navigate([`/`]);
+    this.router.navigate([`client/people/details/${id}`]);
   }
 
   getImageSrc(): string {

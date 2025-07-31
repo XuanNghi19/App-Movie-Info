@@ -10,6 +10,7 @@ import {
   ReviewsResponse,
   VideoResponse,
   MediaImagesResponse,
+  RecommendationResponse,
 } from '../../types/movie-details';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/core/services/loading.service';
@@ -33,6 +34,7 @@ export class MovieDetailsComponent implements OnInit {
   public reviews!: ReviewsResponse;
   public videos!: VideoResponse;
   public images!: MediaImagesResponse;
+  public recommendations!: RecommendationResponse;
 
   constructor(
     private movieDetailsService: MovieDetailsService,
@@ -41,36 +43,28 @@ export class MovieDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadingService.show();
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.type = this.route.snapshot.paramMap.get('type') ?? 'movie';
+    console.log(this.type);
+    this.load({ id: id, type: this.type });
+  }
 
-    let request$: Observable<any>;
+  load(info: { id: number; type: string }) {
+    this.loadingService.show();
 
-    switch (this.type) {
-      case 'tv':
-        request$ = forkJoin({
-          details: this.movieDetailsService.getTvDetails(id),
-          credits: this.movieDetailsService.getCredits(id, this.type),
-          keywords: this.movieDetailsService.getKeywords(id, 'tv'),
-          reviews: this.movieDetailsService.getReviews(id, 'tv'),
-          videos: this.movieDetailsService.getVideos(id, 'tv'),
-          images: this.movieDetailsService.getImages(id, 'tv'),
-        });
-        break;
-      case 'movie':
-        request$ = forkJoin({
-          details: this.movieDetailsService.getMovieDetails(id),
-          credits: this.movieDetailsService.getCredits(id, this.type),
-          keywords: this.movieDetailsService.getKeywords(id, 'movie'),
-          reviews: this.movieDetailsService.getReviews(id, 'movie'),
-          videos: this.movieDetailsService.getVideos(id, 'movie'),
-          images: this.movieDetailsService.getImages(id, 'movie'),
-        });
-        break;
-      default:
-        return;
-    }
+    let request$ = forkJoin({
+      details: this.movieDetailsService.getTvDetails(info.id, this.type),
+      credits: this.movieDetailsService.getCredits(info.id, this.type),
+      keywords: this.movieDetailsService.getKeywords(info.id, this.type),
+      reviews: this.movieDetailsService.getReviews(info.id, this.type),
+      videos: this.movieDetailsService.getVideos(info.id, this.type),
+      images: this.movieDetailsService.getImages(info.id, this.type),
+      recommendations: this.movieDetailsService.getRecommendations(
+        info.id,
+        this.type
+      ),
+    });
+
     request$.pipe(finalize(() => this.loadingService.hide())).subscribe({
       next: (res) => {
         this.details = res.details;
@@ -79,6 +73,7 @@ export class MovieDetailsComponent implements OnInit {
         this.reviews = res.reviews;
         this.videos = res.videos;
         this.images = res.images;
+        this.recommendations = res.recommendations;
         if (this.type === 'movie') {
           this.keywords = res.keywords.keywords;
         } else if (this.type === 'tv') {
@@ -89,6 +84,8 @@ export class MovieDetailsComponent implements OnInit {
         console.error(err);
       },
     });
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   get lastSeason(): Season {

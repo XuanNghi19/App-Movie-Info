@@ -4,22 +4,21 @@
   background: linear-gradient(135deg, #90d3ae, #636dce);
   display: flex;
   justify-content: center;
-}
 
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in-out forwards;
+  transition: all 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
 .info {
   position: relative;
   display: flex;
   justify-content: start;
   width: 1380px;
-
-  // &__overlay {
-  //   width: 100%;
-  //   content: "";
-  //   position: absolute;
-  //   inset: 0;
-  //   background: linear-gradient(135deg, #b3ffd583, #c8cdf777);
-  //   z-index: 1;
-  // }
 
   &__body {
     z-index: 2;

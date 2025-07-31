@@ -36,6 +36,7 @@ export class MovieMediaComponent implements OnInit {
 
   ngOnInit(): void {
     this.changeTab();
+    console.log(this.items);
   }
 
   changeTab(tab: 'videos' | 'backdrops' | 'posters' = 'videos') {

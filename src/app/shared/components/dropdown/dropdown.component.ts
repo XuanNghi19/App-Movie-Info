@@ -1,25 +1,33 @@
-import { Component, Input, OnInit, Output, EventEmitter, Host, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  Host,
+  HostListener,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { DropdownService } from 'src/app/core/services/dropdown.service';
+import { DropdownItem } from '../../types/dropdown';
 
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss']
+  styleUrls: ['./dropdown.component.scss'],
 })
 export class DropdownComponent implements OnInit {
+  ngOnInit(): void {}
 
-  @Input() items: Array<{ label: string, link: string }> = [];
-  @Input() position: { top: number; left: number } = { top: 0, left: 0 };
-  @Input() visible: boolean = false;
+  state$ = this.dropdownService.state$;
 
-  @Output() dropdownLeave = new EventEmitter<void>(); 
+  constructor(
+    private dropdownService: DropdownService,
+    private router: Router
+  ) {}
 
-  @HostListener('mouseleave') onLeave() {
-    this.dropdownLeave.emit();
+  onItemClick(item: DropdownItem) {
+    this.router.navigate([item.route]);
+    this.dropdownService.hide();
   }
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

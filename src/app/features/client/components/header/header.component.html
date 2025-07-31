@@ -4,13 +4,34 @@
       <div [class]="'header__logo'" [routerLink]="['/']">
         <img src="../../../../assets/images/logo.svg" alt="Logo" />
       </div>
-      <nav [class]="'header__nav'">
-        <ul [class]="'header__list-items'">
-          <li #movies [class]="'header__item'">Movies</li>
-          <li #tvShows [class]="'header__item'">TV Shows</li>
-          <li #people [class]="'header__item'">People</li>
-          <li #more [class]="'header__item'">More</li>
+      <nav [class]="'header__nav'" (mouseleave)="onDropdownHide()">
+        <ul class="header__list-items">
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'movies')"
+          >
+            Movies
+          </li>
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'tv')"
+          >
+            TV Shows
+          </li>
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'people')"
+          >
+            People
+          </li>
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'more')"
+          >
+            More
+          </li>
         </ul>
+        <app-dropdown></app-dropdown>
       </nav>
     </div>
 
@@ -25,22 +46,5 @@
         <img src="../../../../assets/icons/search.svg" alt="search" />
       </button>
     </div>
-
-    <button
-      class="btn-icon header__menu"
-      (click)="toggleDropdown()"
-      [class.rotate]="isDropdownOpen"
-    >
-      <img src="../../../../assets/icons/dropdown.svg" alt="menu" />
-    </button>
   </section>
-
-  <nav class="dropdown" [class.dropdown--open]="isDropdownOpen">
-    <ul class="dropdown__list">
-      <li class="dropdown__item" (click)="toggleDropdown()">Movies</li>
-      <li class="dropdown__item" (click)="toggleDropdown()">TV Shows</li>
-      <li class="dropdown__item" (click)="toggleDropdown()">People</li>
-      <li class="dropdown__item" (click)="toggleDropdown()">More</li>
-    </ul>
-  </nav>
 </header>

@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { components } from './components';
 import { CarouselModule } from "primeng/carousel";
 import { pages } from './pages';
+import { PeopleDetailsComponent } from './pages/people-details/people-details.component';
 
 @NgModule({
   declarations: [

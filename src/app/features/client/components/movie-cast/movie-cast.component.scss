@@ -1,7 +1,15 @@
 :host {
   max-width: 1050px;
-}
 
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in-out forwards;
+  transition: all 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
 .cast {
   display: flex;
   flex-direction: column;
