@@ -1,0 +1,19 @@
+<div class="credit-item">
+  <div class="credit-item__year">{{ year }}</div>
+
+  <div class="credit-item__info">
+    <div class="credit-item__title">
+      {{ title }}
+      <span
+        class="credit-item__episodes"
+        *ngIf="episodeCount"
+      >
+        ({{ episodeCount }} episode{{ episodeCount > 1 ? 's' : '' }})
+      </span>
+    </div>
+
+    <div class="credit-item__character" *ngIf="character">
+      as {{ character }}
+    </div>
+  </div>
+</div>

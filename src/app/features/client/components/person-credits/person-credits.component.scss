@@ -1,0 +1,40 @@
+.credit-item {
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 12px;
+
+  &:hover {
+    background-color: rgba(216, 216, 216, 0.425);
+  }
+
+  &__year {
+    width: 60px;
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #222;
+  }
+
+  &__info {
+    flex-grow: 1;
+  }
+
+  &__title {
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 2px;
+    line-height: 1.4;
+
+    .credit-item__episodes {
+      font-weight: normal;
+      color: #666;
+      margin-left: 4px;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__character {
+    font-size: 0.875rem;
+    color: #555;
+  }
+}

@@ -11,6 +11,7 @@ import { MovieMediaComponent } from './movie-media/movie-media.component';
 import { MovieRecommendationsComponent } from './movie-recommendations/movie-recommendations.component';
 import { MovieSocialComponent } from './movie-social/movie-social.component';
 import { PeopleCardComponent } from './people-card/people-card.component';
+import { PersonCreditsComponent } from './person-credits/person-credits.component';
 import { SliderComponent } from './slider/slider.component';
 
 export const components = [
@@ -27,5 +28,6 @@ export const components = [
   MovieAsideComponent,
   MovieCardComponent,
   PeopleCardComponent,
-  CrrTvSeasonComponent
+  CrrTvSeasonComponent,
+  PersonCreditsComponent,
 ];

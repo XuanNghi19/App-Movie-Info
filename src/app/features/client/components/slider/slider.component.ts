@@ -3,16 +3,13 @@ import {
   Component,
   ContentChild,
   ElementRef,
+  HostBinding,
   Input,
   OnInit,
   Renderer2,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { BASE_IMG_URL_220_330 } from 'src/app/core/utils/constants';
-import { HomeService } from '../../services/home.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-slider',
@@ -20,7 +17,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./slider.component.scss'],
 })
 export class SliderComponent implements OnInit, AfterViewInit {
-
   @Input() bgImg: string = '';
   @Input() color: string = 'black';
   @Input() title: string = '';
@@ -33,6 +29,11 @@ export class SliderComponent implements OnInit, AfterViewInit {
   @Input() itemMgnBt: string = '16px';
   @Input() mgnTop: string = '16px';
 
+  @Input() alignItems: string = 'center';
+
+  @HostBinding('style.align-items') get hostAlignItems() {
+    return this.alignItems;
+  }
 
   @ViewChild('slider') sliderRef!: ElementRef;
   @ContentChild('cardTemplate') cardTemplate!: TemplateRef<any>;

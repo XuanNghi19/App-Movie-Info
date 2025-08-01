@@ -1,4 +1,4 @@
-<div #slider class="slider" [style]="{ width: maxWidth, 'margin-top': mgnTop}">
+<div #slider class="slider" [style]="{ width: maxWidth, 'margin-top': mgnTop, 'align-items': alignItems}">
   <div *ngIf="title" class="slider__header">
     <h2 [style.color]="color">{{ title }}</h2>
     <div class="slider__tabs" *ngIf="tabs.length > 0">

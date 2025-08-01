@@ -80,7 +80,7 @@ export class MovieCardComponent implements OnInit {
 
   getImageSrc(): string {
     if (!this.item) return this.defaultImg;
-
+    
     let path = this.item?.poster_path || this.item?.profile_path;
     if (this.hasPlay) path = this.item?.backdrop_path;
     return path ? this.imgBaseUrl + path : this.defaultImg;

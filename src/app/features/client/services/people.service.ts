@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Response, TrendingPerson } from '../types/home';
 import { environment } from 'src/environments/environment';
-import { Credits } from '../types/movie-details';
-import { PersonDetail } from '../types/people';
+import { CombinedCredits, PersonDetail } from '../types/people';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +22,8 @@ export class PeopleService {
     );
   }
 
-  getCombinedCredits(id: number): Observable<Credits> {
-    return this.http.get<Credits>(
+  getCombinedCredits(id: number): Observable<CombinedCredits> {
+    return this.http.get<CombinedCredits>(
       `${this.baseurl}/person/${id}/combined_credits?language=en-US`
     );
   }

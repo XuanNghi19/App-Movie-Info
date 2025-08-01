@@ -133,7 +133,7 @@ export interface CastMember {
   known_for_department: string;
   name: string;
   original_name: string;
-  popularity: number;
+  popularity: number; 
   profile_path: string | null;
   cast_id?: number; // sometimes present
   character: string;
