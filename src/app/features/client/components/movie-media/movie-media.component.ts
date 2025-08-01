@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   MediaImagesResponse,
   VideoResponse,
@@ -16,11 +16,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './movie-media.component.html',
   styleUrls: ['./movie-media.component.scss'],
 })
-export class MovieMediaComponent implements OnInit {
+export class MovieMediaComponent implements OnInit, OnChanges {
   @Input() videos!: VideoResponse;
   @Input() images!: MediaImagesResponse;
   @Input() type: string = 'movie';
   @Input() id!: number;
+
+  videoData: any[] = [];
+  backdropDat: any[] = [];
+  posterData: any[] = [];
 
   public readonly urlVieo = BASE_IMG_URL_335_200;
   public readonly urlBacdrop = BACK_DROP;
@@ -30,13 +34,18 @@ export class MovieMediaComponent implements OnInit {
   activeTab: 'videos' | 'backdrops' | 'posters' = 'videos';
   safeTrailerUrl: SafeResourceUrl | null = null;
   selectedTrailerKey: string | null = null;
-  
 
   constructor(private sanitizer: DomSanitizer) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.changeTab('videos');
+  }
+
   ngOnInit(): void {
     this.changeTab();
-    console.log(this.items);
+    this.videoData = this.videos.results;
+    this.backdropDat = this.images.backdrops;
+    this.posterData = this.images.posters;
   }
 
   changeTab(tab: 'videos' | 'backdrops' | 'posters' = 'videos') {
@@ -53,6 +62,9 @@ export class MovieMediaComponent implements OnInit {
         break;
     }
   }
+
+
+
   getVideoThumbnail(video: VideoResult): string {
     if (video.site === 'YouTube') {
       return `https://img.youtube.com/vi/${video.key}/hqdefault.jpg`;
@@ -79,5 +91,16 @@ export class MovieMediaComponent implements OnInit {
 
   viewMore(): string {
     return `https://www.themoviedb.org/${this.type}/${this.id}/${this.activeTab}`;
+  }
+
+  getDirectionCard(): boolean {
+    switch (this.activeTab) {
+      case 'videos':
+        return this.videoData.length > 11;
+      case 'backdrops':
+        return this.backdropDat.length > 11;
+      case 'posters':
+        return this.posterData.length > 11;
+    }
   }
 }

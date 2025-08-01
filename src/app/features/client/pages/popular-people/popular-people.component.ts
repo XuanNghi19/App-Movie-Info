@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PeopleService } from '../../services/people.service';
 import { Response, TrendingPerson } from '../../types/home';
-import { finalize } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
 
 @Component({
@@ -25,6 +25,7 @@ export class PopularPeopleComponent implements OnInit {
   }
 
   loadPage(page: number) {
+    window.scrollTo({top: 0, behavior: 'smooth'})
     this.loadingService.show();
     this.peopleService
       .getPopularPerson(page)

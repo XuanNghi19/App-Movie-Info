@@ -58,6 +58,12 @@
     }
   }
 
+  &__biography {
+    h3 {
+      margin: 0;
+    }
+  }
+
   &__paragraph {
     position: relative;
     max-height: none;
@@ -65,22 +71,25 @@
     transition: max-height 0.3s ease;
     z-index: 1;
   }
-  &__collapsed {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 6;
-    overflow: hidden;
 
-    line-clamp: 6;
-    box-orient: vertical;
+  &__collapsed {
+    max-height: 180px;
+    position: relative;
+    mask-image: linear-gradient(to right, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
   &__more {
+    background: linear-gradient(to left, white 30%, transparent 100%);
     position: absolute;
     z-index: 2;
     color: #0288d1;
     cursor: pointer;
     font-weight: 500;
     bottom: 0;
+    margin-bottom: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
     right: 0;
   }
 }

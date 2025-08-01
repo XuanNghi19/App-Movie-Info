@@ -33,12 +33,12 @@
 
     <div class="details__biography">
       <h3>Tiểu sử</h3>
-      <div class="details__paragraph" [class.details__collapsed]="!isExpanded">
+      <div class="details__paragraph" [class.details__collapsed]="showToggle && !isExpanded">
         <p *ngFor="let paragraph of biography">{{ paragraph }}</p>
       </div>
 
-      <div class="details__more" (click)="toggleReadMore()" *ngIf="showToggle">
-        {{ isExpanded ? "Ẩn bớt" : "Read More" }}
+      <div class="details__more" [class.hide]="isExpanded" (click)="toggleReadMore()" *ngIf="showToggle">
+        {{ "Read More" }}
       </div>
     </div>
   </div>

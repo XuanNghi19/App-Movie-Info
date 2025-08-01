@@ -45,7 +45,6 @@ export class MovieDetailsComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.type = this.route.snapshot.paramMap.get('type') ?? 'movie';
-    console.log(this.type);
     this.load({ id: id, type: this.type });
   }
 
@@ -85,7 +84,7 @@ export class MovieDetailsComponent implements OnInit {
       },
     });
 
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   get lastSeason(): Season {

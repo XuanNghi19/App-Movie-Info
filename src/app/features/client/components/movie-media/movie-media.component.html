@@ -53,8 +53,8 @@
     </ng-template>
     <a [href]="viewMore()" target="_blank">
       <div class="see-all">
-        <h1 *ngIf="items.length > 11">View More</h1>
-        <h1 *ngIf="items.length <= 11 ">Add Some</h1>
+        <h1 *ngIf="getDirectionCard()">View More</h1>
+        <h1 *ngIf="!getDirectionCard()">Add Some</h1>
         <img src="/assets/icons/back.png" alt="back" />
       </div>
     </a>
