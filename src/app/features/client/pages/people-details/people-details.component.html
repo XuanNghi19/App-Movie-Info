@@ -17,7 +17,8 @@
       <p>
         {{ details.birthday | date : "MMMM d, y" }} ({{
           details.birthday | age
-        }} years old)
+        }}
+        years old)
       </p>
 
       <h3>Place of Birth</h3>
@@ -29,5 +30,16 @@
   </div>
   <div class="col details__media">
     <h1>{{ details.name }}</h1>
+
+    <div class="details__biography">
+      <h3>Tiểu sử</h3>
+      <div class="details__paragraph" [class.details__collapsed]="!isExpanded">
+        <p *ngFor="let paragraph of biography">{{ paragraph }}</p>
+      </div>
+
+      <div class="details__more" (click)="toggleReadMore()" *ngIf="showToggle">
+        {{ isExpanded ? "Ẩn bớt" : "Read More" }}
+      </div>
+    </div>
   </div>
 </div>

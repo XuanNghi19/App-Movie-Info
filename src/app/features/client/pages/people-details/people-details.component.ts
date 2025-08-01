@@ -8,6 +8,7 @@ import {
   BASE_IMG_URL_300_450,
   DEFAULT_IMG,
 } from 'src/app/core/utils/constants';
+import { splitParagraphs } from 'src/app/core/utils/functions';
 
 @Component({
   selector: 'app-people-details',
@@ -20,6 +21,10 @@ export class PeopleDetailsComponent implements OnInit {
   details!: PersonDetail;
   knowCredits: number = 0;
   id!: number;
+
+  biography: string[] = [];
+  isExpanded: boolean = false;
+  showToggle: boolean = false;
 
   constructor(
     private peopleService: PeopleService,
@@ -42,6 +47,9 @@ export class PeopleDetailsComponent implements OnInit {
         let knowRes = res.knowCredits;
         this.knowCredits = knowRes.cast.length + knowRes.crew.length;
         this.details = res.details;
+
+        this.biography = splitParagraphs(this.details.biography);
+        this.checkNeedToggle();
       },
       error: (err) => {
         console.log(err);
@@ -53,5 +61,13 @@ export class PeopleDetailsComponent implements OnInit {
     return this.details.profile_path
       ? this.urlImg + this.details.profile_path
       : this.defltImg;
+  }
+
+  toggleReadMore() {
+    this.isExpanded = !this.isExpanded;
+  }
+
+  checkNeedToggle() {
+    this.showToggle = this.biography.length > 2;
   }
 }

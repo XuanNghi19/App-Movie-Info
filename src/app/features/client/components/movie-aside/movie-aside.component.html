@@ -14,9 +14,9 @@
     <h3 *ngIf="tvType">Type</h3>
     <p>{{ tvType }}</p>
     <h3 *ngIf="budget">Budget</h3>
-    <p>{{ budget | currency:'USD':'symbol':'1.2-2'}}</p>
+    <p *ngIf="budget">{{ budget | currency : "USD" : "symbol" : "1.2-2" }}</p>
     <h3 *ngIf="revenue">Revenue</h3>
-    <p>{{ revenue | currency:'USD':'symbol':'1.2-2'}}</p>
+    <p *ngIf="revenue">{{ revenue | currency : "USD" : "symbol" : "1.2-2" }}</p>
     <h3 *ngIf="originalLanguage">Origin Language</h3>
     <p>{{ originalLanguage }}</p>
   </div>

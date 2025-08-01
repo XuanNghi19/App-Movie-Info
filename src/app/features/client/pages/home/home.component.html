@@ -12,6 +12,7 @@
   [activeTab]="trendingTab"
   [items]="movieList"
   [onTabChange]="onTrendingTabChange"
+  [mgnTop]="'24px'"
 >
   <ng-template #cardTemplate let-item>
     <app-movie-card
@@ -28,6 +29,7 @@
     [title]="'Latest Trailers'"
     [items]="trailerList"
     [color]="'white'"
+    [mgnTop]="'24px'"
   >
     <ng-template #cardTemplate let-item>
       <app-movie-card
@@ -50,6 +52,7 @@
   [onTabChange]="onPopularTvShowList"
   [title]="'Popular TvShow'"
   [items]="popularTvShowList"
+  [mgnTop]="'24px'"
 >
   <ng-template #cardTemplate let-item>
     <app-movie-card
@@ -67,6 +70,7 @@
     [color]="'white'"
     [title]="'Popular People'"
     [items]="popularPepleList"
+    [mgnTop]="'24px'"
   >
     <ng-template #cardTemplate let-item>
       <app-people-card

@@ -31,6 +31,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
   @Input() maxWidth: string = '100%';
   @Input() itemGap: string = '16px';
   @Input() itemMgnBt: string = '16px';
+  @Input() mgnTop: string = '16px';
 
 
   @ViewChild('slider') sliderRef!: ElementRef;
