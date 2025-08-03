@@ -1,13 +1,18 @@
-<div [style.max-width]="wImg" class="movie-card">
+<div
+  #movieCard
+  [style.max-width]="wImg"
+  class="movie-card"
+  (click)="onPosterClick()"
+>
   <div
     [style]="{
       width: wImg,
       height: hImg
     }"
     class="movie-card__poster"
-    (click)="onPosterClick()"
   >
     <img
+      class="movie-card__image"
       [style]="{
         width: wImg,
         height: hImg
@@ -20,10 +25,7 @@
       <span>%</span>
     </div>
     <div *ngIf="hasPlay" class="movie-card__play">
-      <img
-        src="../../../../../assets/icons/play-solid-full.svg"
-        alt="play"
-      />
+      <img src="../../../../../assets/icons/play-solid-full.svg" alt="play" />
     </div>
   </div>
   <div [style.color]="colorTitle" class="movie-card__title">
@@ -32,6 +34,36 @@
   <div [style.color]="colorDate" class="movie-card__date">
     {{ getReleaseDate() | date : "MMM dd, yyyy" }}
   </div>
+</div>
+
+<img
+  class="movie-card__more"
+  (mouseenter)="onMoreEnter()"
+  (mouseleave)="onMoreLeave()"
+  (click)="onMoreClick()"
+  *ngIf="hasMore"
+  [src]="crrMore"
+  alt="more"
+/>
+<div class="action-menu" *ngIf="isMoreVisible()">
+  <ul class="action-menu__list">
+    <li class="action-menu__item" (click)="onItemMoreClick('list')">
+      <i [class]="getIconClass('list')"></i>
+      <span class="action-menu__label">Add to list</span>
+    </li>
+    <li class="action-menu__item" (click)="onItemMoreClick('heart')">
+      <i [class]="getIconClass('heart')"></i>
+      <span class="action-menu__label">Favorite</span>
+    </li>
+    <li class="action-menu__item" (click)="onItemMoreClick('bookmark')">
+      <i [class]="getIconClass('bookmark')"></i>
+      <span class="action-menu__label">Watchlist</span>
+    </li>
+    <li class="action-menu__item" (click)="onItemMoreClick('star')">
+      <i [class]="getIconClass('star')"></i>
+      <span class="action-menu__label">Your rating</span>
+    </li>
+  </ul>
 </div>
 
 <!-- Popup hiển thị trailer -->

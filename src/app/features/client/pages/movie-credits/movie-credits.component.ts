@@ -71,6 +71,6 @@ export class MovieCreditsComponent implements OnInit {
   }
 
   peopleDetails(id: number) {
-    this.router.navigate(['/']);
+    this.router.navigate([`client/people/details/${id}`]);
   }
 }

@@ -1,5 +1,6 @@
 :host {
   max-height: max-content;
+  position: relative;
 }
 
 .movie-card {
@@ -13,7 +14,7 @@
     overflow: hidden;
     border-radius: 8px;
 
-    img {
+    &__image {
       width: 220px;
       height: 330px;
       border-radius: 8px;
@@ -30,10 +31,17 @@
       background: rgba(0, 0, 0, 0.062);
       z-index: 1;
     }
+  }
 
-    &:hover img {
-      transform: scale(1.05);
-    }
+  &__more {
+    z-index: 100;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
   }
 
   &__score {
@@ -121,4 +129,82 @@
   font-size: 24px;
   color: white;
   cursor: pointer;
+}
+
+.action-menu {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 8px 0;
+  width: 160px;
+  font-family: sans-serif;
+  top: 38px;
+  right: 0;
+  position: absolute;
+  z-index: 1000;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:hover {
+      background-color: #c0c0c0;
+    }
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+
+ &--list {
+    background-image: url('/assets/icons/list.png');
+  }
+
+  &--heart {
+    background-image: url('/assets/icons/heart.png');
+  }
+
+  &--bookmark {
+    background-image: url('/assets/icons/bookmark.png');
+  }
+
+  &--star {
+    background-image: url('/assets/icons/star.png');
+  }
+
+  &--selected.action-menu__icon--list {
+    background-image: url('/assets/icons/list-active.png');
+  }
+
+  &--selected.action-menu__icon--heart {
+    background-image: url('/assets/icons/heart-active.png');
+  }
+
+  &--selected.action-menu__icon--bookmark {
+    background-image: url('/assets/icons/bookmark-active.png');
+  }
+
+  &--selected.action-menu__icon--star {
+    background-image: url('/assets/icons/star-active.png');
+  }
+  }
+
+  &__label {
+    font-size: 14px;
+    color: #333;
+  }
 }

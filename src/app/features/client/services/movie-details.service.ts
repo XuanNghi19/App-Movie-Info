@@ -60,7 +60,7 @@ export class MovieDetailsService {
     );
   }
 
-  getRecommendations(id: number, type: string = 'movie', language: string = 'vi-VN'): Observable<RecommendationResponse>  {
+  getRecommendations(id: number, type: string = 'movie', language: string = 'en-US'): Observable<RecommendationResponse>  {
     return this.http.get<RecommendationResponse>(
       `${this.baseurl}/${type}/${id}/recommendations?language=${language}&page=1`
     );

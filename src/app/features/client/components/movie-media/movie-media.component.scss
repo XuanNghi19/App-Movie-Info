@@ -153,15 +153,16 @@ a {
   img {
     width: 32px;
     height: auto;
-    transform: rotate(180deg);
+    opacity: 0;
   }
 
   &:hover {
-    background-color: rgba(53, 53, 53, 0.486);
-    color: white;
-
     h1 {
-      color: white;
+      color: rgba(42, 39, 255, 0.76);
+    }
+
+    img {
+      opacity: 1;
     }
   }
 }

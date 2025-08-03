@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import {
   MediaImagesResponse,
   VideoResponse,
@@ -15,16 +15,13 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   selector: 'app-movie-media',
   templateUrl: './movie-media.component.html',
   styleUrls: ['./movie-media.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieMediaComponent implements OnInit, OnChanges {
   @Input() videos!: VideoResponse;
   @Input() images!: MediaImagesResponse;
   @Input() type: string = 'movie';
   @Input() id!: number;
-
-  videoData: any[] = [];
-  backdropDat: any[] = [];
-  posterData: any[] = [];
 
   public readonly urlVieo = BASE_IMG_URL_335_200;
   public readonly urlBacdrop = BACK_DROP;
@@ -43,10 +40,9 @@ export class MovieMediaComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.changeTab();
-    this.videoData = this.videos.results;
-    this.backdropDat = this.images.backdrops;
-    this.posterData = this.images.posters;
   }
+
+  
 
   changeTab(tab: 'videos' | 'backdrops' | 'posters' = 'videos') {
     this.activeTab = tab;
@@ -96,11 +92,11 @@ export class MovieMediaComponent implements OnInit, OnChanges {
   getDirectionCard(): boolean {
     switch (this.activeTab) {
       case 'videos':
-        return this.videoData.length > 11;
+        return this.videos.results.length > 11;
       case 'backdrops':
-        return this.backdropDat.length > 11;
+        return this.images.backdrops.length > 11;
       case 'posters':
-        return this.posterData.length > 11;
+        return this.images.posters.length > 11;
     }
   }
 }

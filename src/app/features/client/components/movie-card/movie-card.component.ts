@@ -1,6 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  ChangeDetectionStrategy,
+  Renderer2,
+  Host,
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { BASE_IMG_URL_220_330, DEFAULT_IMG } from 'src/app/core/utils/constants';
+import {
+  BASE_IMG_URL_220_330,
+  DEFAULT_IMG,
+} from 'src/app/core/utils/constants';
 import { HomeService } from '../../services/home.service';
 import { Router } from '@angular/router';
 
@@ -8,9 +23,11 @@ import { Router } from '@angular/router';
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieCardComponent implements OnInit {
   public readonly defaultImg = DEFAULT_IMG;
+  crrMore = '/assets/icons/more.png';
 
   @Input() item!: any;
   @Input() imgBaseUrl = BASE_IMG_URL_220_330;
@@ -22,14 +39,32 @@ export class MovieCardComponent implements OnInit {
   @Input() hImg: string = '330px';
   @Input() colorTitle: string = '#333';
   @Input() colorDate: string = '#777';
+  @Input() hasMore: boolean = false;
+
+  @Output() addToList = new EventEmitter<number>();
+  @Output() favorite = new EventEmitter<number>();
+  @Output() watchlist = new EventEmitter<number>();
+  @Output() rate = new EventEmitter<number>();
+
+  @ViewChild('movieCard') movieCard!: ElementRef;
 
   selectedTrailerKey: string | null = null;
   safeTrailerUrl: SafeResourceUrl | null = null;
 
+  actionStates: { [key: string]: boolean } = {
+    list: false,
+    heart: false,
+    bookmark: false,
+    star: false,
+  };
+
+  openMore = false;
+
   constructor(
     private homeService: HomeService,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {}
@@ -80,7 +115,7 @@ export class MovieCardComponent implements OnInit {
 
   getImageSrc(): string {
     if (!this.item) return this.defaultImg;
-    
+
     let path = this.item?.poster_path || this.item?.profile_path;
     if (this.hasPlay) path = this.item?.backdrop_path;
     return path ? this.imgBaseUrl + path : this.defaultImg;
@@ -105,5 +140,53 @@ export class MovieCardComponent implements OnInit {
 
   getReleaseDate(): string {
     return this.item?.release_date || '';
+  }
+
+  onMoreEnter(): void {
+    this.crrMore = '/assets/icons/more-hight_light.png';
+  }
+
+  onMoreLeave(): void {
+    this.crrMore = '/assets/icons/more.png';
+  }
+
+  onItemMoreClick(action: 'list' | 'heart' | 'bookmark' | 'star'): void {
+    this.actionStates[action] = !this.actionStates[action];
+    switch (action) {
+      case 'list':
+        this.addToList.emit(this.item.id);
+        break;
+      case 'heart':
+        this.favorite.emit(this.item.id);
+        break;
+      case 'bookmark':
+        this.watchlist.emit(this.item.id);
+        break;
+      case 'star':
+        this.rate.emit(this.item.id);
+        break;
+    }
+  }
+
+  onMoreClick(): void {
+    this.openMore = !this.openMore;
+  }
+
+  @HostListener('mouseleave')
+  hideMore(): void {
+    this.openMore = false;
+  }
+
+  isActive(action: string): boolean {
+    return !!this.actionStates[action];
+  }
+
+  getIconClass(action: string): string {
+    const base = `action-menu__icon action-menu__icon--${action}`;
+    return this.isActive(action) ? `${base} action-menu__icon--selected` : base;
+  }
+
+  isMoreVisible(): boolean {
+    return this.hasMore && this.openMore;
   }
 }
