@@ -14,19 +14,20 @@
 
 .movie {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 
   max-width: 1380px;
   padding: 30px 40px;
 
   &__title {
+    margin-top: 0;
     width: 100%;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    grid-column-gap: 24px;
-    grid-row-gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
   }
 }

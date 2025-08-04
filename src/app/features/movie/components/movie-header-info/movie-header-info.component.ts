@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -26,7 +25,7 @@ import { RatingComponent } from 'src/app/shared/components/rating/rating.compone
   styleUrls: ['./movie-header-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovieHeaderInfoComponent implements OnInit, AfterViewInit, OnChanges {
+export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
   public readonly urlPoster = BASE_IMG_URL_300_450;
   public readonly urlBackDrop = BACK_DROP;
   public readonly defaultImg = DEFAULT_IMG;
@@ -36,9 +35,9 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit, OnChange
 
   @Input() movieCredits!: Credits;
   @Output() playTrailer = new EventEmitter<void>();
+  @Output() rating = new EventEmitter<void>();
   
   @ViewChild('info', { static: true }) infoRef!: ElementRef<HTMLElement>;
-  @ViewChild(RatingComponent) rating!: RatingComponent;
 
   top6Crew!: any[];
 
@@ -48,16 +47,13 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit, OnChange
     bookmark: false,
   };
 
-  userRating = 0;
+
 
   toggle(type: 'list' | 'heart' | 'bookmark') {
     this.activeButtons[type] = !this.activeButtons[type];
   }
 
   constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {
-    this.userRating = Math.round(this.details.vote_average * 10);
-  }
 
   ngOnInit(): void {
     const importantJobs = [
@@ -169,6 +165,6 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit, OnChange
   }
 
   showRating() {
-    this.rating.toggle();
+    this.rating.emit();
   }
 }

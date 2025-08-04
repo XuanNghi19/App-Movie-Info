@@ -42,10 +42,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   dropdownItemsMap: Record<string, DropdownItem[]> = {
     movies: [
-      { label: 'Popular', route: 'movie/film/popular' },
-      { label: 'Now Playing', route: 'movie/film/now_playing' },
-      { label: 'Upcoming', route: 'movie/film/upcoming' },
-      { label: 'Top Rated', route: 'movie/film/top_rated' },
+      { label: 'Popular', route: 'movie/movie/popular' },
+      { label: 'Now Playing', route: 'movie/movie/now_playing' },
+      { label: 'Upcoming', route: 'movie/movie/upcoming' },
+      { label: 'Top Rated', route: 'movie/movie/top_rated' },
     ],
     tv: [
       { label: 'Popular', route: 'movie/tv/popular' },

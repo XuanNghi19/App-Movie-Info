@@ -7,7 +7,7 @@ import { OverlayLoadingComponent } from './loading/overlay-loading/overlay-loadi
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PaginationComponent } from './pagination/pagination.component';
-import { WhiteCardComponent } from './people-card/white-card.component';
+import { WhiteCardComponent } from './white-card/white-card.component';
 import { RatingComponent } from './rating/rating.component';
 import { SliderComponent } from './slider/slider.component';
 

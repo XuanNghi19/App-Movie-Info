@@ -12,7 +12,7 @@ import { finalize, Observable } from 'rxjs';
 export class MovieComponent implements OnInit {
   title = '';
   tab = 'popular';
-  type = 'film';
+  type = 'movie';
 
   filmTabs: Record<string, string> = {
     popular: 'Popular Movies',
@@ -41,14 +41,14 @@ export class MovieComponent implements OnInit {
     this.loadingService.show();
     this.activatedRoute.paramMap.subscribe((params) => {
       this.tab = params.get('tab') ?? 'popular';
-      this.type = params.get('type') ?? 'popular';
+      this.type = params.get('type') ?? 'movie';
 
       this.loadPage(1);
     });
   }
 
   getTitle() {
-    return this.type === 'film'
+    return this.type === 'movie'
       ? this.filmTabs[this.tab]
       : this.tvTabs[this.tab];
   }
@@ -58,7 +58,7 @@ export class MovieComponent implements OnInit {
     this.loadingService.show();
     let getRes$: Observable<any>;
 
-    if (this.type === 'film') {
+    if (this.type === 'movie') {
       getRes$ = this.movieService.getMovie(page, this.tab);
     } else {
       getRes$ = this.movieService.getTv(page, this.tab);
@@ -69,8 +69,6 @@ export class MovieComponent implements OnInit {
       .subscribe((res) => {
         this.res = res;
         this.currentPage = res.page;
-
-        console.log(this.res);
       });
   }
 }

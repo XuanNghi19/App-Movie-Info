@@ -4,6 +4,7 @@
   [type]="type"
   [movieCredits]="credits"
   (playTrailer)="handlePlayTrailer()"
+  (rating)="showRating()"
 ></app-movie-header-info>
 <div *ngIf="details" class="movie-body">
   <div class="col">
@@ -16,4 +17,5 @@
   <div class="col">
     <app-movie-aside [details]="details" [keywords]="keywords"></app-movie-aside>
   </div>
+  <app-rating [(value)]="userRating" [name]="title"></app-rating>
 </div>

@@ -1,35 +1,36 @@
 <div class="movie">
   <h1 class="movie__title">{{ getTitle() }}</h1>
 
-  <section class="movie__fillter"></section>
+  <div>
+    <section class="movie__fillter"></section>
 
-  <section class="movie__list" *ngIf="res">
-    <div class="movie__grid">
-      <ng-container *ngFor="let p of res.results let index = index">
-        <app-white-card
-          [item]="p"
-          [hasPopularity]="true"
-          [hasCharater]="true"
-          [hasKnow]="true"
-          [action]="'people-detail'"
-          [wImg]="'280px'"
-          [hImg]="'278px'"
-          [titleSize]="'18px'"
-          [fontSize]="'16px'"
-          [imgFlex]="4"
-        ></app-white-card>
-      </ng-container>
-    </div>
+    <section class="movie__list" *ngIf="res">
+      <div class="movie__grid">
+        <ng-container *ngFor="let p of res.results; let index = index">
+          <app-white-card
+            [item]="p"
+            [action]="'movie-detail'"
+            [titleSize]="'18px'"
+            [fontSize]="'16px'"
+            [imgFlex]="4"
+            [hasMore]="true"
+            [hasScore]="true"
+            [type]="type"
+            [hasDate]="true"
+          ></app-white-card>
+        </ng-container>
+      </div>
 
-    <app-pagination
-      [currentPage]="currentPage"
-      [totalPages]="res.total_pages"
-      [maxVisiblePages]="7"
-      [showFirstLast]="true"
-      [showPrevNext]="true"
-      [showPageNumbers]="true"
-      (pageChange)="loadPage($event)"
-    >
-    </app-pagination>
-  </section>
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="res.total_pages"
+        [maxVisiblePages]="7"
+        [showFirstLast]="true"
+        [showPrevNext]="true"
+        [showPageNumbers]="true"
+        (pageChange)="loadPage($event)"
+      >
+      </app-pagination>
+    </section>
+  </div>
 </div>

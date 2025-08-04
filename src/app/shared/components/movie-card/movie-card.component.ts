@@ -11,6 +11,7 @@ import {
   Renderer2,
   OnChanges,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
@@ -27,7 +28,7 @@ import { RatingComponent } from '../rating/rating.component';
   styleUrls: ['./movie-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovieCardComponent implements OnInit, OnChanges {
+export class MovieCardComponent implements OnInit, AfterViewInit {
   public readonly defaultImg = DEFAULT_IMG;
   crrMore = '/assets/icons/more.png';
 
@@ -71,7 +72,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
     private router: Router,
     private renderer: Renderer2
   ) {}
-  ngOnChanges(changes: SimpleChanges): void {
+  ngAfterViewInit(): void {
     this.score = Math.round(this.getScore() * 10);
   }
 

@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MovieDetailsService } from '../../services/movie-details.service';
 import {
   Keyword,
@@ -17,6 +25,7 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MovieMediaComponent } from '../../components/movie-media/movie-media.component';
+import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
 
 @Component({
   selector: 'app-movie-details',
@@ -24,8 +33,7 @@ import { MovieMediaComponent } from '../../components/movie-media/movie-media.co
   styleUrls: ['./movie-details.component.scss'],
 })
 export class MovieDetailsComponent implements OnInit {
-
-  @ViewChild(MovieMediaComponent) media!: MovieMediaComponent; 
+  @ViewChild(MovieMediaComponent) media!: MovieMediaComponent;
 
   details!: MovieDetails | TvDetails;
   type: string = 'movie';
@@ -41,6 +49,9 @@ export class MovieDetailsComponent implements OnInit {
   public recommendations!: RecommendationResponse;
 
   public isTrailer: boolean = false;
+
+  @ViewChild(RatingComponent) rating!: RatingComponent;
+  userRating = 0;
 
   constructor(
     private movieDetailsService: MovieDetailsService,
@@ -73,6 +84,7 @@ export class MovieDetailsComponent implements OnInit {
     request$.pipe(finalize(() => this.loadingService.hide())).subscribe({
       next: (res) => {
         this.details = res.details;
+        this.userRating = Math.round(this.details.vote_average * 10);
         this.keywords = res.keywords.keywords;
         this.credits = res.credits;
         this.reviews = res.reviews;
@@ -110,5 +122,13 @@ export class MovieDetailsComponent implements OnInit {
 
   handlePlayTrailer() {
     this.media.playTrailer(this.videos.results[0].key);
+  }
+
+  get title(): string {
+    return 'title' in this.details ? this.details.title : this.details.name;
+  }
+
+  showRating() {
+    this.rating.toggle();
   }
 }
