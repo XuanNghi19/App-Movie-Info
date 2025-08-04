@@ -1,0 +1,19 @@
+<app-movie-header-info
+  *ngIf="details"
+  [details]="details"
+  [type]="type"
+  [movieCredits]="credits"
+  (playTrailer)="handlePlayTrailer()"
+></app-movie-header-info>
+<div *ngIf="details" class="movie-body">
+  <div class="col">
+    <app-movie-cast [details]="details" [casts]="credits.cast" [type]="type"></app-movie-cast>
+    <app-crr-tv-season [nextEpisodeToAir]="nextEpisode" [nameShow]="name" [season]="lastSeason" *ngIf="type === 'tv'"></app-crr-tv-season>
+    <app-movie-social [reviews]="reviews"></app-movie-social>
+    <app-movie-media [id]="details.id" [type]="type" [videos]="videos" [images]="images"></app-movie-media>
+    <app-movie-recommendations [recomendations]="recommendations" (go)="load($event)"></app-movie-recommendations>
+  </div>
+  <div class="col">
+    <app-movie-aside [details]="details" [keywords]="keywords"></app-movie-aside>
+  </div>
+</div>

@@ -1,5 +1,5 @@
-import { LeaderboardUser } from "src/app/features/client/types/home";
-import { ReviewsResponse } from "src/app/features/client/types/movie-details";
+import { LeaderboardUser } from "src/app/features/home/models/home";
+import { ReviewsResponse } from "src/app/features/movie/models/movie-details";
 
 export const leaderboardUser: LeaderboardUser[] = [
   {

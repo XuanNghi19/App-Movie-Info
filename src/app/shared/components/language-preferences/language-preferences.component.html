@@ -1,0 +1,48 @@
+<div class="language-preferences">
+  <h3 class="language-preferences__title">Language Preferences</h3>
+
+  <!-- Nếu đang loading -->
+  <div *ngIf="isLoadingLanguages" class="language-preferences__loading">
+    Đang tải ngôn ngữ...
+  </div>
+
+  <!-- Nếu đã load -->
+  <ng-container *ngIf="!isLoadingLanguages">
+    <div class="language-preferences__group">
+      <label class="language-preferences__label">
+        Default Language
+        <button
+          class="language-preferences__reset"
+          type="button"
+          (click)="reset()"
+        >
+          Reset
+        </button>
+      </label>
+
+      <select
+        class="language-preferences__select"
+        [ngModel]="defaultLanguage"
+        (ngModelChange)="onDefaultChange($event)"
+      >
+        <option *ngFor="let lang of languages" [value]="lang.iso_639_1">
+          {{ lang.name }} ({{ lang.iso_639_1 }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Nếu có fallback -->
+    <div class="language-preferences__group">
+      <label class="language-preferences__label">Fallback Language</label>
+      <select
+        class="language-preferences__select"
+        [ngModel]="fallbackLanguage"
+        (ngModelChange)="onFallbackChange($event)"
+      >
+        <option *ngFor="let lang of languages" [value]="lang.iso_639_1">
+          {{ lang.name }} ({{ lang.iso_639_1 }})
+        </option>
+      </select>
+    </div>
+  </ng-container>
+</div>

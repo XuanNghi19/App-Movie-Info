@@ -1,0 +1,34 @@
+<div class="container" *ngIf="isOpen">
+  <div class="rating">
+    <button class="rating__close" (click)="toggle()">✖</button>
+    <h3 class="rating__title">Rating</h3>
+    <div class="rating__paragraph">
+      <i> What did you think of {{ name }} </i>
+      <span class="rating__percentage"
+        ><b>{{ value }}%</b> user score</span
+      >
+    </div>
+
+    <input
+      type="range"
+      min="0"
+      max="100"
+      step="10"
+      [value]="value"
+      (input)="onSliderChange($event)"
+      class="rating__slider"
+      [ngStyle]="{ background: getSliderBackground() }"
+    />
+
+    <div class="rating__ticks">
+      <span class="rating__tick" *ngFor="let mark of tickMarks">{{
+        mark
+      }}</span>
+    </div>
+    <div class="rating__actions">
+      <button class="rating__clear" (click)="clearRating()">
+        Clear my rating
+      </button>
+    </div>
+  </div>
+</div>

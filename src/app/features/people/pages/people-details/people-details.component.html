@@ -1,0 +1,92 @@
+<div class="details" *ngIf="details">
+  <section class="col details__info">
+    <img [src]="img" alt="" />
+    <div class="details__infos">
+      <h1>Personal Info</h1>
+
+      <h3>Known For</h3>
+      <p>{{ details.known_for_department }}</p>
+
+      <h3>Known Credits</h3>
+      <p>{{ uniqueCredits.length }}</p>
+
+      <h3>Gender</h3>
+      <p>{{ details.gender | gendar }}</p>
+
+      <h3>Birthday</h3>
+      <p>
+        {{ details.birthday | date : "MMMM d, y" }} ({{
+          details.birthday | age
+        }}
+        years old)
+      </p>
+
+      <h3>Place of Birth</h3>
+      <p>{{ details.place_of_birth }}</p>
+
+      <h3>Also Known As</h3>
+      <p *ngFor="let knowAs of details.also_known_as">{{ knowAs }}</p>
+    </div>
+  </section>
+  <section class="col details__media">
+    <h1>{{ details.name }}</h1>
+
+    <div class="details__biography">
+      <h3>Tiểu sử</h3>
+      <div
+        class="details__paragraph"
+        [class.details__collapsed]="showToggle && !isExpanded"
+      >
+        <p *ngFor="let paragraph of biography">{{ paragraph }}</p>
+      </div>
+
+      <div
+        class="details__more"
+        [class.hide]="isExpanded"
+        (click)="toggleReadMore()"
+        *ngIf="showToggle"
+      >
+        {{ "Read More" }}
+      </div>
+    </div>
+
+    <div class="details__known-for">
+      <app-slider
+        [title]="'Known For'"
+        [items]="uniqueCredits"
+        [mgnTop]="'20px'"
+        [itemMgnBt]="'16px'"
+        [maxWidth]="'1000px'"
+        [alignItems]="'start'"
+      >
+        <ng-template #cardTemplate let-item>
+          <app-movie-card
+            [item]="item"
+            [type]="item.media_type"
+            [action]="'movie-details'"
+            [imgBaseUrl]="knownForImg"
+            [wImg]="'130px'"
+            [hImg]="'195px'"
+          ></app-movie-card>
+        </ng-template>
+      </app-slider>
+    </div>
+
+    <div class="details__acting">
+      <h3>Acting</h3>
+      <div class="details__acting-ctn">
+        <div class="details__year" *ngFor="let year of groupedCredits | sortByKeyDesc">
+          <div class="" *ngFor="let item of year.value">
+            <app-person-credits
+              [year]="year.key"
+              [title]="item.title ?? '--'"
+              [character]="item.character ?? '--'"
+              [mediaType]="item.media_type"
+              [episodeCount]="item.episode_count"
+            ></app-person-credits>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

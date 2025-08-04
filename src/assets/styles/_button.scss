@@ -15,9 +15,7 @@
   }
 
   &:focus {
-    box-shadow:
-      0 0 0 2px #ffffff,
-      0 0 0 4px rgba($border, 0.5),
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px rgba($border, 0.5),
       0 1px 2px 0 black;
   }
 
@@ -33,11 +31,12 @@
   }
 }
 
-@mixin icon-button($size: 40px) {
-  background: transparent;
+@mixin icon-button($size: 40px, $radius: 0, $bg: transparent, $sclImg: 0.6) {
+  background: $bg;
   border: none;
   width: $size;
   height: $size;
+  border-radius: $radius;
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -45,8 +44,8 @@
   cursor: pointer;
 
   img {
-    width: $size * 0.6;
-    height: $size * 0.6;
+    width: $size * $sclImg;
+    height: $size * $sclImg;
   }
 
   &:hover {

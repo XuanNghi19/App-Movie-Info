@@ -1,0 +1,65 @@
+<header (mouseleave)="onDropdownHide()">
+  <section class="header" [class.header--hidden]="isHeaderHidden">
+    <div [class]="'header__wrapper'">
+      <div [class]="'header__logo'" [routerLink]="['/']">
+        <img src="/assets/images/logo.svg" alt="Logo" />
+      </div>
+      <nav [class]="'header__nav'">
+        <ul class="header__list-items">
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'movies')"
+          >
+            Movies
+          </li>
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'tv')"
+          >
+            TV Shows
+          </li>
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'people')"
+          >
+            People
+          </li>
+          <li
+            class="header__item"
+            (mouseenter)="onDropdownTrigger($event, 'more')"
+          >
+            More
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div [class]="'header__actions'">
+      <button [class]="'btn-icon'" (click)="onDropdownTrigger($event, 'add')">
+        <img src="/assets/icons/plus.svg" alt="plus" />
+      </button>
+      <button [class]="'btn-icon'" #language (click)="toggleLanguageDropdown()">
+        <img src="/assets/icons/language.svg" alt="bell" />
+      </button>
+      <button [class]="'btn-icon'">
+        <img src="/assets/icons/bell.svg" alt="bell" />
+      </button>
+      <button [class]="'btn-icon'">
+        <img src="/assets/icons/avatar.svg" alt="avatar" />
+      </button>
+      <button (click)="focusSearch()" [class]="'btn-icon'">
+        <img src="/assets/icons/search.svg" alt="search" />
+      </button>
+      <div
+        class="header__dropdown-container"
+        *ngIf="showLanguageDropdown"
+        [style.position]="'absolute'"
+        [style.top.px]="dropdownTop"
+        [style.left.px]="dropdownLeft"
+      >
+        <app-language-preferences [languages]="languages"></app-language-preferences>
+      </div>
+    </div>
+  </section>
+  <app-dropdown></app-dropdown>
+</header>

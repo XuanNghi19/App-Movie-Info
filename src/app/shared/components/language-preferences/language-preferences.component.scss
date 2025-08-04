@@ -1,0 +1,40 @@
+.language-preferences {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  width: 260px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  &__title {
+    margin: 0 0 1rem;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &__group {
+    margin-bottom: 1rem;
+  }
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  &__reset {
+    font-size: 0.75rem;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__select {
+    width: 100%;
+    padding: 0.4rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+}

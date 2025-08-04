@@ -1,0 +1,57 @@
+<section #info class="info">
+  <div class="info__body">
+    <div class="info__poster">
+      <img src="/assets/icons/unknow_img.svg" [src]="poster" [alt]="title" />
+    </div>
+    <div class="info__content">
+      <div class="info__title">
+        <h2>{{ title }}</h2>
+        <span> ({{ releaseDate | date : "yyyy" }}) </span>
+      </div>
+      <div class="info__note">
+        <p class="info__release-date">
+          {{ releaseDate | date : "dd/MM/yyyy" }}
+        </p>
+        <span *ngIf="genres">&bull;</span>
+        <a *ngFor="let genre of genres; let last = last">
+          {{ genre.name }}<span *ngIf="!last">,&nbsp;</span>
+        </a>
+        <span *ngIf="runtime">&bull;</span>
+        <p class="info__runtime">{{ runtime }}</p>
+      </div>
+      <div class="info__score">
+        <div class="info__score-content">
+          {{ score | score }} <span class="info__percent">%</span>
+        </div>
+        <p>User Score</p>
+        <button class="info__rating" (click)="showRating()"><p>What's your Vibe?</p></button>
+        </div>
+      <div class="info__action">
+        <button class="btn-icon" (click)="toggle('list')">
+          <img [src]="getIcon('list')" alt="list" />
+        </button>
+        <button class="btn-icon" (click)="toggle('heart')">
+          <img [src]="getIcon('heart')" alt="heart" />
+        </button>
+        <button class="btn-icon" (click)="toggle('bookmark')">
+          <img [src]="getIcon('bookmark')" alt="bookmark" />
+        </button>
+        <button (click)="onPlayTraier()" class="info__trailer"><img src="/assets/icons/play-solid-full.svg" alt="play"> <p>Play Trailer</p></button>
+      </div>
+      <div class="info__tagline">{{ details.tagline }}</div>
+      <div class="info__overview">
+        <h1>Overview</h1>
+        <p>{{ details.overview }}</p>
+      </div>
+      <ul class="info__people">
+        <li *ngFor="let people of peoples" class="info__profile">
+          <p>
+            <a href="">{{ people.name }}</a>
+          </p>
+          <p class="info__job">{{ people.job }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<app-rating [(value)]="userRating" [name]="title"></app-rating>

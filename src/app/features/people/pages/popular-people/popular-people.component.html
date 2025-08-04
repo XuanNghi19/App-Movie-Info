@@ -1,0 +1,32 @@
+<div class="popular" *ngIf="res">
+  <h1 class="popular__title">Popular People</h1>
+
+  <div class="popular__grid">
+    <ng-container *ngFor="let p of res.results; let index = index">
+      <app-people-card
+        [item]="p"
+        [hasPopularity]="true"
+        [hasCharater]="true"
+        [hasKnow]="true"
+        [knowFor]="knowFors[index]"
+        [action]="'people-detail'"
+        [wImg]="'280px'"
+        [hImg]="'278px'"
+        [titleSize]="'18px'"
+        [fontSize]="'16px'"
+        [imgFlex]="4"
+      ></app-people-card>
+    </ng-container>
+  </div>
+
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="res.total_pages"
+    [maxVisiblePages]="7"
+    [showFirstLast]="true"
+    [showPrevNext]="true"
+    [showPageNumbers]="true"
+    (pageChange)="loadPage($event)"
+  >
+  </app-pagination>
+</div>

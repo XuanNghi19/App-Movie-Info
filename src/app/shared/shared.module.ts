@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { components } from './components';
 import { pipes } from './pipe';
+import { FormsModule } from '@angular/forms';
+import { RatingComponent } from './components/rating/rating.component';
 
 const primeng = [CarouselModule];
 @NgModule({
   declarations: [...components, ...pipes],
-  imports: [CommonModule, RouterModule, ...primeng],
+  imports: [CommonModule, RouterModule, FormsModule, ...primeng],
   exports: [...components, ...pipes],
 })
 export class SharedModule {}

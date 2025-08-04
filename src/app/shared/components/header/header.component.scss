@@ -1,0 +1,139 @@
+@use "../../../../assets/styles/main.scss" as *;
+
+:host {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  z-index: 10001;
+}
+
+.btn-icon {
+  @include icon-button(48px);
+  img {
+    pointer-events: none;
+  }
+}
+
+.rotate img {
+  @include rotate(180deg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  transition: transform 0.3s ease-in-out;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #032541;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
+
+  &__wrapper {
+    width: max-content;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__logo {
+    height: 100%;
+    width: 154px;
+    object-fit: cover;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    justify-content: center;
+    height: 100%;
+  }
+
+  &__list-items {
+    position: relative;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    justify-content: space-evenly;
+    gap: 32px;
+  }
+
+  &__item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  &__actions {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__menu {
+    width: 80px;
+    height: 100%;
+    display: none;
+
+    img {
+      transform: transform 0.3s ease;
+    }
+  }
+
+  &__dropdown-container {
+  z-index: 1000;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 80px;
+    padding: 0 16px;
+
+    &__wrapper {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    &__nav {
+      display: none;
+    }
+
+    &__actions {
+      display: none;
+    }
+
+    &__menu {
+      display: block;
+      position: absolute;
+      right: 0px;
+    }
+  }
+}

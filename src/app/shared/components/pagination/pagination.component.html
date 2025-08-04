@@ -1,0 +1,70 @@
+<div class="pagination" *ngIf="totalPages > 1">
+  <!-- First Button -->
+  <button 
+    *ngIf="showFirstLast && showStartEllipsis"
+    class="pagination__btn pagination__btn--first"
+    (click)="goToFirst()"
+    [disabled]="!canGoPrevious"
+    title="First Page">
+    <span class="pagination__icon">«</span>
+  </button>
+
+  <!-- Previous Button -->
+  <button 
+    *ngIf="showPrevNext"
+    class="pagination__btn pagination__btn--prev"
+    (click)="goToPrevious()"
+    [disabled]="!canGoPrevious"
+    title="Previous Page">
+    <span class="pagination__icon">‹</span>
+    <span class="pagination__text">Previous</span>
+  </button>
+
+  <!-- Page Numbers Section -->
+  <div class="pagination__numbers" *ngIf="showPageNumbers">
+    <!-- Start Ellipsis -->
+    <span *ngIf="showStartEllipsis" class="pagination__ellipsis">...</span>
+
+    <!-- Page Numbers -->
+    <button
+      *ngFor="let page of visiblePages"
+      class="pagination__btn pagination__btn--number"
+      [class.pagination__btn--active]="page === currentPage"
+      (click)="onPageClick(page)"
+      [disabled]="disabled"
+      [title]="'Page ' + page">
+      {{ page }}
+    </button>
+
+    <!-- End Ellipsis -->
+    <span *ngIf="showEndEllipsis" class="pagination__ellipsis">...</span>
+  </div>
+
+  <!-- Page Info (Alternative to page numbers) -->
+  <div class="pagination__info" *ngIf="showPageInfo && !showPageNumbers">
+    <span class="pagination__current">{{ currentPage }}</span>
+    <span class="pagination__separator">/</span>
+    <span class="pagination__total">{{ totalPages }}</span>
+  </div>
+
+  <!-- Next Button -->
+  <button 
+    *ngIf="showPrevNext"
+    class="pagination__btn pagination__btn--next"
+    (click)="goToNext()"
+    [disabled]="!canGoNext"
+    title="Next Page">
+    <span class="pagination__text">Next</span>
+    <span class="pagination__icon">›</span>
+  </button>
+
+  <!-- Last Button -->
+  <button 
+    *ngIf="showFirstLast && showEndEllipsis"
+    class="pagination__btn pagination__btn--last"
+    (click)="goToLast()"
+    [disabled]="!canGoNext"
+    title="Last Page">
+    <span class="pagination__icon">»</span>
+  </button>
+</div>

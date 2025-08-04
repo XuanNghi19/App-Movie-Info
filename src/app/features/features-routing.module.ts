@@ -3,16 +3,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { FeaturesComponent } from './features.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'client/home', pathMatch: 'full' },
-  { path: 'client', redirectTo: 'client/home', pathMatch: 'full' },
   {
     path: '',
     component: FeaturesComponent,
     children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'client',
+        path: 'home',
         loadChildren: () =>
-          import('./client/client.module').then((m) => m.ClientModule),
+          import('./home/home.module').then((m) => m.HomeModule),
+      },
+      {
+        path: 'movie',
+        loadChildren: () =>
+          import('./movie/movie.module').then((m) => m.MovieModule),
+      },
+      {
+        path: 'people',
+        loadChildren: () =>
+          import('./people/people.module').then((m) => m.PeopleModule),
       },
       { path: '**', redirectTo: 'notfound', pathMatch: 'full' },
     ],

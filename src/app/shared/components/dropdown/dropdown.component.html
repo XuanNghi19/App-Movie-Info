@@ -2,7 +2,7 @@
   class="dropdown"
   *ngIf="(state$ | async) as state"
   [ngStyle]="{
-    top: state.position.top - 15 + 'px',
+    top: state.position.top - 10 + 'px',
     left: state.position.left + 'px',
     display: state.visible ? 'block' : 'none'
   }"
