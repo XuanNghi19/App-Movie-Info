@@ -13,7 +13,7 @@ import {
   Recommendation,
   RecommendationResponse,
 } from '../models/movie-details';
-import { Observable, ObservableLike } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

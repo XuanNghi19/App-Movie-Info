@@ -5,7 +5,7 @@ import { MovieCreditsComponent } from './pages/movie-credits/movie-credits.compo
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 
 const routes: Routes = [
-  { path: '', component: MovieComponent },
+  { path: ':type/:tab', component: MovieComponent },
   { path: 'details/:type/:id', component: MovieDetailsComponent },
   { path: 'credits/:type/:id', component: MovieCreditsComponent },
   { path: '**', redirectTo: 'notfound', pathMatch: 'full' },

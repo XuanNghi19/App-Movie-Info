@@ -1,7 +1,7 @@
 <section class="cast">
   <app-slider [title]="getTitle()" [items]="visibleCasts">
     <ng-template #cardTemplate let-item>
-      <app-people-card
+      <app-white-card
         [item]="item"
         [color]="'black'"
         [hasCharater]="true"
@@ -12,7 +12,7 @@
         [fontSize]="'14.4px'"
         [titleSize]="'16px'"
       >
-      </app-people-card>
+      </app-white-card>
     </ng-template>
   </app-slider>
   <h1 class="cast__nav"><a (click)="fullCredits()">Full Cast & Crew</a></h1>

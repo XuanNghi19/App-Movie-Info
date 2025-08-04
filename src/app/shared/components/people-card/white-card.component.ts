@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 import { BASE_IMG_URL_220_330 } from 'src/app/core/utils/constants';
 
 @Component({
-  selector: 'app-people-card',
-  templateUrl: './people-card.component.html',
-  styleUrls: ['./people-card.component.scss'],
+  selector: 'app-white-card',
+  templateUrl: './white-card.component.html',
+  styleUrls: ['./white-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PeopleCardComponent implements OnInit {
+export class WhiteCardComponent implements OnInit {
   public readonly defaultImg = '/assets/icons/unknow_img.svg';
 
   @Input() item!: any;

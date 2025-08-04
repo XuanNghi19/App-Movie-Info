@@ -3,7 +3,7 @@
 
   <div class="popular__grid">
     <ng-container *ngFor="let p of res.results; let index = index">
-      <app-people-card
+      <app-white-card
         [item]="p"
         [hasPopularity]="true"
         [hasCharater]="true"
@@ -15,7 +15,7 @@
         [titleSize]="'18px'"
         [fontSize]="'16px'"
         [imgFlex]="4"
-      ></app-people-card>
+      ></app-white-card>
     </ng-container>
   </div>
 
