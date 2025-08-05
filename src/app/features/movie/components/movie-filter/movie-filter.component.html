@@ -143,19 +143,19 @@
   <!-- Nút search chính -->
   <button
     #searchBtn
-    type="submit"
+    (click)="search()"
     [disabled]="!formChanged"
     class="movie-filter__search-button"
   >
     Search
   </button>
-
 </form>
 
 <button
-  *ngIf="getShowFixedSearchBtn()"
-  type="submit"
-  [disabled]="!filterForm.dirty"
+  *ngIf="showFixedSearchBtn"
+  type="button"
+  (click)="search()"
+  [disabled]="!showFixedSearchBtn"
   class="movie-filter__search-button--fixed"
 >
   Search

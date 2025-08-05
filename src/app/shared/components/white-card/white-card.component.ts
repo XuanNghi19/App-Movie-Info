@@ -106,7 +106,7 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   }
 
   getScore(): number {
-    return (this.item.vote_average || this.item.popularity) ?? '--';
+    return (this.item.vote_average !== undefined ? this.item.vote_average: this.item.popularity) ?? '--';
   }
 
   isActive(action: string): boolean {

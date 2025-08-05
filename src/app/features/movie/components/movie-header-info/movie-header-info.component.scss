@@ -35,6 +35,9 @@
     img {
       position: relative;
       border-radius: 8px;
+      width: 300px;
+      height: 450px;
+      object-fit: cover;
     }
   }
 

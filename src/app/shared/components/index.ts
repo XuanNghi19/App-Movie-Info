@@ -10,6 +10,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { WhiteCardComponent } from './white-card/white-card.component';
 import { RatingComponent } from './rating/rating.component';
 import { SliderComponent } from './slider/slider.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 export const components = [
   OverlayLoadingComponent,
@@ -23,5 +24,6 @@ export const components = [
   SliderComponent,
   PaginationComponent,
   LanguagePreferencesComponent,
-   RatingComponent
+  RatingComponent,
+  FeedbackComponent
 ];

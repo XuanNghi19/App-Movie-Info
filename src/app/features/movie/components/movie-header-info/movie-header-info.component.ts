@@ -140,7 +140,7 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
   }
 
   get poster(): string {
-    if (this.details === null) return this.defaultImg;
+    if (!this.details.poster_path) return this.defaultImg;
     return this.urlPoster + this.details.poster_path;
   }
 

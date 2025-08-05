@@ -1,0 +1,22 @@
+<div class="feedback">
+  <div 
+    *ngFor="let feedback of feedbacks$ | async; trackBy: trackByFn" 
+    class="feedback__item feedback__item--{{ feedback.type }}"
+    [@slideIn]
+  >
+    <div class="feedback__content">
+      <i [class]="getIconClass(feedback.type)" class="feedback__icon"></i>
+      <span class="feedback__message">{{ feedback.message }}</span>
+    </div>
+    
+    <button 
+      *ngIf="feedback.closable" 
+      class="feedback__close"
+      (click)="closeFeedback(feedback.id)"
+      type="button"
+      aria-label="Close"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>

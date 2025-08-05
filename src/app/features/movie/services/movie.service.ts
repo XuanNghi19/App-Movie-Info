@@ -33,4 +33,10 @@ export class MovieService {
       `${this.baseurl}/genre/${type}/list?language=${language}`
     );
   }
+
+  discover(type: string = 'movie', queryParams: any, page: number = 1): Observable<Response<Movie | TvShow>> {
+    return this.http.get<Response<Movie | TvShow>>(`${this.baseurl}/discover/${type}?page=${page}`, {
+      params: queryParams,
+    });
+  }
 }

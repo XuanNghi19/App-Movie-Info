@@ -26,6 +26,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MovieMediaComponent } from '../../components/movie-media/movie-media.component';
 import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
+import { FeedbackService } from 'src/app/core/services/feedback.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -56,7 +57,8 @@ export class MovieDetailsComponent implements OnInit {
   constructor(
     private movieDetailsService: MovieDetailsService,
     private route: ActivatedRoute,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private feedbackService: FeedbackService
   ) {}
 
   ngOnInit(): void {
@@ -121,6 +123,10 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   handlePlayTrailer() {
+    if(!this.videos.results.length) {
+      this.feedbackService.error('Hiện tại không có Trailer cho show này!', 1000);
+      return;
+    }
     this.media.playTrailer(this.videos.results[0].key);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { MovieService } from '../../services/movie.service';
@@ -6,6 +6,7 @@ import {
   BehaviorSubject,
   catchError,
   combineLatest,
+  EMPTY,
   finalize,
   Observable,
   of,
@@ -13,6 +14,7 @@ import {
   tap,
 } from 'rxjs';
 import { GenreResponse } from '../../models/movie';
+import { MovieFilterComponent } from '../../components/movie-filter/movie-filter.component';
 
 @Component({
   selector: 'app-movie',
@@ -21,15 +23,19 @@ import { GenreResponse } from '../../models/movie';
 })
 export class MovieComponent implements OnInit {
   title = '';
+  params: any;
   private type$ = new BehaviorSubject<string>('movie');
   private tab$ = new BehaviorSubject<string>('popular');
   private page$ = new BehaviorSubject<number>(1);
+
+  @ViewChild(MovieFilterComponent) movieFilter!: MovieFilterComponent;
 
   filmTabs: Record<string, string> = {
     popular: 'Popular Movies',
     now_playing: 'Now Playing Movies',
     upcoming: 'Upcoming Movies',
     top_rated: 'Top Rated Movies',
+    discover: 'Discover Movies',
   };
 
   tvTabs: Record<string, string> = {
@@ -37,12 +43,14 @@ export class MovieComponent implements OnInit {
     airing_today: 'TV Shows Airing Today',
     on_the_air: 'Currently Airing TV Shows',
     top_rated: 'Top Rated TV Shows',
+    discover: 'Discover TV Shows',
   };
 
+  isDiscover = false;
   currentPage = 1;
   res: any;
   genres!: GenreResponse;
-  genres$ = new BehaviorSubject<string>('movie');;
+  genres$ = new BehaviorSubject<string>('movie');
   constructor(
     private activatedRoute: ActivatedRoute,
     private loadingService: LoadingService,
@@ -53,6 +61,9 @@ export class MovieComponent implements OnInit {
     this.loadingService.show();
 
     this.activatedRoute.paramMap.subscribe((params) => {
+      if (this.movieFilter) {
+        this.movieFilter.reset();
+      }
       const tab = params.get('tab') ?? 'popular';
       const type = params.get('type') ?? 'movie';
 
@@ -84,6 +95,10 @@ export class MovieComponent implements OnInit {
       .pipe(
         tap(() => this.loadingService.show()),
         switchMap(([type, tab, page]) => {
+          if (this.isDiscover) {
+            return EMPTY;
+          }
+
           let main$: Observable<any> =
             type === 'movie'
               ? this.movieService.getMovie(page, tab)
@@ -111,11 +126,39 @@ export class MovieComponent implements OnInit {
   }
 
   loadPage(page: number): void {
+    if (this.isDiscover) {
+      const filters = this.params;
+      this.discover(filters, page);
+    } else {
+      this.page$.next(page);
+    }
+  }
+
+  discover(params: any, page: number = 1): void {
+    this.params = params;
+    this.isDiscover = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.page$.next(page);
+    this.loadingService.show();
+
+    this.movieService
+      .discover(this.type$.value, params, page)
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe((res) => {
+        this.res = res;
+        this.currentPage = res?.page || 1;
+      });
+  }
+
+  updateForNewRoute(): void {
+    this.isDiscover = false;
+    this.movieFilter.reset();
   }
 
   getType(): string {
     return this.type$.value;
+  }
+
+  isMovieNone(): boolean {
+    return !this.res.results.length;
   }
 }

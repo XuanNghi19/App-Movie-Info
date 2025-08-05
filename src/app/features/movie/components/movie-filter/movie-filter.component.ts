@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -16,6 +18,7 @@ import { LanguageOption } from 'src/app/core/model/language';
   selector: 'app-movie-filter',
   templateUrl: './movie-filter.component.html',
   styleUrls: ['./movie-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
   @Input() genresList: any[] = [];
@@ -57,8 +60,11 @@ export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
   };
 
   selectedGenres: number[] = [];
+  initialSelectedGenres = [...this.selectedGenres];
 
-  constructor(private fb: FormBuilder) {}
+  initialValue!: any;
+
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     const languagesStr = localStorage.getItem('languages');
@@ -78,15 +84,14 @@ export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
       with_keywords: [''],
     });
 
-    const initialValue = this.filterForm.getRawValue();
+    this.initialValue = this.filterForm.getRawValue();
 
     this.filterForm.valueChanges.subscribe((currentValue) => {
       this.formChanged =
-        JSON.stringify(currentValue) !== JSON.stringify(initialValue);
+        JSON.stringify(currentValue) !== JSON.stringify(this.initialValue);
 
       if (this.formChanged) {
         this.showFixedSearchBtn = this.isSearchButtonOutOfView();
-        this.emitFilter();
       }
     });
   }
@@ -99,15 +104,11 @@ export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
       this.selectedGenres.push(genre.id);
     }
 
-    this.formChanged = !!this.selectedGenres.length;
+    this.formChanged = !(
+      JSON.stringify(this.selectedGenres) ===
+      JSON.stringify(this.initialSelectedGenres)
+    );
     this.showFixedSearchBtn = this.isSearchButtonOutOfView();
-
-    this.emitFilter();
-  }
-
-  emitFilter(): void {
-    const filters = this.getQueryParamsFromForm();
-    this.filterChange.emit(filters);
   }
 
   ngAfterViewInit(): void {
@@ -119,6 +120,7 @@ export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
       )
       .subscribe((isOutOfView) => {
         this.showFixedSearchBtn = isOutOfView && this.formChanged;
+        this.cdr.markForCheck();
       });
   }
 
@@ -147,11 +149,11 @@ export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
       sort_by,
       with_genres: this.selectedGenres.join(','),
       with_original_language,
-      vote_average_gte,
-      vote_average_lte,
-      vote_count_gte,
-      with_runtime_gte,
-      with_runtime_lte,
+      'vote_average.gte': vote_average_gte,
+      'vote_average.lte': vote_average_lte,
+      'vote_count.gte': vote_count_gte,
+      'with_runtime.gte': with_runtime_gte,
+      'with_runtime.lte': with_runtime_lte,
     };
 
     if (!search_all_releases) {
@@ -166,7 +168,39 @@ export class MovieFilterComponent implements AfterViewInit, AfterViewInit {
     return filters;
   }
 
-  getShowFixedSearchBtn(): boolean {
-    return this.formChanged && this.showFixedSearchBtn;
+  search(): void {
+    const filters = this.getQueryParamsFromForm();
+    this.filterChange.emit(filters);
+
+    this.formChanged = false;
+    this.showFixedSearchBtn = false;
+
+    this.initialSelectedGenres = [...this.selectedGenres];
+
+    this.initialValue = this.filterForm.getRawValue();
+  }
+  reset(): void {
+    this.filterForm.reset({
+      sort_by: 'popularity.desc',
+      search_all_releases: true,
+      release_date_from: '',
+      release_date_to: '',
+      with_original_language: 'en',
+      vote_average_gte: 0,
+      vote_average_lte: 10,
+      vote_count_gte: 0,
+      with_runtime_gte: 0,
+      with_runtime_lte: 360,
+      with_keywords: '',
+    });
+    this.selectedGenres = [];
+    this.initialSelectedGenres = [];
+
+    this.formChanged = false;
+    this.showFixedSearchBtn = false;
+
+    this.initialValue = this.filterForm.getRawValue();
+
+    this.filterChange.emit(this.getQueryParamsFromForm());
   }
 }

@@ -3,10 +3,11 @@
 
   <div class="movie__body">
     <section class="movie__fillter">
-      <app-movie-filter [genresList]="genres.genres"></app-movie-filter>
+      <app-movie-filter *ngIf="genres" [genresList]="genres.genres" (filterChange)="discover($event)"></app-movie-filter>
     </section>
 
     <section class="movie__list">
+      <div class="movie__none" *ngIf="isMovieNone()">Don't have any shows!</div>
       <div class="movie__grid">
         <ng-container *ngFor="let p of res.results; let index = index">
           <app-white-card
