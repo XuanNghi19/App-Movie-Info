@@ -94,25 +94,19 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   }
 
   getName(): string {
-    if (!this.item) return '--';
-    return this.item.name ?? this.item.title;
+    return this.item.name ?? this.item.title ?? '--';
   }
 
   get popularity(): number {
-    if (!this.item) return 0;
-    return this.item.popularity;
+    return this.item.popularity || '--';
   }
 
   get character(): string {
-    if (!this.item) return '--';
-    return this.item.character;
+    return this.item.character || '--';
   }
 
   getScore(): number {
-    if (!this.item) return 0;
-    return this.item.vote_average === undefined
-      ? this.item.popularity
-      : this.item.vote_average;
+    return (this.item.vote_average || this.item.popularity) ?? '--';
   }
 
   isActive(action: string): boolean {
@@ -154,8 +148,7 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   }
 
   getTitle(): string {
-    if (!this.item) return '';
-    return this.item.title === undefined ? this.item.name : this.item.title;
+    return this.item.title || this.item.name;
   }
 
   getReleaseDate(): string {

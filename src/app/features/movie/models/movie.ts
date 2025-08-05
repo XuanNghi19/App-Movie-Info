@@ -37,3 +37,9 @@ export interface TvShow {
   vote_count: number;
 }
 
+export interface GenreResponse {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+}

@@ -137,19 +137,15 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
   }
 
   getTitle(): string {
-    if (!this.item) return '';
-    return this.item.title === undefined ? this.item.name : this.item.title;
+    return (this.item.name || this.item.title) ?? '--';
   }
 
   getScore(): number {
-    if (!this.item) return 0;
-    return this.item.vote_average === undefined
-      ? this.item.popularity
-      : this.item.vote_average;
+    return (this.item.vote_average || this.item.popularity) ?? '--';
   }
 
   getReleaseDate(): string {
-    return this.item?.release_date || '';
+    return this.item.release_date || '';
   }
 
   onMoreEnter(): void {

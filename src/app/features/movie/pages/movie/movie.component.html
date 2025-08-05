@@ -1,10 +1,12 @@
-<div class="movie">
+<div class="movie" *ngIf="res" >
   <h1 class="movie__title">{{ getTitle() }}</h1>
 
-  <div>
-    <section class="movie__fillter"></section>
+  <div class="movie__body">
+    <section class="movie__fillter">
+      <app-movie-filter [genresList]="genres.genres"></app-movie-filter>
+    </section>
 
-    <section class="movie__list" *ngIf="res">
+    <section class="movie__list">
       <div class="movie__grid">
         <ng-container *ngFor="let p of res.results; let index = index">
           <app-white-card
@@ -15,7 +17,7 @@
             [imgFlex]="4"
             [hasMore]="true"
             [hasScore]="true"
-            [type]="type"
+            [type]="getType()"
             [hasDate]="true"
           ></app-white-card>
         </ng-container>

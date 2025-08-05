@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { components } from './components';
 import { pipes } from './pipe';
-import { FormsModule } from '@angular/forms';
-import { RatingComponent } from './components/rating/rating.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const primeng = [CarouselModule];
 @NgModule({

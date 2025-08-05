@@ -1,0 +1,162 @@
+<form [formGroup]="filterForm" class="movie-filter">
+  <!-- SORT SECTION -->
+  <div class="movie-filter__section">
+    <div
+      class="movie-filter__section-header"
+      (click)="isSortOpen = !isSortOpen"
+    >
+      <h3 class="movie-filter__heading">Sort</h3>
+      <span class="movie-filter__icon">{{ isSortOpen ? "▾" : "▸" }}</span>
+    </div>
+
+    <div class="movie-filter__section-body" *ngIf="isSortOpen">
+      <label class="movie-filter__label" style="margin-top: 16px"
+        >Sort Results By</label
+      >
+      <div class="movie-filter__slect-wrapper">
+        <ng-select
+          [items]="sortOptions"
+          bindLabel="label"
+          bindValue="value"
+          formControlName="sort_by"
+          class="movie-filter__select"
+          [searchable]="true"
+          [clearable]="true"
+          [dropdownPosition]="'bottom'"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER SECTION -->
+  <div class="movie-filter__section">
+    <div
+      class="movie-filter__section-header"
+      (click)="isFilterOpen = !isFilterOpen"
+    >
+      <h3 class="movie-filter__heading">Filters</h3>
+      <span class="movie-filter__icon">{{ isFilterOpen ? "▾" : "▸" }}</span>
+    </div>
+
+    <div class="movie-filter__section-body" *ngIf="isFilterOpen">
+      <div class="movie-filter__subsection">
+        <label>
+          <input type="checkbox" formControlName="search_all_releases" />
+          Search all releases?
+        </label>
+
+        <div
+          *ngIf="!filterForm.get('search_all_releases')?.value"
+          class="movie-filter__dates"
+        >
+          <input type="date" formControlName="release_date_from" />
+          <input type="date" formControlName="release_date_to" />
+        </div>
+      </div>
+
+      <div class="movie-filter__subsection">
+        <p class="movie-filter__label">Genres</p>
+        <span
+          class="movie-filter__genre"
+          *ngFor="let genre of genresList"
+          [class.movie-filter__genre--selected]="
+            selectedGenres.includes(genre.id)
+          "
+          (click)="toggleGenre(genre)"
+        >
+          {{ genre.name }}
+        </span>
+      </div>
+
+      <h3 class="movie-filter__h2">Certification</h3>
+      <!-- LANGUAGE -->
+      <div class="movie-filter__subsection">
+        <label class="movie-filter__label">
+          Language
+          <span class="movie-filter__tooltip" title="Select language">?</span>
+        </label>
+        <div class="movie-filter__slect-wrapper">
+          <ng-select
+            [items]="languages"
+            bindLabel="english_name"
+            bindValue="iso_639_1"
+            formControlName="with_original_language"
+            class="movie-filter__select"
+            [searchable]="true"
+            [clearable]="true"
+          ></ng-select>
+        </div>
+      </div>
+
+      <!-- USER SCORE -->
+      <div class="movie-filter__subsection">
+        <label class="movie-filter__label">User Score</label>
+        <ng5-slider
+          [options]="scoreSliderOptions"
+          [value]="filterForm.get('vote_average_gte')?.value"
+          [highValue]="filterForm.get('vote_average_lte')?.value"
+          (valueChange)="filterForm.get('vote_average_gte')?.setValue($event)"
+          (highValueChange)="
+            filterForm.get('vote_average_lte')?.setValue($event)
+          "
+        ></ng5-slider>
+      </div>
+
+      <!-- MINIMUM VOTES -->
+      <div class="movie-filter__subsection">
+        <label class="movie-filter__label">Minimum User Votes</label>
+        <ng5-slider
+          [options]="votesSliderOptions"
+          [value]="filterForm.get('vote_count_gte')?.value"
+          (valueChange)="filterForm.get('vote_count_gte')?.setValue($event)"
+        ></ng5-slider>
+      </div>
+
+      <!-- RUNTIME -->
+      <div class="movie-filter__subsection">
+        <label class="movie-filter__label">Runtime</label>
+        <ng5-slider
+          [options]="runtimeSliderOptions"
+          [value]="filterForm.get('with_runtime_gte')?.value"
+          [highValue]="filterForm.get('with_runtime_lte')?.value"
+          (valueChange)="filterForm.get('with_runtime_gte')?.setValue($event)"
+          (highValueChange)="
+            filterForm.get('with_runtime_lte')?.setValue($event)
+          "
+        ></ng5-slider>
+      </div>
+
+      <!-- KEYWORDS -->
+      <div class="movie-filter__subsection">
+        <label class="movie-filter__label">Keywords</label>
+        <input
+          type="text"
+          class="movie-filter__input"
+          formControlName="with_keywords"
+          placeholder="Filter by keywords..."
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Nút search chính -->
+  <button
+    #searchBtn
+    type="submit"
+    [disabled]="!formChanged"
+    class="movie-filter__search-button"
+  >
+    Search
+  </button>
+
+</form>
+
+<button
+  *ngIf="getShowFixedSearchBtn()"
+  type="submit"
+  [disabled]="!filterForm.dirty"
+  class="movie-filter__search-button--fixed"
+>
+  Search
+</button>

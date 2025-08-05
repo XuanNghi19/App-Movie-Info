@@ -77,6 +77,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       .getSupportedLanguages()
       .subscribe((langs) => {
         this.languages = langs;
+        localStorage.setItem('languages', JSON.stringify(langs));
       });
   }
 
