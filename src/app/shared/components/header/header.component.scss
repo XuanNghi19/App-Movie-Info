@@ -22,16 +22,20 @@
 .rotate img {
   @include rotate(180deg);
 }
+
 header {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1280x;
+  display: flex;
+  justify-content: center;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1280px;
   height: 80px;
   transition: transform 0.3s ease-in-out;
   position: sticky;

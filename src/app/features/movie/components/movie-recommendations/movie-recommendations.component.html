@@ -1,44 +1,54 @@
-<app-slider
-  [title]="'Recommendations'"
-  [items]="recomendations.results"
-  [maxWidth]="'1050px'"
-  [itemGap]="'24px'"
->
-  <ng-template #cardTemplate let-item *ngIf="recomendations.results.length > 0; else noRecommandations">
-    <div (click)="goTo(item.id, item.media_type)" class="rec">
-      <div class="rec__body">
-        <img [src]="getImg(item.backdrop_path)" [alt]="item.name" />
-        <div class="rec__info">
-          <div class="rec__overlay"></div>
-          <div class="rec__overlay-content">
-            <div class="rec__date">
-              <img src="/assets/icons/calendar.png" alt="calendar" />
-              <p>
-                {{
-                  item.release_date
-                    ? item.release_date
-                    : (item.first_air_date | date : "dd/MM/yyyy")
-                }}
-              </p>
-            </div>
+<h2>Recommendations</h2>
+<div *ngIf="recommendations; else noRecommendations">
+  <app-slider
+    [title]="'Recommendations'"
+    [items]="recommendations.results"
+    [maxWidth]="'1050px'"
+    [itemGap]="'24px'"
+    [title]="''"
+  >
+    <ng-template
+      #cardTemplate
+      let-item
+      *ngIf="recommendations.results.length > 0; else noRecommendations"
+    >
+      <div (click)="goTo(item.id, item.media_type)" class="rec">
+        <div class="rec__body">
+          <img [src]="getImg(item.backdrop_path)" [alt]="item.name" />
+          <div class="rec__info">
+            <div class="rec__overlay"></div>
+            <div class="rec__overlay-content">
+              <div class="rec__date">
+                <img src="/assets/icons/calendar.png" alt="calendar" />
+                <p>
+                  {{
+                    item.release_date
+                      ? item.release_date
+                      : (item.first_air_date | date : "dd/MM/yyyy")
+                  }}
+                </p>
+              </div>
 
-            <div class="rec__icons">
-              <img src="/assets/icons/star-black.svg" alt="start" />
-              <img src="/assets/icons/heart-solid-full.svg" alt="heart" />
-              <img src="/assets/icons/bookmark-solid-full.svg" alt="bookmark" />
+              <div class="rec__icons">
+                <img src="/assets/icons/star-black.svg" alt="start" />
+                <img src="/assets/icons/heart-solid-full.svg" alt="heart" />
+                <img
+                  src="/assets/icons/bookmark-solid-full.svg"
+                  alt="bookmark"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="rec__footer">
-        <p class="rec__name">{{ item.name ? item.name : item.title }}</p>
-        <p class="rec__name">{{ item.vote_average | score }}%</p>
+        <div class="rec__footer">
+          <p class="rec__name">{{ item.name ? item.name : item.title }}</p>
+          <p class="rec__name">{{ item.vote_average | score }}%</p>
+        </div>
       </div>
-    </div>
-  </ng-template>
-
-  <ng-template #noRecommandations>
-    <p class="rec__empty">No recommandations available.</p>
-  </ng-template>
-</app-slider>
+    </ng-template>
+  </app-slider>
+</div>
+<ng-template #noRecommendations>
+  <p class="rec__empty">No recommandations available.</p>
+</ng-template>

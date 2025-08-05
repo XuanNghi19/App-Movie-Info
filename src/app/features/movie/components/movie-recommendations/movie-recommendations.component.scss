@@ -1,3 +1,10 @@
+h2 {
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin: 0;
+  margin-top: 16px;
+}
+
 .rec {
   display: flex;
   flex-direction: column;
@@ -10,7 +17,7 @@
     overflow: hidden;
     position: relative;
     width: 250px;
-   
+
     img {
       width: 250px;
       height: 141px;

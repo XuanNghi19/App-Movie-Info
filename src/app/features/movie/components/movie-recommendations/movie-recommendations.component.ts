@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieRecommendationsComponent implements OnInit {
-  @Input() recomendations!: RecommendationResponse;
+  @Input() recommendations!: RecommendationResponse | null;
   @Output() go = new EventEmitter<{ id: number; type: string }>();
   private readonly urlImg = BASE_IMG_URL_250_141;
   private readonly deftImg = DEFAULT_IMG;

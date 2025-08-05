@@ -22,11 +22,12 @@ import {
 } from '../../models/movie-details';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/core/services/loading.service';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MovieMediaComponent } from '../../components/movie-media/movie-media.component';
 import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
 import { FeedbackService } from 'src/app/core/services/feedback.service';
+import { safeRequest } from 'src/app/core/utils/functions';
 
 @Component({
   selector: 'app-movie-details',
@@ -70,39 +71,60 @@ export class MovieDetailsComponent implements OnInit {
   load(info: { id: number; type: string }) {
     this.loadingService.show();
 
-    let request$ = forkJoin({
-      details: this.movieDetailsService.getTvDetails(info.id, this.type),
-      credits: this.movieDetailsService.getCredits(info.id, this.type),
-      keywords: this.movieDetailsService.getKeywords(info.id, this.type),
-      reviews: this.movieDetailsService.getReviews(info.id, this.type),
-      videos: this.movieDetailsService.getVideos(info.id, this.type),
-      images: this.movieDetailsService.getImages(info.id, this.type),
-      recommendations: this.movieDetailsService.getRecommendations(
-        info.id,
-        this.type
+    const requests = {
+      details: safeRequest(
+        this.movieDetailsService.getTvDetails(info.id, this.type),
+        'Details'
       ),
-    });
+      credits: safeRequest(
+        this.movieDetailsService.getCredits(info.id, this.type),
+        'Credits'
+      ),
+      keywords: safeRequest(
+        this.movieDetailsService.getKeywords(info.id, this.type),
+        'Keywords'
+      ),
+      reviews: safeRequest(
+        this.movieDetailsService.getReviews(info.id, this.type),
+        'Reviews'
+      ),
+      videos: safeRequest(
+        this.movieDetailsService.getVideos(info.id, this.type),
+        'Videos'
+      ),
+      images: safeRequest(
+        this.movieDetailsService.getImages(info.id, this.type),
+        'Images'
+      ),
+      recommendations: safeRequest(
+        this.movieDetailsService.getRecommendations(info.id, this.type),
+        'Recommendations'
+      ),
+    };
+    const request$ = combineLatest(requests);
+    request$
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe((res) => {
+        this.details = res.details as MovieDetails;
+        this.userRating =
+          res.details && ('vote_average' in res.details)
+            ? Math.round((res.details as MovieDetails | TvDetails).vote_average * 10)
+            : 0;
+        this.credits = res.credits as Credits;
+        this.reviews = res.reviews as ReviewsResponse;
+        this.videos = res.videos as VideoResponse;
+        this.images = res.images as MediaImagesResponse;
+        this.recommendations = res.recommendations as RecommendationResponse;
 
-    request$.pipe(finalize(() => this.loadingService.hide())).subscribe({
-      next: (res) => {
-        this.details = res.details;
-        this.userRating = Math.round(this.details.vote_average * 10);
-        this.keywords = res.keywords.keywords;
-        this.credits = res.credits;
-        this.reviews = res.reviews;
-        this.videos = res.videos;
-        this.images = res.images;
-        this.recommendations = res.recommendations;
-        if (this.type === 'movie') {
-          this.keywords = res.keywords.keywords;
-        } else if (this.type === 'tv') {
-          this.keywords = res.keywords.results;
+        if (res.keywords) {
+          this.keywords =
+            this.type === 'movie'
+              ? (res.keywords && 'keywords' in res.keywords ? res.keywords.keywords : [])
+              : (res.keywords && 'results' in res.keywords ? res.keywords.results : []);
+        } else {
+          this.keywords = [];
         }
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+      });
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -123,8 +145,11 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   handlePlayTrailer() {
-    if(!this.videos.results.length) {
-      this.feedbackService.error('Hiện tại không có Trailer cho show này!', 1000);
+    if (!this.videos.results.length) {
+      this.feedbackService.error(
+        'Hiện tại không có Trailer cho show này!',
+        1000
+      );
       return;
     }
     this.media.playTrailer(this.videos.results[0].key);
