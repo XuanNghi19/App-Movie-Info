@@ -32,8 +32,10 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
 
   @Input() details!: MovieDetails | TvDetails;
   @Input() type: string = 'movie';
-
   @Input() movieCredits!: Credits;
+  @Input() isFavorite = false;
+  @Input() isWatchList = false;
+
   @Output() playTrailer = new EventEmitter<void>();
   @Output() rating = new EventEmitter<void>();
   
@@ -152,9 +154,9 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
       case 'list':
         return `${basePath}/list-${isActive ? 'active' : 'white'}.png`;
       case 'heart':
-        return `${basePath}/heart-${isActive ? 'active' : 'white'}.png`;
+        return `${basePath}/heart-${(isActive || this.isFavorite) ? 'active' : 'white'}.png`;
       case 'bookmark':
-        return `${basePath}/bookmark-${isActive ? 'active' : 'white'}.png`;
+        return `${basePath}/bookmark-${(isActive || this.isWatchList) ? 'active' : 'white'}.png`;
       default:
         return '';
     }

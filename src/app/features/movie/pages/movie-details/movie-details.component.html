@@ -5,6 +5,8 @@
   [movieCredits]="credits"
   (playTrailer)="handlePlayTrailer()"
   (rating)="showRating()"
+  [isFavorite]="isFavorite"
+  [isWatchList]="isWatchList"
 ></app-movie-header-info>
 <div *ngIf="details" class="movie-body">
   <div class="col">

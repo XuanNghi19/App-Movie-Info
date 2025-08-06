@@ -28,6 +28,7 @@ import { MovieMediaComponent } from '../../components/movie-media/movie-media.co
 import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
 import { FeedbackService } from 'src/app/core/services/feedback.service';
 import { safeRequest } from 'src/app/core/utils/functions';
+import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -55,11 +56,15 @@ export class MovieDetailsComponent implements OnInit {
   @ViewChild(RatingComponent) rating!: RatingComponent;
   userRating = 0;
 
+  isFavorite = false;
+  isWatchList = false;
+
   constructor(
     private movieDetailsService: MovieDetailsService,
     private route: ActivatedRoute,
     private loadingService: LoadingService,
-    private feedbackService: FeedbackService
+    private feedbackService: FeedbackService,
+    private accountService: AccountService,
   ) {}
 
   ngOnInit(): void {
@@ -100,6 +105,10 @@ export class MovieDetailsComponent implements OnInit {
         this.movieDetailsService.getRecommendations(info.id, this.type),
         'Recommendations'
       ),
+      showsState: safeRequest(
+        this.accountService.getShowsState(info.id, this.type),
+        'Shows State'
+      )
     };
     const request$ = combineLatest(requests);
     request$
@@ -115,6 +124,10 @@ export class MovieDetailsComponent implements OnInit {
         this.videos = res.videos as VideoResponse;
         this.images = res.images as MediaImagesResponse;
         this.recommendations = res.recommendations as RecommendationResponse;
+        
+        let showsState = res.showsState;
+        this.isFavorite = showsState?.favorite || false;
+        this.isWatchList = showsState?.watchlist || false;
 
         if (res.keywords) {
           this.keywords =
