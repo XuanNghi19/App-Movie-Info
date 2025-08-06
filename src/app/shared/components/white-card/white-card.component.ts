@@ -11,6 +11,10 @@ import {
 import { Router } from '@angular/router';
 import { BASE_IMG_URL_220_330 } from 'src/app/core/utils/constants';
 import { RatingComponent } from '../rating/rating.component';
+import { ShowsState } from 'src/app/core/model/account';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { AccountService } from 'src/app/core/services/account.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-white-card',
@@ -52,7 +56,13 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   openMore = false;
   score = 0;
 
-  constructor(private router: Router) {}
+  showsState: ShowsState | null = null;
+
+  constructor(
+    private router: Router,
+    public loadingService: LoadingService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -106,7 +116,11 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   }
 
   getScore(): number {
-    return (this.item.vote_average !== undefined ? this.item.vote_average: this.item.popularity) ?? '--';
+    return (
+      (this.item.vote_average !== undefined
+        ? this.item.vote_average
+        : this.item.popularity) ?? '--'
+    );
   }
 
   isActive(action: string): boolean {
@@ -141,6 +155,20 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
 
   onMoreClick(): void {
     this.openMore = !this.openMore;
+
+    if (!this.showsState) {
+      this.loadingService.show('inner');
+      this.accountService
+        .getShowsState(this.item.id, this.type)
+        .pipe(finalize(() => this.loadingService.hide('inner')))
+        .subscribe((res) => {
+          this.showsState = res;
+
+          this.actionStates['heart'] = res.favorite;
+          this.actionStates['bookmark'] = res.watchlist;
+          this.actionStates['star'] = res.rated;
+        });
+    }
   }
 
   showRating() {

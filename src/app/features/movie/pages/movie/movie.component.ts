@@ -58,7 +58,7 @@ export class MovieComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadingService.show();
+    this.loadingService.show('overlay');
 
     this.activatedRoute.paramMap.subscribe((params) => {
       if (this.movieFilter) {
@@ -67,9 +67,8 @@ export class MovieComponent implements OnInit {
       const tab = params.get('tab') ?? 'popular';
       const type = params.get('type') ?? 'movie';
 
-      this.tab$.next(tab);
-      this.type$.next(type);
-      this.page$.next(1);
+      if (this.tab$.value !== tab) this.tab$.next(tab);
+      if (this.type$.value !== type) this.type$.next(type);
 
       this.movieService
         .getGenres(this.type$.value, 'vi')
@@ -93,7 +92,10 @@ export class MovieComponent implements OnInit {
 
     combineLatest([this.type$, this.tab$, this.page$])
       .pipe(
-        tap(() => this.loadingService.show()),
+        tap(() => {
+          this.loadingService.show('overlay');
+          this.isDiscover = false;
+        }),
         switchMap(([type, tab, page]) => {
           if (this.isDiscover) {
             return EMPTY;
@@ -109,7 +111,7 @@ export class MovieComponent implements OnInit {
               console.error('Main API failed', err);
               return of(null);
             }),
-            finalize(() => this.loadingService.hide())
+            finalize(() => this.loadingService.hide('overlay'))
           );
         })
       )
@@ -138,11 +140,11 @@ export class MovieComponent implements OnInit {
     this.params = params;
     this.isDiscover = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.loadingService.show();
+    this.loadingService.show('overlay');
 
     this.movieService
       .discover(this.type$.value, params, page)
-      .pipe(finalize(() => this.loadingService.hide()))
+      .pipe(finalize(() => this.loadingService.hide('overlay')))
       .subscribe((res) => {
         this.res = res;
         this.currentPage = res?.page || 1;

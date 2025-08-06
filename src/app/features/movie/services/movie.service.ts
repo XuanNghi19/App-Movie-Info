@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { GenreResponse, Movie, Response } from '../models/movie';
+import { GenreResponse, Movie } from '../models/movie';
 import { TvShow } from '../models/movie';
+import { Response } from 'src/app/core/model/response';
 
 @Injectable({
   providedIn: 'root',

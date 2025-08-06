@@ -96,6 +96,7 @@ header {
   }
 
   &__actions {
+    position: relative;;
     display: flex;
     height: 100%;
     align-items: center;
@@ -113,6 +114,8 @@ header {
   }
 
   &__dropdown-container {
+    position: absolute;
+    top: 70px;
     z-index: 1000;
     background: white;
     border: 1px solid #ccc;

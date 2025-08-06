@@ -23,6 +23,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./people/people.module').then((m) => m.PeopleModule),
       },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('./user/user.module').then((m) => m.UserModule),
+      },
       { path: '**', redirectTo: 'notfound', pathMatch: 'full' },
     ],
   },

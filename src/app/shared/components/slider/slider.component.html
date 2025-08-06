@@ -11,8 +11,8 @@
       </button>
     </div>
   </div>
-
-  <div class="slider__scroll-container">
+  
+  <div *ngIf="items" class="slider__scroll-container">
     <div
       class="slider__scroll"
       [ngStyle]="{

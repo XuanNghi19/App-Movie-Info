@@ -1,0 +1,62 @@
+<section class="watchlist">
+  <div class="watchlist__header">
+    <h2 class="watchlist__title">
+      {{ listsTitle[list$.value] }}
+    </h2>
+
+    <div class="watchlist__filter">
+      <a
+        class="watchlist__filter-item"
+        [class.watchlist__filter-item--active]="type$.value === 'movies'"
+        [routerLink]="['/user/watchlist', list, 'movies']"
+      >
+        Movies
+        <span>({{ movieCount }})</span>
+      </a>
+      <a
+        class="watchlist__filter-item"
+        [class.watchlist__filter-item--active]="type$.value === 'tv'"
+        [routerLink]="['/user/watchlist', list, 'tv']"
+      >
+        TV
+        <span>({{ tvCount }})</span>
+      </a>
+    </div>
+
+    <div class="watchlist__sort">
+      <label for="sort" class="watchlist__sort-label">Lọc bởi:</label>
+      <div class="watchlist__sort-select-wrapper">
+        <select
+          id="sort"
+          class="watchlist__sort-select"
+          (change)="onSortChange($event)"
+        >
+          <option value="created_at.asc">Thêm ngày ↑</option>
+          <option value="created_at.desc">Thêm ngày ↓</option>
+        </select>
+        <span class="watchlist__sort-icon">▼</span>
+      </div>
+    </div>
+  </div>
+
+  <ul class="watchlist__list">
+    <li *ngFor="let item of res?.results" class="watchlist__item">
+      <app-media-card
+        [media]="item"
+        [type]="type$.value"
+        [list]="list$.value"
+        (navigate)="goToDetalis($event)"
+      ></app-media-card>
+    </li>
+  </ul>
+
+  <app-pagination
+    [currentPage]="crrPage"
+    [totalPages]="res?.total_pages"
+    [maxVisiblePages]="7"
+    [showFirstLast]="true"
+    [showPrevNext]="true"
+    [showPageNumbers]="true"
+    (pageChange)="loadPage($event)"
+  ></app-pagination>
+</section>

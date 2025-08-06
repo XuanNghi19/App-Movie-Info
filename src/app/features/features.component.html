@@ -1,8 +1,10 @@
-<app-overlay-loading [loading]="loadingService.loading$ | async">
+<app-overlay-loading [loading]="loadingService.loading$('overlay') | async">
 </app-overlay-loading>
 <app-feedback></app-feedback>
 
 <app-header (focusSearchEvent)="foucusSearch()"></app-header>
 <app-header-search #searchRef></app-header-search>
-<router-outlet></router-outlet>
+<div class="router-outlet">
+  <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>

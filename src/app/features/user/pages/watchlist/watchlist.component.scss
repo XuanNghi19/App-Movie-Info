@@ -1,0 +1,104 @@
+:host {
+  max-width: 1280px;
+  width: 100%;
+}
+
+.watchlist {
+  margin-bottom: 48px;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 16px;
+  }
+
+  &__filter {
+    display: flex;
+    gap: 12px;
+
+    &-item {
+      color: #888;
+      text-decoration: none;
+      font-weight: 500;
+
+      &--active {
+        color: #00b894;
+      }
+
+      .watchlist__count {
+        font-weight: bold;
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &__sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &-label {
+      font-weight: 500;
+      color: #555;
+    }
+
+    &-select-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    &-select {
+      appearance: none;
+      padding: 6px 32px 6px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      min-width: 150px;
+      transition: border-color 0.2s;
+
+      &:hover {
+        border-color: #00b894;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #0984e3;
+      }
+    }
+
+    &-icon {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 0.7rem;
+      color: #555;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 16px;
+  }
+
+  &__item {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+}

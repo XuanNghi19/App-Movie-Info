@@ -1,0 +1,67 @@
+<article class="media-card">
+  <img
+    (click)="onNavigate()"
+    class="media-card__poster"
+    [src]="posterUrl"
+    [alt]="title"
+  />
+
+  <div class="media-card__content">
+    <div class="media-card__header-content">
+      <div class="media-card__vote">
+        <span>{{ vote }}%</span>
+      </div>
+
+      <div class="media-card__header-document">
+        <h3 class="media-card__title" (click)="onNavigate()">
+          {{ title }}
+          <span class="media-card__original-title">({{ originalTitle }})</span>
+        </h3>
+        <p class="media-card__date">{{ releaseDate | date : "MMMM d, y" }}</p>
+      </div>
+    </div>
+
+    <p class="media-card__overview">{{ media?.overview }}</p>
+
+    <div class="media-card__actions">
+      <button class="media-card__action" (click)="onNavigate()">
+        <div class="media-card__img">
+          <img src="/assets/icons/star-active.png" class="media-card__icon" />
+        </div>
+        <span class="media-card__label">Rate it!</span>
+      </button>
+
+      <button *ngIf="list !== 'favorite'" class="media-card__action" (click)="onNavigate()">
+        <div class="media-card__img">
+          <img src="/assets/icons/heart-active.png" class="media-card__icon" />
+        </div>
+        <span class="media-card__label">Favorite</span>
+      </button>
+
+      <button *ngIf="list !== 'watchlist'" class="media-card__action" (click)="onNavigate()">
+        <div class="media-card__img">
+          <img src="/assets/icons/bookmark-active.png" class="media-card__icon" />
+        </div>
+        <span class="media-card__label">Favorite</span>
+      </button>
+      
+      <button
+        (mouseenter)="trashHover = true"
+        (mouseleave)="trashHover = false"
+        class="media-card__action"
+      >
+        <div class="media-card__img">
+          <img
+            [src]="
+              trashHover
+                ? '/assets/icons/trash-active.svg'
+                : '/assets/icons/trash.svg'
+            "
+            class="media-card__icon"
+          />
+        </div>
+        <span class="media-card__label">Remove</span>
+      </button>
+    </div>
+  </div>
+</article>

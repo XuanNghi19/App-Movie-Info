@@ -1,7 +1,7 @@
 @use "../../../../../assets/styles/main.scss" as *;
 
 :host {
-  width: 100%;
+  width: 100vw;
   color: white;
   background: linear-gradient(135deg, #90d3ae, #636dce);
   display: flex;
@@ -20,13 +20,13 @@
   position: relative;
   display: flex;
   justify-content: start;
-  width: 1380px;
+  width: 1280px;
 
   &__body {
     z-index: 2;
     width: 100%;
     display: flex;
-    padding: 30px 40px;
+    padding: 30px 0;
     gap: 40px;
   }
 

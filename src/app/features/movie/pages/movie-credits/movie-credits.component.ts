@@ -33,7 +33,7 @@ export class MovieCreditsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadingService.show();
+    this.loadingService.show('overlay');
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.type = String(this.route.snapshot.paramMap.get('type'));
 
@@ -50,7 +50,7 @@ export class MovieCreditsComponent implements OnInit {
       .pipe(
         take(1),
         finalize(() => {
-          this.loadingService.hide();
+          this.loadingService.hide('overlay');
         })
       )
       .subscribe({

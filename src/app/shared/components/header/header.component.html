@@ -44,20 +44,16 @@
       <button [class]="'btn-icon'">
         <img src="/assets/icons/bell.svg" alt="bell" />
       </button>
-      <button [class]="'btn-icon'">
+      <button [class]="'btn-icon'" (click)="onDropdownTrigger($event, 'user')">
         <img src="/assets/icons/avatar.svg" alt="avatar" />
       </button>
       <button (click)="focusSearch()" [class]="'btn-icon'">
         <img src="/assets/icons/search.svg" alt="search" />
       </button>
-      <div
-        class="header__dropdown-container"
-        *ngIf="showLanguageDropdown"
-        [style.position]="'absolute'"
-        [style.top.px]="dropdownTop"
-        [style.left.px]="dropdownLeft"
-      >
-        <app-language-preferences [languages]="languages"></app-language-preferences>
+      <div class="header__dropdown-container" *ngIf="showLanguageDropdown">
+        <app-language-preferences
+          [languages]="languages"
+        ></app-language-preferences>
       </div>
     </div>
   </section>

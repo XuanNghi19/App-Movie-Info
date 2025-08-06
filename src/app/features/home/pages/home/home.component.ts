@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadAllHomeData() {
-    this.loadingService.show();
+    this.loadingService.show('overlay');
     forkJoin({
       trendingMovies: this.homeService.getTrendingMovies(
         this.trendingTab || 'day',
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
         this.tvTrendingTab || 'day'
       ),
       popularPeople: this.peopleServie.getPopularPerson(),
-    }).pipe(finalize(() => this.loadingService.hide())).subscribe({
+    }).pipe(finalize(() => this.loadingService.hide('overlay'))).subscribe({
       next: (res) => {
         this.movieList = res.trendingMovies.results;
         this.trailerList = res.latestTrailers.results;

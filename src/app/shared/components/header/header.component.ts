@@ -62,6 +62,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       { label: 'Thêm phim mới', route: '/' },
       { label: 'Thêm chương trình TV mới', route: '/' },
     ],
+    user: [
+      { label: 'Danh sách theo dõi', route: '/user/watchlist/watchlist/movies' },
+      { label: 'Yêu thích', route: '/user/watchlist/favorite/movies' },
+    ],
   };
 
   constructor(
@@ -73,12 +77,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.languageService
-      .getSupportedLanguages()
-      .subscribe((langs) => {
-        this.languages = langs;
-        localStorage.setItem('languages', JSON.stringify(langs));
-      });
+    this.languageService.getSupportedLanguages().subscribe((langs) => {
+      this.languages = langs;
+      localStorage.setItem('languages', JSON.stringify(langs));
+    });
   }
 
   onDropdownTrigger(event: MouseEvent, key: string) {
@@ -118,9 +120,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   toggleLanguageDropdown() {
     this.onDropdownHide();
     this.showLanguageDropdown = !this.showLanguageDropdown;
-    if (this.showLanguageDropdown) {
-      this.setDropdownPosition();
-    }
   }
 
   setDropdownPosition() {

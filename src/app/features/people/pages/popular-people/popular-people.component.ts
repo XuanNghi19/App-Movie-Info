@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PeopleService } from '../../services/people.service';
-import { Response, TrendingPerson } from '../../../home/models/home';
+import { TrendingPerson } from '../../../home/models/home';
 import { finalize, tap } from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import { Response } from 'src/app/core/model/response';
 
 @Component({
   selector: 'app-popular-people',
@@ -26,10 +27,10 @@ export class PopularPeopleComponent implements OnInit {
 
   loadPage(page: number) {
     window.scrollTo({top: 0, behavior: 'smooth'})
-    this.loadingService.show();
+    this.loadingService.show('overlay');
     this.peopleService
       .getPopularPerson(page)
-      .pipe(finalize(() => this.loadingService.hide()))
+      .pipe(finalize(() => this.loadingService.hide('overlay')))
       .subscribe({
         next: (res) => {
           this.res = res;

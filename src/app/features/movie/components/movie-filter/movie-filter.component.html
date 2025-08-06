@@ -144,6 +144,7 @@
   <button
     #searchBtn
     (click)="search()"
+    type="submit"
     [disabled]="!formChanged"
     class="movie-filter__search-button"
   >
@@ -153,7 +154,7 @@
 
 <button
   *ngIf="showFixedSearchBtn"
-  type="button"
+  type="submit"
   (click)="search()"
   [disabled]="!showFixedSearchBtn"
   class="movie-filter__search-button--fixed"

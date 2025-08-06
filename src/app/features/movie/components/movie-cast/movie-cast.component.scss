@@ -1,6 +1,5 @@
 :host {
-  max-width: 1050px;
-
+  max-width: 970px;
   opacity: 0;
   animation: fadeIn 0.8s ease-in-out forwards;
   transition: all 0.5s ease-in-out;
@@ -10,9 +9,18 @@
     opacity: 1;
   }
 }
+
+h2 {
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin: 0;
+  margin-top: 16px;
+}
+
 .cast {
   display: flex;
   flex-direction: column;
+  border-bottom: 1.2px solid rgb(212, 212, 212);
   &__nav {
     cursor: pointer;
     font-weight: 600;
@@ -25,6 +33,11 @@
       }
     }
     padding-bottom: 32px;
-    border-bottom: 1.2px solid rgb(212, 212, 212);
+  }
+
+  &__empty {
+    font-style: italic;
+    color: gray;
+    margin-top: 16px;
   }
 }

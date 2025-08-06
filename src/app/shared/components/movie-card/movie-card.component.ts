@@ -21,6 +21,10 @@ import {
 import { HomeService } from '../../../features/home/services/home.service';
 import { Router } from '@angular/router';
 import { RatingComponent } from '../rating/rating.component';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { AccountService } from 'src/app/core/services/account.service';
+import { ShowsState } from 'src/app/core/model/account';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-movie-card',
@@ -56,7 +60,7 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
   selectedTrailerKey: string | null = null;
   safeTrailerUrl: SafeResourceUrl | null = null;
 
-  actionStates: { [key: string]: boolean } = {
+  actionStates: Record<string, boolean> = {
     list: false,
     heart: false,
     bookmark: false,
@@ -66,11 +70,15 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
   openMore = false;
   score = 0;
 
+  showsState: ShowsState | null = null;
+
   constructor(
     private homeService: HomeService,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    public loadingService: LoadingService,
+    private accountService: AccountService
   ) {}
   ngAfterViewInit(): void {
     this.score = Math.round(this.getScore() * 10);
@@ -176,6 +184,19 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
 
   onMoreClick(): void {
     this.openMore = !this.openMore;
+    if (!this.showsState) {
+      this.loadingService.show('inner');
+      this.accountService
+        .getShowsState(this.item.id, this.type)
+        .pipe(finalize(() => this.loadingService.hide('inner')))
+        .subscribe((res) => {
+          this.showsState = res;
+
+          this.actionStates['heart'] = res.favorite;
+          this.actionStates['bookmark'] = res.watchlist;
+          this.actionStates['star'] = res.rated;
+        });
+    }
   }
 
   @HostListener('mouseleave')

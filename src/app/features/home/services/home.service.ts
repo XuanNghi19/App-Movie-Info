@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   TrendingMovie,
-  Response,
   TVShow,
   UpcomingResponse,
   UpcomingMovie,
@@ -12,6 +11,7 @@ import {
   MovieVideosResponse,
 } from '../models/home';
 import { LanguageOption } from 'src/app/core/model/language';
+import { Response } from 'src/app/core/model/response';
 
 @Injectable({
   providedIn: 'root',

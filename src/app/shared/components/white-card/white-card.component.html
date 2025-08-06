@@ -67,6 +67,9 @@
   alt="more"
 />
 <div class="action-menu" *ngIf="isMoreVisible()">
+  <app-inner-loading
+    [loading]="loadingService.loading$('inner') | async"
+  ></app-inner-loading>
   <ul class="action-menu__list">
     <li class="action-menu__item" (click)="onItemMoreClick('list')">
       <i [class]="getIconClass('list')"></i>

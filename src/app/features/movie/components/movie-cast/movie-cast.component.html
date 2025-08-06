@@ -1,19 +1,27 @@
+<h2>{{ getTitle() }}</h2>
+
 <section class="cast">
-  <app-slider [title]="getTitle()" [items]="visibleCasts">
-    <ng-template #cardTemplate let-item>
-      <app-white-card
-        [item]="item"
-        [color]="'black'"
-        [hasCharater]="true"
-        [action]="'people-detail'"
-        [imgBaseUrl]="imgBaseUrl_138_175"
-        [wImg]="'138px'"
-        [hImg]="'175px'"
-        [fontSize]="'14.4px'"
-        [titleSize]="'16px'"
-      >
-      </app-white-card>
-    </ng-template>
-  </app-slider>
-  <h1 class="cast__nav"><a (click)="fullCredits()">Full Cast & Crew</a></h1>
+  <div *ngIf="visibleCasts.length; else noData">
+    <app-slider [maxWidth]="'970px'" [title]="''" [items]="visibleCasts">
+      <ng-template #cardTemplate let-item>
+        <app-white-card
+          [item]="item"
+          [color]="'black'"
+          [hasCharater]="true"
+          [action]="'people-detail'"
+          [imgBaseUrl]="imgBaseUrl_138_175"
+          [wImg]="'138px'"
+          [hImg]="'175px'"
+          [fontSize]="'14.4px'"
+          [titleSize]="'16px'"
+          m
+        >
+        </app-white-card>
+      </ng-template>
+    </app-slider>
+    <h1 class="cast__nav"><a (click)="fullCredits()">Full Cast & Crew</a></h1>
+  </div>
+  <ng-template #noData>
+    <p class="cast__empty">No recommandations available.</p>
+  </ng-template>
 </section>

@@ -40,14 +40,14 @@ export class PeopleDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadingServie.show();
+    this.loadingServie.show('overlay');
 
     let resquest$ = forkJoin({
       knowCredits: this.peopleService.getCombinedCredits(this.id),
       details: this.peopleService.getDetails(this.id),
     });
 
-    resquest$.pipe(finalize(() => this.loadingServie.hide())).subscribe({
+    resquest$.pipe(finalize(() => this.loadingServie.hide('overlay'))).subscribe({
       next: (res) => {
         let combinedCreditsRes = res.knowCredits;
         this.uniqueCredits = this.getUniqueCredits([

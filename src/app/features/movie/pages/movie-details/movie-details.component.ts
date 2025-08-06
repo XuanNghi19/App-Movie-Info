@@ -69,7 +69,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   load(info: { id: number; type: string }) {
-    this.loadingService.show();
+    this.loadingService.show('overlay');
 
     const requests = {
       details: safeRequest(
@@ -103,7 +103,7 @@ export class MovieDetailsComponent implements OnInit {
     };
     const request$ = combineLatest(requests);
     request$
-      .pipe(finalize(() => this.loadingService.hide()))
+      .pipe(finalize(() => this.loadingService.hide('overlay')))
       .subscribe((res) => {
         this.details = res.details as MovieDetails;
         this.userRating =
@@ -146,9 +146,9 @@ export class MovieDetailsComponent implements OnInit {
 
   handlePlayTrailer() {
     if (!this.videos.results.length) {
-      this.feedbackService.error(
+      this.feedbackService.warning(
         'Hiện tại không có Trailer cho show này!',
-        1000
+        3000
       );
       return;
     }
