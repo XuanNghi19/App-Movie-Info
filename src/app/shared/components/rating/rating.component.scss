@@ -94,6 +94,7 @@
 
   &__actions {
     text-align: right;
+    position: relative;
 
     .rating__clear {
       background: none;
@@ -101,9 +102,23 @@
       color: #3498db;
       cursor: pointer;
       font-size: 0.9rem;
+      margin-left: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .rating__submit {
+      background-color: #34dba3;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
 
       &:hover {
-        color: #21618c;
+        background-color: #34dba39f;
       }
     }
   }

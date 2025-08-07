@@ -12,6 +12,7 @@ import {
   OnChanges,
   SimpleChanges,
   AfterViewInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
@@ -80,7 +81,8 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     public loadingService: LoadingService,
     private accountService: AccountService,
-    private feedbackService: FeedbackService
+    private feedbackService: FeedbackService,
+    private cdr: ChangeDetectorRef
   ) {}
   ngAfterViewInit(): void {
     this.score = Math.round(this.getScore() * 10);
@@ -109,19 +111,24 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
   }
 
   playTrailer(movieId: number): void {
-    this.homeService.getMovieTrailerVideo(movieId).subscribe({
-      next: (res) => {
-        const trailer = res.results.find(
-          (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
-        );
-        if (trailer) {
-          this.selectedTrailerKey = trailer.key;
-          this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-            `https://www.youtube.com/embed/${trailer.key}?autoplay=1`
+    this.loadingService.show('overlay');
+    this.homeService
+      .getMovieTrailerVideo(movieId)
+      .pipe(finalize(() => this.loadingService.hide('overlay')))
+      .subscribe({
+        next: (res) => {
+          const trailer = res.results.find(
+            (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
           );
-        }
-      },
-    });
+          if (trailer) {
+            this.selectedTrailerKey = trailer.key;
+            this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+              `https://www.youtube.com/embed/${trailer.key}?autoplay=1`
+            );
+            this.cdr.markForCheck();
+          }
+        },
+      });
   }
 
   closeTrailer(): void {

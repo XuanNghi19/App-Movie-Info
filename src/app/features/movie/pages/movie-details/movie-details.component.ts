@@ -64,12 +64,15 @@ export class MovieDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private loadingService: LoadingService,
     private feedbackService: FeedbackService,
-    private accountService: AccountService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.type = this.route.snapshot.paramMap.get('type') ?? 'movie';
+    let id = 0;
+    this.route.paramMap.subscribe((params) => {
+      id = Number(params.get('id'));
+      this.type = params.get('type') ?? 'movie';
+    });
     this.load({ id: id, type: this.type });
   }
 

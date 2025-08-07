@@ -14,13 +14,8 @@
     overflow: hidden;
     border-radius: 8px;
 
-    &__image {
-      width: 220px;
-      height: 330px;
-      border-radius: 8px;
-      object-fit: cover;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
+    &:hover .movie-card__image {
+      transform: scale(1.1);
     }
 
     &::before {
@@ -32,7 +27,14 @@
       z-index: 1;
     }
   }
-
+  &__image {
+    width: 220px;
+    height: 330px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
   &__more {
     z-index: 100;
     position: absolute;
@@ -170,37 +172,37 @@
     background-repeat: no-repeat;
     flex-shrink: 0;
 
- &--list {
-    background-image: url('/assets/icons/list.png');
-  }
+    &--list {
+      background-image: url("/assets/icons/list.png");
+    }
 
-  &--heart {
-    background-image: url('/assets/icons/heart.png');
-  }
+    &--heart {
+      background-image: url("/assets/icons/heart.png");
+    }
 
-  &--bookmark {
-    background-image: url('/assets/icons/bookmark.png');
-  }
+    &--bookmark {
+      background-image: url("/assets/icons/bookmark.png");
+    }
 
-  &--star {
-    background-image: url('/assets/icons/star.png');
-  }
+    &--star {
+      background-image: url("/assets/icons/star.png");
+    }
 
-  &--selected.action-menu__icon--list {
-    background-image: url('/assets/icons/list-active.png');
-  }
+    &--selected.action-menu__icon--list {
+      background-image: url("/assets/icons/list-active.png");
+    }
 
-  &--selected.action-menu__icon--heart {
-    background-image: url('/assets/icons/heart-active.png');
-  }
+    &--selected.action-menu__icon--heart {
+      background-image: url("/assets/icons/heart-active.png");
+    }
 
-  &--selected.action-menu__icon--bookmark {
-    background-image: url('/assets/icons/bookmark-active.png');
-  }
+    &--selected.action-menu__icon--bookmark {
+      background-image: url("/assets/icons/bookmark-active.png");
+    }
 
-  &--selected.action-menu__icon--star {
-    background-image: url('/assets/icons/star-active.png');
-  }
+    &--selected.action-menu__icon--star {
+      background-image: url("/assets/icons/star-active.png");
+    }
   }
 
   &__label {

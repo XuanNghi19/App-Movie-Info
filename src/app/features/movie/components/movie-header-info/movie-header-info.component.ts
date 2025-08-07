@@ -10,6 +10,8 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
+  ChangeDetectorRef,
+  AfterViewChecked,
 } from '@angular/core';
 import { Credits, MovieDetails, TvDetails } from '../../models/movie-details';
 import {
@@ -30,7 +32,9 @@ import { finalize } from 'rxjs';
   styleUrls: ['./movie-header-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
+export class MovieHeaderInfoComponent
+  implements OnInit, AfterViewInit, OnChanges
+{
   public readonly urlPoster = BASE_IMG_URL_300_450;
   public readonly urlBackDrop = BACK_DROP;
   public readonly defaultImg = DEFAULT_IMG;
@@ -54,14 +58,56 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
     bookmark: false,
   };
 
-  constructor(public loadingService: LoadingService, private accountService: AccountService, private feedbackService: FeedbackService) {}
+  constructor(
+    public loadingService: LoadingService,
+    private accountService: AccountService,
+    private feedbackService: FeedbackService,
+    private cdr: ChangeDetectorRef
+  ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.activeButtons['heart'] = this.isFavorite;
+    this.activeButtons['bookmark'] = this.isWatchList;
+  }
+
+  ngOnInit(): void {
+    const importantJobs = [
+      'Director',
+      'Executive Producer',
+      'Director of Photography',
+      'Writer',
+      'Screenplay',
+      'Story',
+      'Editor',
+    ];
+
+    this.top6Crew = this.movieCredits.crew
+      .filter((c) => importantJobs.includes(c.job))
+      .sort((a, b) => b.popularity - a.popularity)
+      .slice(0, 6)
+      .map((c) => ({
+        name: c.name,
+        job: c.job,
+      }));
+  }
+
+  ngAfterViewInit(): void {
+    // this.setBackgroundImageAndTheme(
+    //   `${this.urlBackDrop}${this.details.backdrop_path}`
+    // );
+  }
+  private setBackgroundImageAndTheme(url: string): void {
+    const el = this.infoRef.nativeElement;
+
+    el.style.backgroundImage = `url(${url})`;
+    el.style.backgroundSize = 'cover';
+    el.style.backgroundPosition = '70% 10%';
+  }
 
   toggle(type: 'list' | 'heart' | 'bookmark') {
     if (type !== 'bookmark' && type !== 'heart') {
       this.activeButtons[type] = !this.activeButtons[type];
       return;
     }
-
     const isActive = this.activeButtons[type];
     const payload = {
       media_id: this.details.id,
@@ -85,44 +131,13 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
         if (res?.success) {
           this.feedbackService.success('Thay đổi trạng thái thành công!', 3000);
           this.activeButtons[type] = !isActive;
+          this.cdr.markForCheck();
         } else {
           this.feedbackService.warning('Thay đổi trạng thái thất bại!', 3000);
         }
       });
   }
 
-  ngOnInit(): void {
-    const importantJobs = [
-      'Director',
-      'Executive Producer',
-      'Director of Photography',
-      'Writer',
-      'Screenplay',
-      'Story',
-      'Editor',
-    ];
-    this.top6Crew = this.movieCredits.crew
-      .filter((c) => importantJobs.includes(c.job))
-      .sort((a, b) => b.popularity - a.popularity)
-      .slice(0, 6)
-      .map((c) => ({
-        name: c.name,
-        job: c.job,
-      }));
-  }
-
-  ngAfterViewInit(): void {
-    // this.setBackgroundImageAndTheme(
-    //   `${this.urlBackDrop}${this.details.backdrop_path}`
-    // );
-  }
-  private setBackgroundImageAndTheme(url: string): void {
-    const el = this.infoRef.nativeElement;
-
-    el.style.backgroundImage = `url(${url})`;
-    el.style.backgroundSize = 'cover';
-    el.style.backgroundPosition = '70% 10%';
-  }
   get title(): string {
     return 'title' in this.details ? this.details.title : this.details.name;
   }
@@ -188,13 +203,9 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
       case 'list':
         return `${basePath}/list-${isActive ? 'active' : 'white'}.png`;
       case 'heart':
-        return `${basePath}/heart-${
-          isActive || this.isFavorite ? 'active' : 'white'
-        }.png`;
+        return `${basePath}/heart-${isActive ? 'active' : 'white'}.png`;
       case 'bookmark':
-        return `${basePath}/bookmark-${
-          isActive || this.isWatchList ? 'active' : 'white'
-        }.png`;
+        return `${basePath}/bookmark-${isActive ? 'active' : 'white'}.png`;
       default:
         return '';
     }

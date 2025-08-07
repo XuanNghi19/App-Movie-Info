@@ -1,54 +1,96 @@
 :host {
   width: 100vw;
-  height: 100%;
-  top: 0;
   position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   justify-content: center;
-  z-index: 1000;
+  background-color: #ffffff;
 }
 
 .search {
-  width: 100vw;
-  background-color: white;
+  width: 100%;
   display: flex;
   justify-content: center;
 
   &__wrapper {
-    background-color: white;
-    position: sticky;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     max-width: 1280px;
-    height: max-content;
+    display: flex;
+    flex-direction: column;
+    position: relative;
   }
 
   &__container {
     display: flex;
     align-items: center;
-    width: 100%;
-    max-width: 1280px;
-  }
-
-  img {
-    width: 16px;
-    height: 16px;
-    margin-right: 16px;
-  }
-
-  input {
-    width: 100%;
+    padding: 0;
     height: 48px;
+    transition: box-shadow 0.3s;
+
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+    }
+  }
+
+  &__input {
+    flex: 1;
     border: none;
-    color: rgb(100, 100, 100);
+    background: transparent;
     font-size: 1rem;
+    font-weight: 500;
+    color: #646464;
     outline: none;
 
     &::placeholder {
       font-style: italic;
+      color: #aaa;
     }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+  }
+
+  &__dropdown-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 0.1px solid #d8f5e39d;
+    border-top: 0.1px solid #d8f5e3;
+
+    &:hover {
+      background-color: #286f7927;
+    }
+
+    p {
+      font-weight: 600;
+      margin: 0;
+      margin-right: 8px;
+    }
+  }
+
+  &__icon {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: #555;
   }
 }

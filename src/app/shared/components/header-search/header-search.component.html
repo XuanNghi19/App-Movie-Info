@@ -1,14 +1,45 @@
-<section class="search">
+<section class="search" (click)="hideDropdown()">
   <div class="search__wrapper">
-    <div class="search__container">
-      <img src="/assets/images/search.png" alt="" />
+    <div class="search__container" (click)="$event.stopPropagation()">
+      <img src="/assets/images/search.png" alt="Search Icon" />
       <input
         #headerSearch
         type="text"
+        [formControl]="searchControl"
         placeholder="Search for a movie, tv show, person..."
-        class="header__search-input"
-        (click)="$event.stopPropagation()"
+        class="search__input"
       />
+    </div>
+
+    <div class="search__dropdown" *ngIf="results$ | async as res" [class.hide]="!showDropdown">
+      <ul
+        class="search__dropdown-list"
+        *ngIf="res.movie || res.tv || res.person || res.multi?.length"
+      >
+        <li *ngIf="res.movie" class="search__item" (click)="goToResultSearch(res.movie.title)">
+          <i class="fas fa-film search__icon"></i>
+          <p>{{ res.movie.title }}</p>
+          in Movies
+        </li>
+
+        <li *ngIf="res.tv" class="search__item" (click)="goToResultSearch(res.tv.name)">
+          <i class="fas fa-tv search__icon"></i>
+          <p>{{ res.tv.name }}</p>
+          in TV Shows
+        </li>
+
+        <li *ngIf="res.person" class="search__item" (click)="goToResultSearch(res.person.name)">
+          <i class="fas fa-user search__icon"></i>
+          <p>{{ res.person.name }}</p>
+          in People
+        </li>
+
+        <ng-container *ngFor="let item of res.multi">
+          <li *ngIf="item.name" class="search__item" (click)="goToResultSearch(item.name)">
+            <i class="fas fa-search search__icon"></i> {{ item.name }}
+          </li>
+        </ng-container>
+      </ul>
     </div>
   </div>
 </section>

@@ -15,6 +15,6 @@ export class FeaturesComponent implements OnInit {
   ngOnInit(): void {}
 
   foucusSearch(): void {
-    this.searchRef.foucusSearch();
+    this.searchRef.focusSearch();
   }
 }

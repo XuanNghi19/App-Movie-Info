@@ -13,15 +13,17 @@ import {
   styleUrls: ['./rating.component.scss'],
 })
 export class RatingComponent implements OnInit {
-  constructor(private cdr: ChangeDetectorRef) {}
-
-  ngOnInit(): void {}
-
   @Input() value = 0;
   @Input() name: string = '';
   @Output() valueChange = new EventEmitter<number>();
   isOpen = false;
   tickMarks = Array.from({ length: 11 }, (_, i) => i * 10);
+  showConfirm = false;
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {}
+
 
   onSliderChange(event: Event) {
     const input = event.target as HTMLInputElement;
