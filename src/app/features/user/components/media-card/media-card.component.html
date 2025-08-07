@@ -1,11 +1,12 @@
 <article class="media-card">
-  <img
-    (click)="onNavigate()"
-    class="media-card__poster"
-    [src]="posterUrl"
-    [alt]="title"
-  />
-
+  <div class="media-card__container-poster">
+    <img
+      (click)="onNavigate()"
+      class="media-card__poster"
+      [src]="posterUrl"
+      [alt]="title"
+    />
+  </div>
   <div class="media-card__content">
     <div class="media-card__header-content">
       <div class="media-card__vote">
@@ -24,30 +25,42 @@
     <p class="media-card__overview">{{ media?.overview }}</p>
 
     <div class="media-card__actions">
-      <button class="media-card__action" (click)="onNavigate()">
+      <button class="media-card__action" (click)="showRating()">
         <div class="media-card__img">
           <img src="/assets/icons/star-active.png" class="media-card__icon" />
         </div>
         <span class="media-card__label">Rate it!</span>
       </button>
 
-      <button *ngIf="list !== 'favorite'" class="media-card__action" (click)="onNavigate()">
+      <button
+        *ngIf="list !== 'favorite'"
+        class="media-card__action"
+        (click)="onNavigate()"
+      >
         <div class="media-card__img">
           <img src="/assets/icons/heart-active.png" class="media-card__icon" />
         </div>
         <span class="media-card__label">Favorite</span>
       </button>
 
-      <button *ngIf="list !== 'watchlist'" class="media-card__action" (click)="onNavigate()">
+      <button
+        *ngIf="list !== 'watchlist'"
+        class="media-card__action"
+        (click)="onNavigate()"
+      >
         <div class="media-card__img">
-          <img src="/assets/icons/bookmark-active.png" class="media-card__icon" />
+          <img
+            src="/assets/icons/bookmark-active.png"
+            class="media-card__icon"
+          />
         </div>
         <span class="media-card__label">Favorite</span>
       </button>
-      
+
       <button
         (mouseenter)="trashHover = true"
         (mouseleave)="trashHover = false"
+        (click)="onRemove()"
         class="media-card__action"
       >
         <div class="media-card__img">
@@ -64,4 +77,9 @@
       </button>
     </div>
   </div>
+
+  <app-inner-loading
+    [loading]="loadingService.loading$(media.id) | async"
+  ></app-inner-loading>
 </article>
+<app-rating [(value)]="score" [name]="title"></app-rating>

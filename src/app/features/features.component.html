@@ -3,8 +3,10 @@
 <app-feedback></app-feedback>
 
 <app-header (focusSearchEvent)="foucusSearch()"></app-header>
-<app-header-search #searchRef></app-header-search>
+
 <div class="router-outlet">
+  <app-header-search #searchRef></app-header-search>
   <router-outlet></router-outlet>
 </div>
+
 <app-footer></app-footer>

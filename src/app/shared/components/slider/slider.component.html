@@ -1,4 +1,9 @@
-<div #slider class="slider" [style]="{ width: maxWidth, 'margin-top': mgnTop, 'align-items': alignItems}">
+<div
+  *ngIf="items"
+  #slider
+  class="slider"
+  [style]="{ width: maxWidth, 'margin-top': mgnTop, 'align-items': alignItems }"
+>
   <div *ngIf="title" class="slider__header">
     <h2 [style.color]="color">{{ title }}</h2>
     <div class="slider__tabs" *ngIf="tabs.length > 0">
@@ -11,8 +16,8 @@
       </button>
     </div>
   </div>
-  
-  <div *ngIf="items" class="slider__scroll-container">
+
+  <div class="slider__scroll-container">
     <div
       class="slider__scroll"
       [ngStyle]="{
@@ -25,7 +30,7 @@
           *ngTemplateOutlet="cardTemplate; context: { $implicit: item }"
         ></ng-container>
       </ng-container>
-      
+
       <ng-content></ng-content>
     </div>
   </div>

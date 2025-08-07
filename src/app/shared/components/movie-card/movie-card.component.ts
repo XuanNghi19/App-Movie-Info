@@ -23,8 +23,14 @@ import { Router } from '@angular/router';
 import { RatingComponent } from '../rating/rating.component';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { AccountService } from 'src/app/core/services/account.service';
-import { ShowsState } from 'src/app/core/model/account';
-import { finalize } from 'rxjs';
+import {
+  FavoriteRequets,
+  ShowsState,
+  WatchlistRequets,
+} from 'src/app/core/model/account';
+import { finalize, Observable } from 'rxjs';
+import { safeRequest } from 'src/app/core/utils/functions';
+import { FeedbackService } from 'src/app/core/services/feedback.service';
 
 @Component({
   selector: 'app-movie-card',
@@ -47,11 +53,6 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
   @Input() colorTitle: string = '#333';
   @Input() colorDate: string = '#777';
   @Input() hasMore: boolean = false;
-
-  @Output() addToList = new EventEmitter<number>();
-  @Output() favorite = new EventEmitter<number>();
-  @Output() watchlist = new EventEmitter<number>();
-  @Output() rate = new EventEmitter<number>();
 
   @ViewChild('movieCard') movieCard!: ElementRef;
 
@@ -78,7 +79,8 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
     private router: Router,
     private renderer: Renderer2,
     public loadingService: LoadingService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private feedbackService: FeedbackService
   ) {}
   ngAfterViewInit(): void {
     this.score = Math.round(this.getScore() * 10);
@@ -165,36 +167,59 @@ export class MovieCardComponent implements OnInit, AfterViewInit {
   }
 
   onItemMoreClick(action: 'list' | 'heart' | 'bookmark' | 'star'): void {
-    this.actionStates[action] = !this.actionStates[action];
-    switch (action) {
-      case 'list':
-        this.addToList.emit(this.item.id);
-        break;
-      case 'heart':
-        this.favorite.emit(this.item.id);
-        break;
-      case 'bookmark':
-        this.watchlist.emit(this.item.id);
-        break;
-      case 'star':
-        this.rate.emit(this.item.id);
-        break;
+    if (action !== 'bookmark' && action !== 'heart') {
+      this.actionStates[action] = !this.actionStates[action];
+      return;
     }
+
+    const isActive = this.actionStates[action];
+    const payload = {
+      media_id: this.item.id,
+      media_type: this.type,
+      watchlist: action === 'bookmark' ? !isActive : false,
+      favorite: action === 'heart' ? !isActive : false,
+    };
+
+    const requestFn =
+      action === 'bookmark'
+        ? this.accountService.setWatchlist.bind(this.accountService)
+        : this.accountService.setFavorite.bind(this.accountService);
+
+    const label = action === 'bookmark' ? 'Set Watchlist' : 'Set Favorite';
+
+    this.loadingService.show('inner');
+
+    safeRequest(requestFn(payload), label, this.feedbackService)
+      .pipe(finalize(() => this.loadingService.hide('inner')))
+      .subscribe((res) => {
+        if (res?.success) {
+          this.feedbackService.success('Thay đổi trạng thái thành công!', 3000);
+          this.actionStates[action] = !isActive;
+        } else {
+          this.feedbackService.warning('Thay đổi trạng thái thất bại!', 3000);
+        }
+      });
   }
 
   onMoreClick(): void {
     this.openMore = !this.openMore;
     if (!this.showsState) {
       this.loadingService.show('inner');
-      this.accountService
-        .getShowsState(this.item.id, this.type)
+      let request$ = safeRequest(
+        this.accountService.getShowsState(this.item.id, this.type),
+        'Shows state',
+        this.feedbackService
+      );
+
+      request$
         .pipe(finalize(() => this.loadingService.hide('inner')))
         .subscribe((res) => {
           this.showsState = res;
-
-          this.actionStates['heart'] = res.favorite;
-          this.actionStates['bookmark'] = res.watchlist;
-          this.actionStates['star'] = res.rated;
+          if (res !== null) {
+            this.actionStates['heart'] = res.favorite;
+            this.actionStates['bookmark'] = res.watchlist;
+            this.actionStates['star'] = res.rated;
+          }
         });
     }
   }

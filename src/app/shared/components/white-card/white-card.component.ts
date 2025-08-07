@@ -15,6 +15,8 @@ import { ShowsState } from 'src/app/core/model/account';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { AccountService } from 'src/app/core/services/account.service';
 import { finalize } from 'rxjs';
+import { safeRequest } from 'src/app/core/utils/functions';
+import { FeedbackService } from 'src/app/core/services/feedback.service';
 
 @Component({
   selector: 'app-white-card',
@@ -61,7 +63,8 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     public loadingService: LoadingService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private feedbackService: FeedbackService
   ) {}
 
   ngOnInit(): void {}
@@ -142,7 +145,38 @@ export class WhiteCardComponent implements OnInit, AfterViewInit {
   }
 
   onItemMoreClick(action: 'list' | 'heart' | 'bookmark' | 'star'): void {
-    this.actionStates[action] = !this.actionStates[action];
+    if (action !== 'bookmark' && action !== 'heart') {
+      this.actionStates[action] = !this.actionStates[action];
+      return;
+    }
+
+    const isActive = this.actionStates[action];
+    const payload = {
+      media_id: this.item.id,
+      media_type: this.type,
+      watchlist: action === 'bookmark' ? !isActive : false,
+      favorite: action === 'heart' ? !isActive : false,
+    };
+
+    const requestFn =
+      action === 'bookmark'
+        ? this.accountService.setWatchlist.bind(this.accountService)
+        : this.accountService.setFavorite.bind(this.accountService);
+
+    const label = action === 'bookmark' ? 'Set Watchlist' : 'Set Favorite';
+
+    this.loadingService.show('inner');
+
+    safeRequest(requestFn(payload), label, this.feedbackService)
+      .pipe(finalize(() => this.loadingService.hide('inner')))
+      .subscribe((res) => {
+        if (res?.success) {
+          this.feedbackService.success('Thay đổi trạng thái thành công!', 3000);
+          this.actionStates[action] = !isActive;
+        } else {
+          this.feedbackService.warning('Thay đổi trạng thái thất bại!', 3000);
+        }
+      });
   }
 
   onMoreEnter(): void {

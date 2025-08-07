@@ -1,4 +1,5 @@
 import { catchError, Observable, of } from "rxjs";
+import { FeedbackService } from "../services/feedback.service";
 
 export function splitParagraphs(text: string): string[] {
   return text
@@ -7,10 +8,11 @@ export function splitParagraphs(text: string): string[] {
     .filter(p => p.length); // loại bỏ đoạn rỗng
 }
 
-export const safeRequest = <T>(obs$: Observable<T>, label: string): Observable<T | null> => {
+export const safeRequest = <T>(obs$: Observable<T>, label: string, feedbackService: FeedbackService): Observable<T | null> => {
   return obs$.pipe(
     catchError((err) => {
       console.error(`${label} API failed`, err);
+      feedbackService.error(`${label} API failed: ${err}`, 3000);
       return of(null);
     })
   );

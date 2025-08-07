@@ -14,6 +14,6 @@ export class WatchListService {
   constructor(private http: HttpClient) {}
 
   getWatchList(type: string = 'movies', list: string = 'watchlist', params: any): Observable<Response<Movie | TvShow>> {
-    return this.http.get<Response<Movie | TvShow>>(`${this.baseurl}/account/22161998/${list}/${type}`, { params: params });
+    return this.http.get<Response<Movie | TvShow>>(`${this.baseurl}/account/${environment.user_id}/${list}/${type}`, { params: params });
   }
 }

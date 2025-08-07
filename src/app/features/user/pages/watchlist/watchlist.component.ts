@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, finalize, switchMap, tap } from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { safeRequest } from 'src/app/core/utils/functions';
+import { FeedbackService } from 'src/app/core/services/feedback.service';
 
 @Component({
   selector: 'app-watchlist',
@@ -31,13 +32,15 @@ export class WatchlistComponent implements OnInit {
   });
 
   res: any;
+  items$ = new BehaviorSubject<any[]>([]);
   crrPage = 1;
 
   constructor(
     private watchListService: WatchListService,
     private route: ActivatedRoute,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    private feedbackService: FeedbackService
   ) {}
 
   ngOnInit(): void {
@@ -57,12 +60,14 @@ export class WatchlistComponent implements OnInit {
         switchMap(([list, type, params]) => {
           return safeRequest(
             this.watchListService.getWatchList(type, list, params),
-            `${list} ${type}`
+            `${list} ${type}`,
+            this.feedbackService
           ).pipe(finalize(() => this.loadingService.hide('overlay')));
         })
       )
       .subscribe((res) => {
         this.res = res;
+        this.items$.next(res?.results || []);
         this.crrPage = res?.page || 1;
 
         this.type === 'movies'
@@ -91,7 +96,16 @@ export class WatchlistComponent implements OnInit {
     return this.res?.total_results.length;
   }
 
-  goToDetalis(data: {id: number, type: string}): void {
+  goToDetalis(data: { id: number; type: string }): void {
     this.router.navigate(['/movie/details/', data.type, data.id]);
+  }
+
+  removeItem(id: number) {
+    let items: any[] = this.res.results;
+    this.res.results = items.filter(item => item.id !== id)
+    this.items$.next(this.res.results);
+    
+    if(this.type === 'movies' && this.movieCount > 0) this.movieCount--;
+    if(this.type === 'tv' && this.tvCount > 0) this.tvCount--;
   }
 }

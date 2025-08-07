@@ -79,36 +79,44 @@ export class MovieDetailsComponent implements OnInit {
     const requests = {
       details: safeRequest(
         this.movieDetailsService.getTvDetails(info.id, this.type),
-        'Details'
+        'Details',
+        this.feedbackService
       ),
       credits: safeRequest(
         this.movieDetailsService.getCredits(info.id, this.type),
-        'Credits'
+        'Credits',
+        this.feedbackService
       ),
       keywords: safeRequest(
         this.movieDetailsService.getKeywords(info.id, this.type),
-        'Keywords'
+        'Keywords',
+        this.feedbackService
       ),
       reviews: safeRequest(
         this.movieDetailsService.getReviews(info.id, this.type),
-        'Reviews'
+        'Reviews',
+        this.feedbackService
       ),
       videos: safeRequest(
         this.movieDetailsService.getVideos(info.id, this.type),
-        'Videos'
+        'Videos',
+        this.feedbackService
       ),
       images: safeRequest(
         this.movieDetailsService.getImages(info.id, this.type),
-        'Images'
+        'Images',
+        this.feedbackService
       ),
       recommendations: safeRequest(
         this.movieDetailsService.getRecommendations(info.id, this.type),
-        'Recommendations'
+        'Recommendations',
+        this.feedbackService
       ),
       showsState: safeRequest(
         this.accountService.getShowsState(info.id, this.type),
-        'Shows State'
-      )
+        'Shows State',
+        this.feedbackService
+      ),
     };
     const request$ = combineLatest(requests);
     request$
@@ -116,15 +124,17 @@ export class MovieDetailsComponent implements OnInit {
       .subscribe((res) => {
         this.details = res.details as MovieDetails;
         this.userRating =
-          res.details && ('vote_average' in res.details)
-            ? Math.round((res.details as MovieDetails | TvDetails).vote_average * 10)
+          res.details && 'vote_average' in res.details
+            ? Math.round(
+                (res.details as MovieDetails | TvDetails).vote_average * 10
+              )
             : 0;
         this.credits = res.credits as Credits;
         this.reviews = res.reviews as ReviewsResponse;
         this.videos = res.videos as VideoResponse;
         this.images = res.images as MediaImagesResponse;
         this.recommendations = res.recommendations as RecommendationResponse;
-        
+
         let showsState = res.showsState;
         this.isFavorite = showsState?.favorite || false;
         this.isWatchList = showsState?.watchlist || false;
@@ -132,8 +142,12 @@ export class MovieDetailsComponent implements OnInit {
         if (res.keywords) {
           this.keywords =
             this.type === 'movie'
-              ? (res.keywords && 'keywords' in res.keywords ? res.keywords.keywords : [])
-              : (res.keywords && 'results' in res.keywords ? res.keywords.results : []);
+              ? res.keywords && 'keywords' in res.keywords
+                ? res.keywords.keywords
+                : []
+              : res.keywords && 'results' in res.keywords
+              ? res.keywords.results
+              : [];
         } else {
           this.keywords = [];
         }

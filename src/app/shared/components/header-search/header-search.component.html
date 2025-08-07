@@ -1,12 +1,14 @@
 <section class="search">
-  <div class="search__container">
-    <img src="/assets/images/search.png" alt="" />
-    <input
-      #headerSearch
-      type="text"
-      placeholder="Search for a movie, tv show, person..."
-      class="header__search-input"
-      (click)="$event.stopPropagation()"
-    />
+  <div class="search__wrapper">
+    <div class="search__container">
+      <img src="/assets/images/search.png" alt="" />
+      <input
+        #headerSearch
+        type="text"
+        placeholder="Search for a movie, tv show, person..."
+        class="header__search-input"
+        (click)="$event.stopPropagation()"
+      />
+    </div>
   </div>
 </section>

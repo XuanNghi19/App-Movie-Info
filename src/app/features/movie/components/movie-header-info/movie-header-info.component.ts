@@ -9,7 +9,7 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { Credits, MovieDetails, TvDetails } from '../../models/movie-details';
 import {
@@ -18,6 +18,11 @@ import {
   DEFAULT_IMG,
 } from 'src/app/core/utils/constants';
 import { RatingComponent } from 'src/app/shared/components/rating/rating.component';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { AccountService } from 'src/app/core/services/account.service';
+import { safeRequest } from 'src/app/core/utils/functions';
+import { FeedbackService } from 'src/app/core/services/feedback.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-movie-header-info',
@@ -38,7 +43,7 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
 
   @Output() playTrailer = new EventEmitter<void>();
   @Output() rating = new EventEmitter<void>();
-  
+
   @ViewChild('info', { static: true }) infoRef!: ElementRef<HTMLElement>;
 
   top6Crew!: any[];
@@ -49,13 +54,42 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
     bookmark: false,
   };
 
-
+  constructor(public loadingService: LoadingService, private accountService: AccountService, private feedbackService: FeedbackService) {}
 
   toggle(type: 'list' | 'heart' | 'bookmark') {
-    this.activeButtons[type] = !this.activeButtons[type];
-  }
+    if (type !== 'bookmark' && type !== 'heart') {
+      this.activeButtons[type] = !this.activeButtons[type];
+      return;
+    }
 
-  constructor() {}
+    const isActive = this.activeButtons[type];
+    const payload = {
+      media_id: this.details.id,
+      media_type: this.type,
+      watchlist: type === 'bookmark' ? !isActive : false,
+      favorite: type === 'heart' ? !isActive : false,
+    };
+
+    const requestFn =
+      type === 'bookmark'
+        ? this.accountService.setWatchlist.bind(this.accountService)
+        : this.accountService.setFavorite.bind(this.accountService);
+
+    const label = type === 'bookmark' ? 'Set Watchlist' : 'Set Favorite';
+
+    this.loadingService.show('overlay');
+
+    safeRequest(requestFn(payload), label, this.feedbackService)
+      .pipe(finalize(() => this.loadingService.hide('overlay')))
+      .subscribe((res) => {
+        if (res?.success) {
+          this.feedbackService.success('Thay đổi trạng thái thành công!', 3000);
+          this.activeButtons[type] = !isActive;
+        } else {
+          this.feedbackService.warning('Thay đổi trạng thái thất bại!', 3000);
+        }
+      });
+  }
 
   ngOnInit(): void {
     const importantJobs = [
@@ -154,9 +188,13 @@ export class MovieHeaderInfoComponent implements OnInit, AfterViewInit {
       case 'list':
         return `${basePath}/list-${isActive ? 'active' : 'white'}.png`;
       case 'heart':
-        return `${basePath}/heart-${(isActive || this.isFavorite) ? 'active' : 'white'}.png`;
+        return `${basePath}/heart-${
+          isActive || this.isFavorite ? 'active' : 'white'
+        }.png`;
       case 'bookmark':
-        return `${basePath}/bookmark-${(isActive || this.isWatchList) ? 'active' : 'white'}.png`;
+        return `${basePath}/bookmark-${
+          isActive || this.isWatchList ? 'active' : 'white'
+        }.png`;
       default:
         return '';
     }
