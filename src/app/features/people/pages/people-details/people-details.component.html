@@ -38,6 +38,7 @@
         [class.details__collapsed]="showToggle && !isExpanded"
       >
         <p *ngFor="let paragraph of biography">{{ paragraph }}</p>
+        <p class="no-data" *ngIf="!biography.length">Doesn't have overview!</p>
       </div>
 
       <div

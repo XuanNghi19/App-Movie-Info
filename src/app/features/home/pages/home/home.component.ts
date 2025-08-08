@@ -10,9 +10,17 @@ import {
   BASE_IMG_URL_138_175,
   BASE_IMG_URL_335_200,
 } from 'src/app/core/utils/constants';
-import { BehaviorSubject, finalize, forkJoin, Observable, timeoutWith } from 'rxjs';
+import {
+  BehaviorSubject,
+  finalize,
+  forkJoin,
+  Observable,
+  timeoutWith,
+} from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { PeopleService } from '../../../people/services/people.service';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +37,14 @@ export class HomeComponent implements OnInit {
   popularTvShowList: TVShow[] = [];
   popularPepleList: TrendingPerson[] = [];
 
-  constructor(private homeService: HomeService, private loadingService: LoadingService, private peopleServie: PeopleService) {}
+  searchControl = new FormControl('');
+
+  constructor(
+    private homeService: HomeService,
+    private loadingService: LoadingService,
+    private peopleServie: PeopleService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadAllHomeData();
@@ -81,16 +96,22 @@ export class HomeComponent implements OnInit {
         this.tvTrendingTab || 'day'
       ),
       popularPeople: this.peopleServie.getPopularPerson(),
-    }).pipe(finalize(() => this.loadingService.hide('overlay'))).subscribe({
-      next: (res) => {
-        this.movieList = res.trendingMovies.results;
-        this.trailerList = res.latestTrailers.results;
-        this.popularTvShowList = res.popularTvShows.results;
-        this.popularPepleList = res.popularPeople.results;
-      },
-      error: (err) => {
-        console.error('Có lỗi xảy ra khi load dữ liệu:', err);
-      },
-    });
+    })
+      .pipe(finalize(() => this.loadingService.hide('overlay')))
+      .subscribe({
+        next: (res) => {
+          this.movieList = res.trendingMovies.results;
+          this.trailerList = res.latestTrailers.results;
+          this.popularTvShowList = res.popularTvShows.results;
+          this.popularPepleList = res.popularPeople.results;
+        },
+        error: (err) => {
+          console.error('Có lỗi xảy ra khi load dữ liệu:', err);
+        },
+      });
+  }
+
+  goToSearchResult(): void {
+    this.router.navigate(['home/search', this.searchControl.value]);
   }
 }

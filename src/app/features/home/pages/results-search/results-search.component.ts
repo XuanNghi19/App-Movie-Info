@@ -8,12 +8,15 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   combineLatest,
+  finalize,
   map,
   Observable,
   Subject,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs';
+import { LoadingService } from 'src/app/core/services/loading.service';
 import { SearchService } from 'src/app/core/services/search.service';
 import { DEFAULT_IMG } from 'src/app/core/utils/constants';
 
@@ -51,6 +54,7 @@ export class ResultsSearchComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private searchService: SearchService,
+    private loadingService: LoadingService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -72,6 +76,7 @@ export class ResultsSearchComponent implements OnInit, OnDestroy {
       this.setEmptyResults();
       return;
     }
+    this.loadingService.show('overlay');
 
     const searchObservables = [
       this.searchService.searchMovie(this.searchQuery, this.currentPage),
@@ -80,7 +85,10 @@ export class ResultsSearchComponent implements OnInit, OnDestroy {
     ];
 
     combineLatest(searchObservables)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.loadingService.hide('overlay'))
+      )
       .subscribe(([movieRes, tvRes, personRes]) => {
         const results = {
           movies: movieRes.results || [],

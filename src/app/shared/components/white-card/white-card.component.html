@@ -12,7 +12,7 @@
       {{ getScore() | score }}
       <span>%</span>
     </div>
-    <div [style.width]="wImg" class="white-card__footer">
+    <div [style]="{width: wImg, height: '100%'}" class="white-card__footer">
       <h3
         [style]="{
           color: color,

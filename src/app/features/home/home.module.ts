@@ -5,6 +5,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { components } from './components';
 import { pages } from './pages';
 import { ResultsSearchComponent } from './pages/results-search/results-search.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,8 @@ import { ResultsSearchComponent } from './pages/results-search/results-search.co
   imports: [
     CommonModule,
     HomeRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { }
