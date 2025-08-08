@@ -13,27 +13,27 @@ export class SearchService {
 
   constructor(private http: HttpClient) {}
 
-  searchMovie(query: string): Observable<Response<MovieResult>> {
+  searchMovie(query: string, page: number = 1): Observable<Response<MovieResult>> {
     return this.http.get<Response<MovieResult>>(`${this.baseurl}/search/movie`, {
-      params: { query: query },
+      params: { query: query, page: page },
     });
   }
 
-  searchPerson(query: string): Observable<Response<PersonResult>> {
+  searchPerson(query: string, page: number = 1): Observable<Response<PersonResult>> {
     return this.http.get<Response<PersonResult>>(`${this.baseurl}/search/person`, {
-      params: { query: query },
+      params: { query: query, page: page },
     });
   }
 
-  searchTV(query: string): Observable<Response<TvResult>> {
+  searchTV(query: string, page: number = 1): Observable<Response<TvResult>> {
     return this.http.get<Response<TvResult>>(`${this.baseurl}/search/tv`, {
-      params: { query: query },
+      params: { query: query, page: page },
     });
   }
 
-  searchMulti(query: string): Observable<Response<MultiResult>> {
+  searchMulti(query: string, page: number = 1): Observable<Response<MultiResult>> {
     return this.http.get<Response<MultiResult>>(`${this.baseurl}/search/multi`, {
-      params: { query: query },
+      params: { query: query, page: page },
     });
   }
 }

@@ -8,6 +8,9 @@
         [formControl]="searchControl"
         placeholder="Search for a movie, tv show, person..."
         class="search__input"
+        (blur)="onInputBlur()"
+        (focus)="onInputFocus()"
+        (keydown.enter)="onEnterPress()"
       />
     </div>
 
@@ -15,6 +18,7 @@
       <ul
         class="search__dropdown-list"
         *ngIf="res.movie || res.tv || res.person || res.multi?.length"
+        (mousedown)="$event.preventDefault()"
       >
         <li *ngIf="res.movie" class="search__item" (click)="goToResultSearch(res.movie.title)">
           <i class="fas fa-film search__icon"></i>

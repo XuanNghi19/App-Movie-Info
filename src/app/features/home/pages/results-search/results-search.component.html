@@ -1,0 +1,104 @@
+<div class="search-results">
+  <!-- Sidebar -->
+  <aside class="search-results__sidebar">
+    <div class="search-results__sidebar-header">
+      <h2 class="search-results__sidebar-title">Search Results</h2>
+    </div>
+    
+    <nav class="search-results__menu" *ngIf="categoryCounts$ | async as counts">
+      <div 
+        class="search-results__menu-item" 
+        [class.search-results__menu-item--active]="selectedCategory === 'all'"
+        (click)="selectCategory('all')"
+      >
+        <span class="search-results__menu-label">All Results</span>
+        <span class="search-results__menu-count">{{ counts.movies + counts.tvShows + counts.people }}</span>
+      </div>
+
+      <div 
+        class="search-results__menu-item"
+        [class.search-results__menu-item--active]="selectedCategory === 'movies'"
+        (click)="selectCategory('movies')"
+      >
+        <span class="search-results__menu-label">Movies</span>
+        <span class="search-results__menu-count">{{ counts.movies }}</span>
+      </div>
+
+      <div 
+        class="search-results__menu-item"
+        [class.search-results__menu-item--active]="selectedCategory === 'tvShows'"
+        (click)="selectCategory('tvShows')"
+      >
+        <span class="search-results__menu-label">TV Shows</span>
+        <span class="search-results__menu-count">{{ counts.tvShows }}</span>
+      </div>
+
+      <div 
+        class="search-results__menu-item"
+        [class.search-results__menu-item--active]="selectedCategory === 'people'"
+        (click)="selectCategory('people')"
+      >
+        <span class="search-results__menu-label">People</span>
+        <span class="search-results__menu-count">{{ counts.people }}</span>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="search-results__content">
+    <header class="search-results__header">
+      <h1 class="search-results__title" *ngIf="searchQuery">Search results for "{{ searchQuery }}"</h1>
+      <h1 class="search-results__title" *ngIf="!searchQuery">Search Results</h1>
+    </header>
+
+    <div class="search-results__list" *ngIf="searchResults$ | async as results">
+      <div class="search-results__item" *ngFor="let item of getDisplayedResults(results)">
+        <div class="search-results__item-image">
+          <img [src]="getItemImage(item)" [alt]="getItemTitle(item)" (click)="goToDetails(getItemType(item), item.id)" />
+        </div>
+
+        <div class="search-results__item-content">
+          <h3 class="search-results__item-title" (click)="goToDetails(getItemType(item), item.id)">{{ getItemTitle(item) }}</h3>
+          <p class="search-results__item-subtitle">{{ getItemSubtitle(item) }}</p>
+          <p class="search-results__item-description" *ngIf="item.overview">
+            {{ item.overview }}
+          </p>
+          <div class="search-results__item-meta">
+            <span class="search-results__item-type search-results__item-type--{{ getItemType(item) }}">
+              {{ getItemType(item) | titlecase }}
+            </span>
+            <span class="search-results__item-date" *ngIf="getItemSubtitle(item)">
+              {{ getItemSubtitle(item) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-results__no-results" *ngIf="getDisplayedResults(results).length === 0">
+        <p>No results found for "{{ searchQuery }}"</p>
+      </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <section class="search-results__pagination" *ngIf="paginationInfo$ | async as pagination">
+      <app-pagination
+        class="search-results__pagination-component"
+        [currentPage]="pagination.currentPage"
+        [totalPages]="pagination.totalPages"
+        [maxVisiblePages]="7"
+        [showFirstLast]="true"
+        [showPrevNext]="true"
+        [showPageNumbers]="true"
+        (pageChange)="loadPage($event)"
+      ></app-pagination>
+      
+      <div class="search-results__pagination-info">
+        <p class="search-results__pagination-text">
+          Showing results {{ ((pagination.currentPage - 1) * 20) + 1 }} - 
+          {{ Math.min(pagination.currentPage * 20, pagination.totalResults) }} 
+          of {{ pagination.totalResults }}
+        </p>
+      </div>
+    </section>
+  </main>
+</div>

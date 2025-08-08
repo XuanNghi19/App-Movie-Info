@@ -21,7 +21,12 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { MovieResult, MultiResult, PersonResult, TvResult } from 'src/app/core/model/search';
+import {
+  MovieResult,
+  MultiResult,
+  PersonResult,
+  TvResult,
+} from 'src/app/core/model/search';
 import { SearchService } from 'src/app/core/services/search.service';
 
 @Component({
@@ -34,6 +39,7 @@ export class HeaderSearchComponent implements OnInit {
   @ViewChild('headerSearch') headerSearch!: ElementRef;
   searchControl = new FormControl('');
   showDropdown = false;
+  isNavigate = false;
 
   results$: Observable<{
     movie: MovieResult | null;
@@ -80,7 +86,11 @@ export class HeaderSearchComponent implements OnInit {
         );
       }),
       tap(() => {
-        this.showDropdown = true;
+        if (this.isNavigate) {
+          this.showDropdown = false;
+          this.isNavigate = false;
+        } else this.showDropdown = true;
+
         this.cdr.markForCheck();
       }),
       takeUntil(this.destroy$)
@@ -96,15 +106,36 @@ export class HeaderSearchComponent implements OnInit {
     this.headerSearch.nativeElement.focus();
   }
 
+  onInputFocus(): void {
+    if (this.searchControl.value) {
+      this.showDropdown = true;
+      this.cdr.markForCheck();
+    }
+  }
+
+  onInputBlur(): void {
+    setTimeout(() => {
+      this.hideDropdown();
+    }, 150);
+  }
+
+  onEnterPress(): void {
+    const query = this.searchControl.value;
+    if (query && query.trim()) {
+      this.goToResultSearch(query);
+    }
+  }
+
   hideDropdown(): void {
     this.showDropdown = false;
     this.cdr.markForCheck();
   }
 
   goToResultSearch(query: string): void {
+    this.isNavigate = true;
     query = query ?? this.searchControl.value;
     this.searchControl.setValue(query);
-    this.hideDropdown();
+    this.headerSearch.nativeElement.blur();
     this.router.navigate(['home/search', query]);
   }
 }
